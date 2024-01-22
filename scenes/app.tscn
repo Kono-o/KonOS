@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=6 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://bmye7ai5fh582" path="res://sprites/background.png" id="1_wl3rw"]
 [ext_resource type="Texture2D" uid="uid://eucmc22vrs7w" path="res://sprites/mock.png" id="2_oenar"]
 [ext_resource type="FontFile" uid="uid://stpsp151thtd" path="res://fonts/ubuntu mono/UbuntuMono-Bold.ttf" id="3_k0n6d"]
+[ext_resource type="Script" path="res://scenes/date.gd" id="4_t2a4h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 font = ExtResource("3_k0n6d")
@@ -35,3 +36,13 @@ offset_bottom = 196.0
 text = "kono@konos"
 label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
+
+[node name="Date" type="Label" parent="UI"]
+offset_left = 552.0
+offset_top = 121.0
+offset_right = 994.0
+offset_bottom = 196.0
+text = "22 Jan w01/52"
+label_settings = SubResource("LabelSettings_2sgqu")
+horizontal_alignment = 1
+script = ExtResource("4_t2a4h")
