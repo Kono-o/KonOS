@@ -1,14 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=14 format=3 uid="uid://dvhagijf6wqio"]
 
-[ext_resource type="Texture2D" uid="uid://bmye7ai5fh582" path="res://sprites/background.png" id="1_wl3rw"]
+[ext_resource type="Texture2D" uid="uid://dofavxr8r7gb6" path="res://sprites/bg2.png" id="1_siedw"]
 [ext_resource type="Texture2D" uid="uid://eucmc22vrs7w" path="res://sprites/mock.png" id="2_oenar"]
+[ext_resource type="Texture2D" uid="uid://cmpty37hi66gw" path="res://sprites/off.png" id="3_14l1i"]
 [ext_resource type="FontFile" uid="uid://stpsp151thtd" path="res://fonts/ubuntu mono/UbuntuMono-Bold.ttf" id="3_k0n6d"]
-[ext_resource type="Script" path="res://scenes/username.gd" id="4_pfvb5"]
-[ext_resource type="Script" path="res://scenes/date.gd" id="4_t2a4h"]
+[ext_resource type="Script" path="res://scenes/enter.gd" id="3_oqjfv"]
+[ext_resource type="Texture2D" uid="uid://d3biwnygqhhf7" path="res://sprites/on.png" id="4_2xoke"]
+[ext_resource type="Script" path="res://scripts/username.gd" id="4_pfvb5"]
+[ext_resource type="Script" path="res://scripts/date.gd" id="4_t2a4h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 font = ExtResource("3_k0n6d")
 font_size = 67
+
+[sub_resource type="Theme" id="Theme_14i6j"]
+default_font = ExtResource("3_k0n6d")
+default_font_size = 67
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pnns6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k0dsg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcs1y"]
 
 [node name="App" type="Node2D"]
 
@@ -17,7 +30,7 @@ font_size = 67
 [node name="Gradient Texture" type="TextureRect" parent="Bg"]
 offset_right = 1080.0
 offset_bottom = 2220.0
-texture = ExtResource("1_wl3rw")
+texture = ExtResource("1_siedw")
 
 [node name="Mockup (Disable before export)" type="TextureRect" parent="Bg/Gradient Texture"]
 visible = false
@@ -27,8 +40,6 @@ offset_bottom = 2220.0
 texture = ExtResource("2_oenar")
 
 [node name="UI" type="Node2D" parent="."]
-
-[node name="Menu Buttons" type="Node2D" parent="UI"]
 
 [node name="UsernameLabel" type="Label" parent="UI"]
 offset_left = 89.0
@@ -49,3 +60,47 @@ text = "00 nul w00/52"
 label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
 script = ExtResource("4_t2a4h")
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+visible = false
+anchors_preset = -1
+anchor_left = -0.076
+offset_left = 94.0
+offset_top = 1253.0
+offset_right = 986.0
+offset_bottom = 1349.0
+color = Color(0, 0.0666667, 0.168627, 1)
+
+[node name="TerminalLine" type="LineEdit" parent="UI"]
+offset_left = 170.0
+offset_top = 1243.0
+offset_right = 953.0
+offset_bottom = 1350.0
+theme = SubResource("Theme_14i6j")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_k0n6d")
+theme_override_font_sizes/font_size = 67
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k0dsg")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_lcs1y")
+max_length = 22
+context_menu_enabled = false
+flat = true
+caret_blink_interval = 0.45
+
+[node name="Buttons" type="Node2D" parent="UI"]
+
+[node name="EnterButton" type="TextureButton" parent="UI/Buttons"]
+texture_filter = 1
+offset_left = 883.0
+offset_top = 1372.0
+offset_right = 984.0
+offset_bottom = 1464.0
+texture_normal = ExtResource("3_14l1i")
+texture_pressed = ExtResource("4_2xoke")
+ignore_texture_size = true
+stretch_mode = 1
+script = ExtResource("3_oqjfv")
+
+[connection signal="button_up" from="UI/Buttons/EnterButton" to="UI/Buttons/EnterButton" method="_on_button_up"]
