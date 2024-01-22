@@ -19,6 +19,7 @@ offset_bottom = 2220.0
 texture = ExtResource("1_wl3rw")
 
 [node name="Mockup (Disable before export)" type="TextureRect" parent="Bg/Gradient Texture"]
+visible = false
 layout_mode = 0
 offset_right = 1080.0
 offset_bottom = 2220.0
@@ -28,7 +29,7 @@ texture = ExtResource("2_oenar")
 
 [node name="Menu Buttons" type="Node2D" parent="UI"]
 
-[node name="Username" type="Label" parent="UI"]
+[node name="UsernameLabel" type="Label" parent="UI"]
 offset_left = 89.0
 offset_top = 121.0
 offset_right = 459.0
@@ -37,7 +38,7 @@ text = "kono@konos"
 label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
 
-[node name="Date" type="Label" parent="UI"]
+[node name="DateLabel" type="Label" parent="UI"]
 offset_left = 552.0
 offset_top = 121.0
 offset_right = 994.0
