@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvhagijf6wqio"]
+
+[ext_resource type="FontFile" uid="uid://cjye6yv8gokln" path="res://fonts/martian mono/static/MartianMono-Bold.ttf" id="1_p3t6s"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_66li6"]
+font = ExtResource("1_p3t6s")
+font_size = 78
+
+[node name="App" type="Node2D"]
+
+[node name="Bg" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Bg"]
+offset_right = 540.0
+offset_bottom = 1110.0
+color = Color(0.0117647, 0.0117647, 0.0588235, 1)
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="Title" type="Label" parent="UI"]
+offset_top = 27.0
+offset_right = 540.0
+offset_bottom = 241.0
+text = "KonOS"
+label_settings = SubResource("LabelSettings_66li6")
+horizontal_alignment = 1
+vertical_alignment = 1
