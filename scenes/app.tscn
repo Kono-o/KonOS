@@ -1,27 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=5 format=3 uid="uid://dvhagijf6wqio"]
 
-[ext_resource type="FontFile" uid="uid://cjye6yv8gokln" path="res://fonts/martian mono/static/MartianMono-Bold.ttf" id="1_p3t6s"]
+[ext_resource type="Texture2D" uid="uid://bmye7ai5fh582" path="res://sprites/background.png" id="1_wl3rw"]
+[ext_resource type="Texture2D" uid="uid://eucmc22vrs7w" path="res://sprites/mock.png" id="2_oenar"]
+[ext_resource type="FontFile" uid="uid://stpsp151thtd" path="res://fonts/ubuntu mono/UbuntuMono-Bold.ttf" id="3_k0n6d"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_66li6"]
-font = ExtResource("1_p3t6s")
-font_size = 78
+[sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
+font = ExtResource("3_k0n6d")
+font_size = 67
 
 [node name="App" type="Node2D"]
 
 [node name="Bg" type="Node2D" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="Bg"]
-offset_right = 540.0
-offset_bottom = 1110.0
-color = Color(0.0117647, 0.0117647, 0.0588235, 1)
+[node name="Gradient Texture" type="TextureRect" parent="Bg"]
+offset_right = 1080.0
+offset_bottom = 2220.0
+texture = ExtResource("1_wl3rw")
+
+[node name="Mockup (Disable before export)" type="TextureRect" parent="Bg/Gradient Texture"]
+layout_mode = 0
+offset_right = 1080.0
+offset_bottom = 2220.0
+texture = ExtResource("2_oenar")
 
 [node name="UI" type="Node2D" parent="."]
 
-[node name="Title" type="Label" parent="UI"]
-offset_top = 27.0
-offset_right = 540.0
-offset_bottom = 241.0
-text = "KonOS"
-label_settings = SubResource("LabelSettings_66li6")
+[node name="Menu Buttons" type="Node2D" parent="UI"]
+
+[node name="Username" type="Label" parent="UI"]
+offset_left = 89.0
+offset_top = 121.0
+offset_right = 459.0
+offset_bottom = 196.0
+text = "kono@konos"
+label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
-vertical_alignment = 1
