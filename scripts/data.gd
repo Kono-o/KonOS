@@ -1,8 +1,8 @@
 extends Resource
+const DATA_PATH = "data/data.tres"
 
 @export var name: String
 
-const USERNAME = "kono@konOS"
-
-#func _init():
-	#name = USERNAME;
+func saveData():
+	ResourceSaver.save(self, DATA_PATH)
+	print("saved!")

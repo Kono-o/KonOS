@@ -13,6 +13,7 @@ func usernameSet(local_name):
 
 func _on_enter_button_update_name(newName):
 	usernameSet(newName)
+	data.saveData()
 	
 func _process(delta):
 	pass
