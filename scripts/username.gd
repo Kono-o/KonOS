@@ -5,6 +5,7 @@ extends Label
 @export var data: Resource
 
 func _ready():
+	data.loadData()
 	usernameSet(data.name)
 
 func usernameSet(local_name):

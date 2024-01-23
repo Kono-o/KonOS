@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://d3biwnygqhhf7" path="res://sprites/on.png" id="4_2xoke"]
 [ext_resource type="Script" path="res://scripts/username.gd" id="4_pfvb5"]
 [ext_resource type="Script" path="res://scripts/date.gd" id="4_t2a4h"]
-[ext_resource type="Resource" uid="uid://d3otyyvj0cxsr" path="res://data/data.tres" id="5_3dy8s"]
+[ext_resource type="Resource" path="res://data/data.tres" id="5_3dy8s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 font = ExtResource("3_k0n6d")
