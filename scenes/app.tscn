@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=17 format=3 uid="uid://dvhagijf6wqio"]
 
-[ext_resource type="Texture2D" uid="uid://dofavxr8r7gb6" path="res://sprites/bg2.png" id="1_siedw"]
-[ext_resource type="Texture2D" uid="uid://eucmc22vrs7w" path="res://sprites/mock.png" id="2_oenar"]
+[ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
+[ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://sprites/ui/mock.png" id="2_xg4tp"]
 [ext_resource type="Texture2D" uid="uid://cmpty37hi66gw" path="res://sprites/off.png" id="3_14l1i"]
+[ext_resource type="FontFile" uid="uid://dnhnlb87v31pk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Medium.ttf" id="3_in8po"]
 [ext_resource type="FontFile" uid="uid://stpsp151thtd" path="res://fonts/ubuntu mono/UbuntuMono-Bold.ttf" id="3_k0n6d"]
 [ext_resource type="Script" path="res://scripts/enter.gd" id="3_oqjfv"]
 [ext_resource type="Texture2D" uid="uid://d3biwnygqhhf7" path="res://sprites/on.png" id="4_2xoke"]
@@ -11,13 +12,13 @@
 [ext_resource type="Script" path="res://scripts/day.gd" id="6_wo8ad"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
-font = ExtResource("3_k0n6d")
-font_size = 67
+font = ExtResource("3_in8po")
+font_size = 41
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_8p1od"]
-font = ExtResource("3_k0n6d")
-font_size = 67
+font = ExtResource("3_in8po")
+font_size = 41
 
 [sub_resource type="Theme" id="Theme_14i6j"]
 default_font = ExtResource("3_k0n6d")
@@ -31,49 +32,48 @@ default_font_size = 67
 
 [node name="App" type="Node2D"]
 
-[node name="Bg" type="Node2D" parent="."]
+[node name="Background" type="Node2D" parent="."]
 
-[node name="Gradient Texture" type="TextureRect" parent="Bg"]
+[node name="BordersRect" type="TextureRect" parent="Background"]
 offset_right = 1080.0
 offset_bottom = 2220.0
-texture = ExtResource("1_siedw")
+texture = ExtResource("1_7bioe")
 
-[node name="Mockup (Disable before export)" type="TextureRect" parent="Bg/Gradient Texture"]
+[node name="Mockup" type="TextureRect" parent="Background"]
 visible = false
-layout_mode = 0
 offset_right = 1080.0
 offset_bottom = 2220.0
-texture = ExtResource("2_oenar")
+texture = ExtResource("2_xg4tp")
 
 [node name="UI" type="Node2D" parent="."]
 
 [node name="UsernameLabel" type="Label" parent="UI"]
-offset_left = 89.0
-offset_top = 121.0
-offset_right = 459.0
-offset_bottom = 196.0
-text = "_____"
+offset_left = 65.0
+offset_top = 114.0
+offset_right = 435.0
+offset_bottom = 189.0
+text = "OS-user@Kono
+"
 label_settings = SubResource("LabelSettings_2sgqu")
-horizontal_alignment = 1
 script = ExtResource("4_pfvb5")
 
 [node name="DayLabel" type="Label" parent="UI"]
-offset_left = 707.0
-offset_top = 267.0
-offset_right = 1013.0
-offset_bottom = 361.0
-text = "___-____"
+offset_left = 697.0
+offset_top = 279.0
+offset_right = 1003.0
+offset_bottom = 373.0
+text = "mon-push"
 label_settings = SubResource("LabelSettings_8p1od")
 script = ExtResource("6_wo8ad")
 
 [node name="DateLabel" type="Label" parent="UI"]
-offset_left = 552.0
-offset_top = 121.0
-offset_right = 994.0
-offset_bottom = 196.0
-text = "__ ___ __/52"
+offset_left = 679.0
+offset_top = 114.0
+offset_right = 1022.0
+offset_bottom = 173.0
+text = "23-jan w03/52"
 label_settings = SubResource("LabelSettings_2sgqu")
-horizontal_alignment = 1
+horizontal_alignment = 2
 script = ExtResource("4_t2a4h")
 
 [node name="TerminalLine" type="LineEdit" parent="UI"]
@@ -98,10 +98,10 @@ caret_blink_interval = 0.45
 
 [node name="EnterButton" type="TextureButton" parent="UI/Buttons"]
 texture_filter = 1
-offset_left = 883.0
-offset_top = 1372.0
-offset_right = 984.0
-offset_bottom = 1464.0
+offset_left = 939.0
+offset_top = 437.0
+offset_right = 1028.0
+offset_bottom = 506.0
 texture_normal = ExtResource("3_14l1i")
 texture_pressed = ExtResource("4_2xoke")
 ignore_texture_size = true

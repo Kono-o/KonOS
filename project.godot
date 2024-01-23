@@ -14,7 +14,7 @@ config/name="KonOS"
 run/main_scene="res://scenes/app.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="res://sprites/background.png"
+boot_splash/image="res://sprites/trash/background.png"
 config/icon="res://sprites/icon.png"
 
 [display]
@@ -22,8 +22,8 @@ config/icon="res://sprites/icon.png"
 window/size/viewport_width=1080
 window/size/viewport_height=2220
 window/size/resizable=false
-window/size/window_width_override=288
-window/size/window_height_override=592
+window/size/window_width_override=432
+window/size/window_height_override=888
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_width"
 window/handheld/orientation=1

@@ -18,7 +18,7 @@ func readName():
 		writeName(username)
 
 func usernameSet(name):
-	UsernameLabel.text = name
+	UsernameLabel.text ="%s%s" %["OS-user@",name]
 	writeName(name)
 
 func _on_enter_button_update_name(newName):
