@@ -1,13 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=15 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://dofavxr8r7gb6" path="res://sprites/bg2.png" id="1_siedw"]
 [ext_resource type="Texture2D" uid="uid://eucmc22vrs7w" path="res://sprites/mock.png" id="2_oenar"]
 [ext_resource type="Texture2D" uid="uid://cmpty37hi66gw" path="res://sprites/off.png" id="3_14l1i"]
 [ext_resource type="FontFile" uid="uid://stpsp151thtd" path="res://fonts/ubuntu mono/UbuntuMono-Bold.ttf" id="3_k0n6d"]
-[ext_resource type="Script" path="res://scenes/enter.gd" id="3_oqjfv"]
+[ext_resource type="Script" path="res://scripts/enter.gd" id="3_oqjfv"]
 [ext_resource type="Texture2D" uid="uid://d3biwnygqhhf7" path="res://sprites/on.png" id="4_2xoke"]
 [ext_resource type="Script" path="res://scripts/username.gd" id="4_pfvb5"]
 [ext_resource type="Script" path="res://scripts/date.gd" id="4_t2a4h"]
+[ext_resource type="Resource" uid="uid://d3otyyvj0cxsr" path="res://data/data.tres" id="5_3dy8s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 font = ExtResource("3_k0n6d")
@@ -50,6 +51,7 @@ text = "null"
 label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
 script = ExtResource("4_pfvb5")
+data = ExtResource("5_3dy8s")
 
 [node name="DateLabel" type="Label" parent="UI"]
 offset_left = 552.0
@@ -60,16 +62,6 @@ text = "00 nul w00/52"
 label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
 script = ExtResource("4_t2a4h")
-
-[node name="ColorRect" type="ColorRect" parent="UI"]
-visible = false
-anchors_preset = -1
-anchor_left = -0.076
-offset_left = 94.0
-offset_top = 1253.0
-offset_right = 986.0
-offset_bottom = 1349.0
-color = Color(0, 0.0666667, 0.168627, 1)
 
 [node name="TerminalLine" type="LineEdit" parent="UI"]
 offset_left = 170.0
@@ -104,3 +96,4 @@ stretch_mode = 1
 script = ExtResource("3_oqjfv")
 
 [connection signal="button_up" from="UI/Buttons/EnterButton" to="UI/Buttons/EnterButton" method="_on_button_up"]
+[connection signal="update_name" from="UI/Buttons/EnterButton" to="UI/UsernameLabel" method="_on_enter_button_update_name"]

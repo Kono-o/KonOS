@@ -1,13 +1,18 @@
 extends Label
 
-const USER_NAME = "kono@konOS"
+@onready var UsernameLabel = get_node("/root/App/UI/UsernameLabel")
 
-func usernameSet(name):
-	var UsernameLabel = get_node("/root/App/UI/UsernameLabel")
-	UsernameLabel.text = name
+@export var data: Resource
 
 func _ready():
-	usernameSet(USER_NAME)
+	usernameSet(data.name)
 
+func usernameSet(local_name):
+	data.name = local_name
+	UsernameLabel.text = data.name
+
+func _on_enter_button_update_name(newName):
+	usernameSet(newName)
+	
 func _process(delta):
 	pass
