@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=18 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://sprites/ui/mock.png" id="2_xg4tp"]
@@ -11,9 +11,28 @@
 [ext_resource type="Script" path="res://scripts/date.gd" id="4_t2a4h"]
 [ext_resource type="Script" path="res://scripts/day.gd" id="6_wo8ad"]
 
+[sub_resource type="Environment" id="Environment_exbnb"]
+background_mode = 3
+background_energy_multiplier = 4.38
+ambient_light_energy = 0.0
+tonemap_mode = 2
+tonemap_white = 2.78
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 2.4
+glow_strength = 0.73
+glow_bloom = 0.09
+glow_blend_mode = 1
+glow_hdr_threshold = 0.88
+glow_hdr_scale = 2.25
+glow_map_strength = 0.81
+adjustment_enabled = true
+adjustment_brightness = 1.34
+
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 font = ExtResource("3_in8po")
 font_size = 41
+font_color = Color(1.2, 1.2, 1.2, 1)
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_8p1od"]
@@ -31,6 +50,9 @@ default_font_size = 67
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcs1y"]
 
 [node name="App" type="Node2D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_exbnb")
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -77,19 +99,20 @@ horizontal_alignment = 2
 script = ExtResource("4_t2a4h")
 
 [node name="TerminalLine" type="LineEdit" parent="UI"]
-offset_left = 170.0
-offset_top = 1243.0
-offset_right = 953.0
-offset_bottom = 1350.0
+offset_left = 87.0
+offset_top = 422.0
+offset_right = 1041.0
+offset_bottom = 521.0
 theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_k0n6d")
-theme_override_font_sizes/font_size = 67
+theme_override_fonts/font = ExtResource("3_in8po")
+theme_override_font_sizes/font_size = 46
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_k0dsg")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_lcs1y")
-max_length = 22
+placeholder_text = ">"
+max_length = 30
 context_menu_enabled = false
 flat = true
 caret_blink_interval = 0.45
