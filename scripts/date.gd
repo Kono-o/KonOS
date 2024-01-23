@@ -2,11 +2,14 @@ extends Label
 
 const MONTH_NAME_ARRAY = ["nul","jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"]
 const MONTH_DUR_ARRAY = [0,31,29,31,30,31,30,31,31,30,31,30,31]
-const WEEK_NAME_ARRAY = ["nul","mon","tue","wed","thu","fri","sat","sun"]
 
 var month = MONTH_NAME_ARRAY[0];
 var yearDay = 0;
 var weekNum = '0';
+
+@onready var DateLabel = get_node("/root/App/UI/DateLabel")
+
+signal send_day(weekDay:int)
 
 func dateConcat():
 	
@@ -23,14 +26,14 @@ func dateConcat():
 		weekNum = str(yearDay/7)
 	
 	var date = '%s-%s %s%s%s' % [dateTime['day'],month,'w', weekNum, '/52'] #final concat
+	
+	send_day.emit(yearDay%7) #sending day of the week to day.gd
+	
 	return str(date) 
 
 func dateSet():
-	var DateLabel = get_node("/root/App/UI/DateLabel")
 	DateLabel.text = dateConcat()
 	
 func _ready():
 	dateSet()
 
-func _process(delta):
-	pass

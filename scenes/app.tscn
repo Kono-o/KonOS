@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=16 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://dofavxr8r7gb6" path="res://sprites/bg2.png" id="1_siedw"]
 [ext_resource type="Texture2D" uid="uid://eucmc22vrs7w" path="res://sprites/mock.png" id="2_oenar"]
@@ -8,8 +8,14 @@
 [ext_resource type="Texture2D" uid="uid://d3biwnygqhhf7" path="res://sprites/on.png" id="4_2xoke"]
 [ext_resource type="Script" path="res://scripts/username.gd" id="4_pfvb5"]
 [ext_resource type="Script" path="res://scripts/date.gd" id="4_t2a4h"]
+[ext_resource type="Script" path="res://scripts/day.gd" id="6_wo8ad"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
+font = ExtResource("3_k0n6d")
+font_size = 67
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_8p1od"]
 font = ExtResource("3_k0n6d")
 font_size = 67
 
@@ -46,17 +52,26 @@ offset_left = 89.0
 offset_top = 121.0
 offset_right = 459.0
 offset_bottom = 196.0
-text = "null"
+text = "_____"
 label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
 script = ExtResource("4_pfvb5")
+
+[node name="DayLabel" type="Label" parent="UI"]
+offset_left = 707.0
+offset_top = 267.0
+offset_right = 1013.0
+offset_bottom = 361.0
+text = "___-____"
+label_settings = SubResource("LabelSettings_8p1od")
+script = ExtResource("6_wo8ad")
 
 [node name="DateLabel" type="Label" parent="UI"]
 offset_left = 552.0
 offset_top = 121.0
 offset_right = 994.0
 offset_bottom = 196.0
-text = "00 nul w00/52"
+text = "__ ___ __/52"
 label_settings = SubResource("LabelSettings_2sgqu")
 horizontal_alignment = 1
 script = ExtResource("4_t2a4h")
@@ -93,5 +108,6 @@ ignore_texture_size = true
 stretch_mode = 1
 script = ExtResource("3_oqjfv")
 
+[connection signal="send_day" from="UI/DateLabel" to="UI/DayLabel" method="_on_date_label_send_day"]
 [connection signal="button_up" from="UI/Buttons/EnterButton" to="UI/Buttons/EnterButton" method="_on_button_up"]
 [connection signal="update_name" from="UI/Buttons/EnterButton" to="UI/UsernameLabel" method="_on_enter_button_update_name"]

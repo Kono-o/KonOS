@@ -1,36 +1,29 @@
 extends Label
 
-var username
 const DEF_NAME = "user"
+var username = DEF_NAME
 var filePath = "user://name.dat"
 
 @onready var UsernameLabel = get_node("/root/App/UI/UsernameLabel")
 
 func writeName(n):
-	var writeNameFile = FileAccess.open(filePath,FileAccess.WRITE)
-	writeNameFile.store_string(n)
-	print_debug(n + " written")
+	FileAccess.open(filePath,FileAccess.WRITE).store_string(n)
 
 func readName():
 	if FileAccess.file_exists(filePath):
-		var readNameFile = FileAccess.open(filePath,FileAccess.READ)
-		username = readNameFile.get_as_text()
-		if username == "":
-			username = DEF_NAME
-			writeName(DEF_NAME)
-	else:
-		print_debug("username file not found")
-		writeName(DEF_NAME)
-	print_debug(str(username) + " read")
+		username = FileAccess.open(filePath,FileAccess.READ).get_as_text()
+		
+	if !FileAccess.file_exists(filePath) or username == "":
+		username = DEF_NAME
+		writeName(username)
 
-func _ready():
-	readName()
-	usernameSet(username)
-
-func usernameSet(n):
-	writeName(n)
-	UsernameLabel.text = n
+func usernameSet(name):
+	UsernameLabel.text = name
+	writeName(name)
 
 func _on_enter_button_update_name(newName):
 	usernameSet(newName)
 	
+func _ready():
+	readName()
+	usernameSet(username)
