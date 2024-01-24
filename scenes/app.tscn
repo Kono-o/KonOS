@@ -118,10 +118,10 @@ label_settings = SubResource("LabelSettings_ow3gi")
 script = ExtResource("8_xtdpd")
 
 [node name="terminal-line" type="LineEdit" parent="UI"]
-offset_left = 57.0
-offset_top = 431.0
-offset_right = 1041.0
-offset_bottom = 511.0
+offset_left = 65.0
+offset_top = 432.0
+offset_right = 1049.0
+offset_bottom = 512.0
 theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
@@ -132,7 +132,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_k0dsg")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_lcs1y")
 placeholder_text = ">type shit here"
-max_length = 30
+max_length = 34
 context_menu_enabled = false
 flat = true
 caret_blink_interval = 0.45

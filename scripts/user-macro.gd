@@ -44,7 +44,7 @@ func readMacro():
 		macroArray = FileAccess.open(macroPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
 
 func updateLabel():
-	user_macro_label.text ="%s%s\n%s%s\n%s%s\n%s%s" % [USER_PREFIX,username,"&& cals  ",macroArray[yearDay+YEAR_SIZE+YEAR_SIZE],"&& carb  ",macroArray[yearDay],"?? prot  ",macroArray[yearDay+YEAR_SIZE]]
+	user_macro_label.text ="%s%s\n%s%s\n%s%s%s\n%s%s%s" % [USER_PREFIX,username,"%% cals  ",macroArray[yearDay+YEAR_SIZE+YEAR_SIZE],"&& carb  ",macroArray[yearDay],"g","?? prot  ",macroArray[yearDay+YEAR_SIZE],"g"]
 
 func _ready():
 	readName()
