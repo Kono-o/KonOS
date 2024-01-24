@@ -121,4 +121,5 @@ flat = true
 caret_blink_interval = 0.45
 script = ExtResource("6_am2oj")
 
+[connection signal="send_yearDay" from="UI/top-box/date-weight-label" to="UI/top-box/user-macro-label" method="_receive_yearDay"]
 [connection signal="update_user" from="UI/terminal-line" to="UI/top-box/user-macro-label" method="_terminal_update_user"]

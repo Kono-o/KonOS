@@ -9,6 +9,8 @@ var WORK_OUT_ARRAY = ["rest","push","pull","rest","push","pull","legs"]
 var date = null
 var day = null
 
+signal send_yearDay(yD:int)
+
 @onready var date_weight_label = get_node("/root/App/UI/top-box/date-weight-label")
 
 func dateCalc():
@@ -21,6 +23,9 @@ func dateCalc():
 		yearDay += MONTH_DUR_ARRAY[i]
 	
 	yearDay += dateTime['day'] #which day of the year + incomplete month's days
+	
+	send_yearDay.emit(yearDay)#send yearDay to user-macro
+	
 	if yearDay/7 < 10:
 		weekNum = '0' + str(yearDay/7)
 	else: 
@@ -28,7 +33,7 @@ func dateCalc():
 	
 	date = '%s-%s %s%s%s' % [dateTime['day'],month,'w', weekNum, '/52'] #final concat
 	day = '%s-%s' % [WEEK_NAME_ARRAY[yearDay%7],WORK_OUT_ARRAY[yearDay%7]] #mon-push
-	
+
 func dateConcat():
 	dateCalc()
 	var concat = '%s\n%s\n%s\n%s' % [date,"place","holder",day]
