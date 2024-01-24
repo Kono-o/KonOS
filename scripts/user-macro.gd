@@ -1,10 +1,12 @@
 extends Label
 
-const DEF_NAME = "user"
+const USER_PREFIX = "OS-user@"
+const DEF_NAME = "default"
+
 var username = DEF_NAME
 var filePath = "user://name.dat"
 
-@onready var UsernameLabel = get_node("/root/App/UI/UsernameLabel")
+@onready var user_macro_label = get_node("/root/App/UI/top-box/user-macro-label")
 
 func writeName(n):
 	FileAccess.open(filePath,FileAccess.WRITE).store_string(n)
@@ -17,13 +19,13 @@ func readName():
 		username = DEF_NAME
 		writeName(username)
 
-func usernameSet(name):
-	UsernameLabel.text ="%s%s" %["OS-user@",name]
-	writeName(name)
+func usernameSet(n):
+	user_macro_label.text ="%s%s" % [USER_PREFIX,n]
+	writeName(n)
 
-func _on_enter_button_update_name(newName):
-	usernameSet(newName)
-	
 func _ready():
 	readName()
 	usernameSet(username)
+
+func _terminal_update_user(newName):
+	usernameSet(newName)
