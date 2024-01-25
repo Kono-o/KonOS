@@ -86,23 +86,25 @@ texture = ExtResource("2_xg4tp")
 offset_left = 65.0
 offset_top = 114.0
 offset_right = 380.0
-offset_bottom = 343.0
-text = "OS-user@Kono
+offset_bottom = 337.0
+text = "OS-user@kono
 %% kcal 0000
 && carb 000g
-?? prot 000g"
+?? prot 000g
+## fats 000g	"
 label_settings = SubResource("LabelSettings_2sgqu")
 script = ExtResource("4_pfvb5")
 
 [node name="date-weight-label" type="Label" parent="UI/top-box"]
-offset_left = 696.0
-offset_top = 114.0
-offset_right = 1029.0
-offset_bottom = 343.0
-text = "23-jan w03/52
+offset_left = 653.0
+offset_top = 113.0
+offset_right = 1028.0
+offset_bottom = 448.0
+text = "23-jan   w03/52
 mon-push
+0'00\"  000/00
 00.00  000.00
- kgs     lb
+0000   00.00	
 
 "
 label_settings = SubResource("LabelSettings_2sgqu")
@@ -110,18 +112,18 @@ script = ExtResource("4_t2a4h")
 
 [node name="year-line-label" type="Label" parent="UI"]
 offset_left = 46.0
-offset_top = 367.0
+offset_top = 414.0
 offset_right = 1034.0
-offset_bottom = 410.0
+offset_bottom = 457.0
 text = "----------------------------------------------------"
 label_settings = SubResource("LabelSettings_ow3gi")
 script = ExtResource("8_xtdpd")
 
 [node name="terminal-line" type="LineEdit" parent="UI"]
-offset_left = 65.0
-offset_top = 432.0
-offset_right = 1049.0
-offset_bottom = 512.0
+offset_left = 67.0
+offset_top = 475.0
+offset_right = 1051.0
+offset_bottom = 555.0
 theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
@@ -140,6 +142,7 @@ script = ExtResource("6_am2oj")
 
 [connection signal="send_weekNum" from="UI/top-box/date-weight-label" to="UI/year-line-label" method="_receive_weekNum"]
 [connection signal="send_yearDay" from="UI/top-box/date-weight-label" to="UI/top-box/user-macro-label" method="_receive_yearDay"]
+[connection signal="update_height" from="UI/terminal-line" to="UI/top-box/date-weight-label" method="_terminal_updateHeight"]
 [connection signal="update_macro" from="UI/terminal-line" to="UI/top-box/user-macro-label" method="_terminal_update_macro"]
 [connection signal="update_user" from="UI/terminal-line" to="UI/top-box/user-macro-label" method="_terminal_update_user"]
 [connection signal="update_weight" from="UI/terminal-line" to="UI/top-box/date-weight-label" method="_terminal_updateWeight"]

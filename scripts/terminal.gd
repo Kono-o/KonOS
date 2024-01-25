@@ -5,6 +5,7 @@ extends LineEdit
 signal update_user(newName:String)
 signal update_macro(type:String,amount:int)
 signal update_weight(newWeight:float)
+signal update_height(newFeet:int,newInch:int)
 
 func keywordEngine(command):
 	var keywordArray = command.split(' ',false, 16)
@@ -17,7 +18,12 @@ func keywordEngine(command):
 			update_macro.emit("c",int(keywordArray[2])) 
 		if (keywordArray[0] == "prot"  or keywordArray[0] == "p") and (keywordArray[1] == "add" or keywordArray[1] == "a"):
 			update_macro.emit("p",int(keywordArray[2]))
-			 
+		if (keywordArray[0] == "fat"  or keywordArray[0] == "f") and (keywordArray[1] == "add" or keywordArray[1] == "a"):
+			update_macro.emit("f",int(keywordArray[2]))
+		
+		if keywordArray[0] == "height" or keywordArray[0] == "h":
+			update_height.emit(int(keywordArray[1]),int(keywordArray[2]))
+
 	if keywordArray.size() > 1:
 		if keywordArray[0] == "kg" or keywordArray[0] == "k" or keywordArray[0] == "w"  or keywordArray[0] == "weight":
 			update_weight.emit(float(keywordArray[1]))
