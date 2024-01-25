@@ -44,12 +44,29 @@ func kgToLbs(kg):
 		lbs = "998.80"
 	return lbs
 
+func cmToFeet(h):
+	h = h * 0.0328
+	h = round(h * pow(10.0, 2)) / pow(10.0, 2)
+	var inch = 12 *(h - int(h))
+	inch = round(inch * pow(10.0, 1)) / pow(10.0, 1)
+	if h > 9:
+		h = 9
+	if inch == int(inch) and inch < 10:
+		return '%s%s%s%s' %[str(int(h)),"B",str(inch),".0A"]
+	if !inch == int(inch) and inch < 10: 
+		return '%s%s%s%s' %[str(int(h)),"B",str(inch),"A"]
+	if !inch == int(inch) and inch > 10:
+		return '%s%s%s%s' %[str(int(h)),"B ",str(int(inch)),"A"]
+	else:
+		return '%s%s%s%s' %[str(int(h)),"B ",str(inch),"A"]
+	
 func writeHeight():
 	FileAccess.open(heightPath,FileAccess.WRITE).store_float(height)
 
 func readHeight():
 	if FileAccess.file_exists(heightPath):
 		height = FileAccess.open(heightPath,FileAccess.READ).get_float()
+		height = round(height * pow(10.0, 2)) / pow(10.0, 2)
 		
 	if !FileAccess.file_exists(heightPath) or height == 0.0:
 		height = 0.0
@@ -90,8 +107,9 @@ func dateCalc():
 	day = '%s-%s' % [WEEK_NAME_ARRAY[yearDay%7],WORK_OUT_ARRAY[yearDay%7]] #mon-push
 
 func updateLabel():
-	var heightLine = '%s%s' % [str(height),"cm"]
-	date_weight_label.text = '%s\n%s\n%s' % [date,day,height]
+	var heightLine = '%s %s%s' % [str(cmToFeet(height)),str(height),"cm"]
+	var weightLine = '%s  %s' % [weightArray[yearDay], kgToLbs(weightArray[yearDay])]
+	date_weight_label.text = '%s\n%s\n%s\n%s' % [date,day,heightLine,weightLine]
 
 func _terminal_updateWeight(newWeight):
 	weightArray[yearDay] = str(newWeight)
@@ -118,4 +136,8 @@ func _ready():
 
 
 func _terminal_updateHeight(newFeet, newInch):
-	print(height)
+	height = (newFeet * 30.48) + (newInch * 2.54)
+	height = round(height * pow(10.0, 2)) / pow(10.0, 2)
+	writeHeight()
+	updateLabel()
+	

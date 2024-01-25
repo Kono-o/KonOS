@@ -1,13 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=24 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://sprites/ui/mock.png" id="2_xg4tp"]
+[ext_resource type="Script" path="res://scripts/unix-time.gd" id="3_1dktg"]
+[ext_resource type="FontFile" uid="uid://cjb8kp3e8bh3n" path="res://fonts/custom/JetBrainsMonoNL-Medium-w-icons.ttf" id="3_gdh7o"]
 [ext_resource type="FontFile" uid="uid://dnhnlb87v31pk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Medium.ttf" id="3_in8po"]
 [ext_resource type="Script" path="res://scripts/user-macro.gd" id="4_pfvb5"]
 [ext_resource type="Script" path="res://scripts/date-weight.gd" id="4_t2a4h"]
 [ext_resource type="Script" path="res://scripts/terminal.gd" id="6_am2oj"]
+[ext_resource type="FontFile" uid="uid://cdlcgc6oht173" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Bold.ttf" id="6_moq4h"]
 [ext_resource type="FontFile" uid="uid://c6p7jroejeulk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMonoNL-Bold.ttf" id="6_v7caa"]
 [ext_resource type="Script" path="res://scripts/year-line.gd" id="8_xtdpd"]
+[ext_resource type="Script" path="res://scripts/timer.gd" id="12_0yf3r"]
 
 [sub_resource type="Environment" id="Environment_exbnb"]
 background_mode = 3
@@ -25,12 +29,20 @@ glow_hdr_scale = 2.25
 glow_map_strength = 0.81
 adjustment_brightness = 1.34
 
+[sub_resource type="LabelSettings" id="LabelSettings_1v07t"]
+font = ExtResource("3_gdh7o")
+font_size = 28
+
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 line_spacing = 1.0
-font = ExtResource("3_in8po")
+font = ExtResource("3_gdh7o")
 font_size = 41
 font_color = Color(1.2, 1.2, 1.2, 1)
 shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_kkrtw"]
+font = ExtResource("6_moq4h")
+font_size = 31
 
 [sub_resource type="LabelSettings" id="LabelSettings_ow3gi"]
 font = ExtResource("6_v7caa")
@@ -60,6 +72,10 @@ default_font_size = 67
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcs1y"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_t5u68"]
+font = ExtResource("3_gdh7o")
+font_size = 70
+
 [node name="App" type="Node2D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -80,6 +96,18 @@ texture = ExtResource("2_xg4tp")
 
 [node name="UI" type="Node2D" parent="."]
 
+[node name="headers" type="Node2D" parent="UI"]
+
+[node name="unix-time-label" type="Label" parent="UI/headers"]
+offset_left = 874.0
+offset_top = 63.0
+offset_right = 1027.0
+offset_bottom = 101.0
+text = "170603678"
+label_settings = SubResource("LabelSettings_1v07t")
+horizontal_alignment = 2
+script = ExtResource("3_1dktg")
+
 [node name="top-box" type="Node2D" parent="UI"]
 
 [node name="user-macro-label" type="Label" parent="UI/top-box"]
@@ -97,9 +125,9 @@ script = ExtResource("4_pfvb5")
 
 [node name="date-weight-label" type="Label" parent="UI/top-box"]
 offset_left = 653.0
-offset_top = 113.0
+offset_top = 116.0
 offset_right = 1028.0
-offset_bottom = 448.0
+offset_bottom = 451.0
 text = "23-jan   w03/52
 mon-push
 0'00\"  000/00
@@ -109,6 +137,24 @@ mon-push
 "
 label_settings = SubResource("LabelSettings_2sgqu")
 script = ExtResource("4_t2a4h")
+
+[node name="visual" type="Node2D" parent="UI/top-box"]
+
+[node name="kg-label" type="Label" parent="UI/top-box/visual"]
+offset_left = 782.0
+offset_top = 290.0
+offset_right = 1020.0
+offset_bottom = 332.0
+text = "kg"
+label_settings = SubResource("LabelSettings_kkrtw")
+
+[node name="lb-label" type="Label" parent="UI/top-box/visual"]
+offset_left = 981.0
+offset_top = 292.0
+offset_right = 1219.0
+offset_bottom = 331.0
+text = "lb"
+label_settings = SubResource("LabelSettings_kkrtw")
 
 [node name="year-line-label" type="Label" parent="UI"]
 offset_left = 46.0
@@ -121,9 +167,9 @@ script = ExtResource("8_xtdpd")
 
 [node name="terminal-line" type="LineEdit" parent="UI"]
 offset_left = 67.0
-offset_top = 475.0
+offset_top = 477.0
 offset_right = 1051.0
-offset_bottom = 555.0
+offset_bottom = 557.0
 theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
@@ -140,9 +186,27 @@ flat = true
 caret_blink_interval = 0.45
 script = ExtResource("6_am2oj")
 
+[node name="timer" type="Node2D" parent="UI"]
+
+[node name="timer-node" type="Timer" parent="UI/timer"]
+wait_time = 4.0
+one_shot = true
+
+[node name="timer-label" type="Label" parent="UI/timer"]
+offset_left = 38.0
+offset_top = 1347.0
+offset_right = 458.0
+offset_bottom = 1440.0
+text = "<00:00:00>"
+label_settings = SubResource("LabelSettings_t5u68")
+script = ExtResource("12_0yf3r")
+
 [connection signal="send_weekNum" from="UI/top-box/date-weight-label" to="UI/year-line-label" method="_receive_weekNum"]
 [connection signal="send_yearDay" from="UI/top-box/date-weight-label" to="UI/top-box/user-macro-label" method="_receive_yearDay"]
+[connection signal="start_timer" from="UI/terminal-line" to="UI/timer/timer-label" method="_terminal_startTimer"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box/date-weight-label" method="_terminal_updateHeight"]
 [connection signal="update_macro" from="UI/terminal-line" to="UI/top-box/user-macro-label" method="_terminal_update_macro"]
+[connection signal="update_timer" from="UI/terminal-line" to="UI/timer/timer-label" method="_terminal_updateTimer"]
 [connection signal="update_user" from="UI/terminal-line" to="UI/top-box/user-macro-label" method="_terminal_update_user"]
 [connection signal="update_weight" from="UI/terminal-line" to="UI/top-box/date-weight-label" method="_terminal_updateWeight"]
+[connection signal="timeout" from="UI/timer/timer-node" to="UI/timer/timer-label" method="_on_timernode_timeout"]
