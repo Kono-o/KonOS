@@ -1,17 +1,12 @@
-[gd_scene load_steps=24 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=18 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
+[ext_resource type="Script" path="res://scenes/app.gd" id="1_sbdop"]
 [ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://sprites/ui/mock.png" id="2_xg4tp"]
-[ext_resource type="Script" path="res://scripts/unix-time.gd" id="3_1dktg"]
 [ext_resource type="FontFile" uid="uid://cjb8kp3e8bh3n" path="res://fonts/custom/JetBrainsMonoNL-Medium-w-icons.ttf" id="3_gdh7o"]
 [ext_resource type="FontFile" uid="uid://dnhnlb87v31pk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Medium.ttf" id="3_in8po"]
-[ext_resource type="Script" path="res://scripts/user-macro.gd" id="4_pfvb5"]
-[ext_resource type="Script" path="res://scripts/date-weight.gd" id="4_t2a4h"]
 [ext_resource type="Script" path="res://scripts/terminal.gd" id="6_am2oj"]
-[ext_resource type="FontFile" uid="uid://cdlcgc6oht173" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Bold.ttf" id="6_moq4h"]
 [ext_resource type="FontFile" uid="uid://c6p7jroejeulk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMonoNL-Bold.ttf" id="6_v7caa"]
-[ext_resource type="Script" path="res://scripts/year-line.gd" id="8_xtdpd"]
-[ext_resource type="Script" path="res://scripts/timer.gd" id="12_0yf3r"]
 
 [sub_resource type="Environment" id="Environment_exbnb"]
 background_mode = 3
@@ -39,10 +34,6 @@ font = ExtResource("3_gdh7o")
 font_size = 41
 font_color = Color(1.2, 1.2, 1.2, 1)
 shadow_size = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_kkrtw"]
-font = ExtResource("6_moq4h")
-font_size = 31
 
 [sub_resource type="LabelSettings" id="LabelSettings_ow3gi"]
 font = ExtResource("6_v7caa")
@@ -77,6 +68,7 @@ font = ExtResource("3_gdh7o")
 font_size = 70
 
 [node name="App" type="Node2D"]
+script = ExtResource("1_sbdop")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_exbnb")
@@ -106,7 +98,6 @@ offset_bottom = 101.0
 text = "170603678"
 label_settings = SubResource("LabelSettings_1v07t")
 horizontal_alignment = 2
-script = ExtResource("3_1dktg")
 
 [node name="top-box" type="Node2D" parent="UI"]
 
@@ -121,13 +112,12 @@ text = "OS-user@kono
 ?? prot 000g
 ## fats 000g	"
 label_settings = SubResource("LabelSettings_2sgqu")
-script = ExtResource("4_pfvb5")
 
 [node name="date-weight-label" type="Label" parent="UI/top-box"]
-offset_left = 653.0
-offset_top = 116.0
-offset_right = 1028.0
-offset_bottom = 451.0
+offset_left = 627.0
+offset_top = 114.0
+offset_right = 1002.0
+offset_bottom = 449.0
 text = "23-jan   w03/52
 mon-push
 0'00\"  000/00
@@ -136,34 +126,14 @@ mon-push
 
 "
 label_settings = SubResource("LabelSettings_2sgqu")
-script = ExtResource("4_t2a4h")
 
-[node name="visual" type="Node2D" parent="UI/top-box"]
-
-[node name="kg-label" type="Label" parent="UI/top-box/visual"]
-offset_left = 782.0
-offset_top = 290.0
-offset_right = 1020.0
-offset_bottom = 332.0
-text = "kg"
-label_settings = SubResource("LabelSettings_kkrtw")
-
-[node name="lb-label" type="Label" parent="UI/top-box/visual"]
-offset_left = 981.0
-offset_top = 292.0
-offset_right = 1219.0
-offset_bottom = 331.0
-text = "lb"
-label_settings = SubResource("LabelSettings_kkrtw")
-
-[node name="year-line-label" type="Label" parent="UI"]
+[node name="year-line-label" type="Label" parent="UI/top-box"]
 offset_left = 46.0
 offset_top = 414.0
 offset_right = 1034.0
 offset_bottom = 457.0
 text = "----------------------------------------------------"
 label_settings = SubResource("LabelSettings_ow3gi")
-script = ExtResource("8_xtdpd")
 
 [node name="terminal-line" type="LineEdit" parent="UI"]
 offset_left = 67.0
@@ -199,14 +169,3 @@ offset_right = 458.0
 offset_bottom = 1440.0
 text = "<00:00:00>"
 label_settings = SubResource("LabelSettings_t5u68")
-script = ExtResource("12_0yf3r")
-
-[connection signal="send_weekNum" from="UI/top-box/date-weight-label" to="UI/year-line-label" method="_receive_weekNum"]
-[connection signal="send_yearDay" from="UI/top-box/date-weight-label" to="UI/top-box/user-macro-label" method="_receive_yearDay"]
-[connection signal="start_timer" from="UI/terminal-line" to="UI/timer/timer-label" method="_terminal_startTimer"]
-[connection signal="update_height" from="UI/terminal-line" to="UI/top-box/date-weight-label" method="_terminal_updateHeight"]
-[connection signal="update_macro" from="UI/terminal-line" to="UI/top-box/user-macro-label" method="_terminal_update_macro"]
-[connection signal="update_timer" from="UI/terminal-line" to="UI/timer/timer-label" method="_terminal_updateTimer"]
-[connection signal="update_user" from="UI/terminal-line" to="UI/top-box/user-macro-label" method="_terminal_update_user"]
-[connection signal="update_weight" from="UI/terminal-line" to="UI/top-box/date-weight-label" method="_terminal_updateWeight"]
-[connection signal="timeout" from="UI/timer/timer-node" to="UI/timer/timer-label" method="_on_timernode_timeout"]
