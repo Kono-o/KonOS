@@ -5,6 +5,7 @@ extends LineEdit
 var nameFunctions = ["name","n","user","u"]
 var heightFunctions = ["height","h"]
 var weightFunctions = ["kg","k","weight","w"]
+var bfFunctions = ["bf","bfat","bodyfat"]
 
 var macroFunctions = ["macro", "m"]
 var carbFunctions = ["carb","carbs","c"]
@@ -15,11 +16,12 @@ var timerFunctions = ["timer","time","t"]
 var startFunctions = ["start","s"]
 
 
-signal update_user(newName:String)
-signal update_macro(type:String,amount:int)
-signal update_weight(newWeight:float)
-signal update_height(newFeet:int,newInch:int)
-signal update_timer(time:int)
+signal update_user(nN:String)
+signal update_macro(ty:String,amt:int)
+signal update_weight(nW:float)
+signal update_height(nH:float)
+signal update_bf(nBF:float)
+signal update_timer(t:int)
 signal start_timer()
 
 func funcFinder(word,arr):
@@ -34,8 +36,14 @@ func keywordEngine(command):
 	if funcFinder(keywordArray[0],nameFunctions) and keywordArray[1] != "":
 		update_user.emit(keywordArray[1])
 	
-	if funcFinder(keywordArray[0],heightFunctions) and (int(keywordArray[1]) != 0 or int(keywordArray[2]) != 0):
-		update_height.emit(float(keywordArray[1]), float(keywordArray[2]))
+	#if funcFinder(keywordArray[0],heightFunctions) and (int(keywordArray[1]) != 0 or int(keywordArray[2]) != 0):
+		#update_height.emit(float(keywordArray[1]), float(keywordArray[2]))
+	
+	if funcFinder(keywordArray[0],heightFunctions):
+		update_height.emit(float(keywordArray[1]))
+		
+	if funcFinder(keywordArray[0],bfFunctions):
+		update_bf.emit(float(keywordArray[1]))
 	
 	if funcFinder(keywordArray[0],weightFunctions) and float(keywordArray[1]) != 0:
 		update_weight.emit(float(keywordArray[1]))
