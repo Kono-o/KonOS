@@ -168,3 +168,4 @@ label_settings = SubResource("LabelSettings_t5u68")
 [connection signal="update_bf" from="UI/terminal-line" to="." method="terminal_updateBF"]
 [connection signal="update_height" from="UI/terminal-line" to="." method="terminal_updateHeight"]
 [connection signal="update_user" from="UI/terminal-line" to="." method="terminal_updateUser"]
+[connection signal="update_weight" from="UI/terminal-line" to="." method="terminal_updateWeight"]

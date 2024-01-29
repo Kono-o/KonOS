@@ -31,7 +31,7 @@ func funcFinder(word,arr):
 	
 func keywordEngine(command):
 	var keywordArray = command.split(' ',false, 16)
-	keywordArray.resize(16)
+	keywordArray.resize(32)
 
 	if funcFinder(keywordArray[0],nameFunctions) and keywordArray[1] != "":
 		update_user.emit(keywordArray[1])

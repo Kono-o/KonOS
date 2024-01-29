@@ -17,6 +17,8 @@ const WORK_OUT_ARRAY = ["rest","push","pull","rest","push","pull","legs"]
 const ARRAY_DELIMIT = ","
 const LINE_POINTER = "*"
 const USER_PREFIX = "OS-user@"
+const YEAR_SIZE = 366
+const TRACK_SIZE = YEAR_SIZE*5
 
 var yearLine = "----------------------------------------------------"
 var weekLine = "-------"
@@ -25,6 +27,11 @@ var username = "default"
 var height = 0
 var bfat = 0
 var infoArray = [username,str(height),str(bfat)]
+
+var weightArray = []
+var trackArray = []
+
+var yearDay = 0
 
 func bfatCalc():
 	if bfat > 99:
@@ -48,7 +55,7 @@ func heightCalc(ty):
 			return int(feet)
 			
 	if ty == 1:
-		if feet > 9.999:
+		if feet > 9.9999:
 			return "11.9"
 		if feet < 0:
 			return "00.0"
@@ -64,15 +71,46 @@ func heightCalc(ty):
 			return '%s.0' %[inch]
 		if(inch- int(inch)) != 0 and inch > 9:
 			return str(inch)
+func weightCalc():
+	var trun = int(weightArray[yearDay-1])
+	var cate = round( (weightArray[yearDay-1] - trun) * pow(10.0, 2)) / pow(10.0, 2) * 100
+	print(trun)
+	print(cate)
+	var trunS = ''
+	var cateS = ''
+	if trun <= 0:
+		trunS = "000"
+	if trun >= 999:
+		trunS = "999"
+	if trun < 10:
+		trunS = '00%s' % [trun]
+	if trun > 9 and trun < 100:
+		trunS = '0%s' % [trun]
+	if trun > 99 and trun < 1000:
+		trunS = str(trun)
+	
+	if cate <= 0:
+		cateS = "00"
+	if cate >= 99:
+		cateS = "99"
+	if cate < 10:
+		cateS = '0%s' % [cate]
+	if cate > 9 and cate < 100:
+		cateS = str(cate)
+	if trun > 999.99:
+		cateS = "99"
+	print(trunS)
+	print(cateS)
+	return '%s.%skg' % [trunS, cateS]
 func dateCalc(ty):
-	var yearDay = 0
 	var weekNum = '0'
 	var dateTime = Time.get_datetime_dict_from_system()
 	var month = MONTH_NAME_ARRAY[dateTime['month']-1];
 	
-	for i in dateTime['month']:
-		yearDay += MONTH_DUR_ARRAY[i]
-	yearDay += dateTime['day']
+	if yearDay == 0:
+		for i in dateTime['month']:
+			yearDay += MONTH_DUR_ARRAY[i]
+		yearDay += dateTime['day']
 	
 	if yearDay/7 < 10:
 		weekNum = '0' + str(yearDay/7)
@@ -100,8 +138,8 @@ func dateCalc(ty):
 		weekLine[6] = LINE_POINTER
 	else:
 		weekLine[int(yearDay%7)-1] = LINE_POINTER
-		
-	var date = '%s-%s  %s%s%s' % [dateStr,month,'w', weekNum, '/52']
+
+	var date = '%s-%s  %s%s' % [dateStr,month,'w', weekNum]
 	var day = '%s-%s' % [WEEK_NAME_ARRAY[yearDay%7],WORK_OUT_ARRAY[yearDay%7]]
 	
 	if ty == 0:
@@ -114,28 +152,47 @@ func writeInfo():
 	FileAccess.open(infoPath,FileAccess.WRITE).store_csv_line(infoArray,ARRAY_DELIMIT)
 func readInfo():
 	if FileAccess.file_exists(infoPath):
-		var infoFile = FileAccess.open(infoPath,FileAccess.READ).get_csv_line()
-		username = infoFile[0]
-		height = float(infoFile[1])
-		bfat = float(infoFile[2])
+		infoArray = FileAccess.open(infoPath,FileAccess.READ).get_csv_line()
+		username = infoArray[0]
+		height = float(infoArray[1])
+		bfat = float(infoArray[2])
 		
 	if !FileAccess.file_exists(infoPath):
 		writeInfo()
+
+func writeTrack():
+	trackArray[yearDay-1] = str(weightArray[yearDay -1])
+	FileAccess.open(trackPath,FileAccess.WRITE).store_csv_line(trackArray,ARRAY_DELIMIT)
+func readTrack():
+	trackArray.resize(TRACK_SIZE)
+	weightArray.resize(YEAR_SIZE)
+	
+	if FileAccess.file_exists(trackPath):
+		trackArray = FileAccess.open(trackPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
+		for i in YEAR_SIZE:
+			weightArray[i] = float(trackArray[i])
+		
+	if !FileAccess.file_exists(trackPath):
+		trackArray.fill("0")
+		weightArray.fill(0.0)
+		writeTrack()
 
 func userMacroLabel():
 	var nameLine = '%s%s'% [USER_PREFIX,username]
 	user_macro_label.text = '%s' % [nameLine]
 func dateWeightLabel():
-	var dateLine = dateCalc(0)
+	var dateLine = '%s/52' % [dateCalc(0)]
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
-	var heightLine = '%sB%sA' %[heightCalc(0),heightCalc(1)]
+	var heightLine = '%sB%sA %s' %[heightCalc(0),heightCalc(1),weightCalc()]
 	var bfLine = '%s%s-bf' % [bfatCalc(),'%']
 	
 	date_weight_label.text = '%s\n%s\n%s\n%s' % [dateLine,dayLine,heightLine,bfLine]
+	
 	year_line_label.text = yearLine
 	
 func _ready():
 	readInfo()
+	readTrack()
 	userMacroLabel()
 	dateWeightLabel()
 func _process(_delta):
@@ -146,10 +203,15 @@ func terminal_updateUser(nN):
 	writeInfo()
 	userMacroLabel()
 func terminal_updateHeight(nH):
-	height = nH
+	height = round(nH * pow(10.0, 4)) / pow(10.0, 4)
 	writeInfo()
 	dateWeightLabel()
 func terminal_updateBF(nBF):
 	bfat = round(nBF)
 	writeInfo()
+	dateWeightLabel()
+func terminal_updateWeight(nW):
+	if nW > 0:
+		weightArray[yearDay-1] = round(nW * pow(10.0, 2)) / pow(10.0, 2)
+	writeTrack()
 	dateWeightLabel()
