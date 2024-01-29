@@ -71,37 +71,35 @@ func heightCalc(ty):
 			return '%s.0' %[inch]
 		if(inch- int(inch)) != 0 and inch > 9:
 			return str(inch)
-func weightCalc():
-	var trun = int(weightArray[yearDay-1])
-	var cate = round( (weightArray[yearDay-1] - trun) * pow(10.0, 2)) / pow(10.0, 2) * 100
-	print(trun)
-	print(cate)
+func weightCalc(w):
+	var trun = int(w)
+	var cate = round((w - trun) * pow(10.0, 2)) / pow(10.0, 2) * 100
 	var trunS = ''
 	var cateS = ''
+	
 	if trun <= 0:
 		trunS = "000"
-	if trun >= 999:
-		trunS = "999"
 	if trun < 10:
 		trunS = '00%s' % [trun]
 	if trun > 9 and trun < 100:
 		trunS = '0%s' % [trun]
 	if trun > 99 and trun < 1000:
 		trunS = str(trun)
+	if trun >= 999:
+		trunS = "999"
 	
 	if cate <= 0:
 		cateS = "00"
-	if cate >= 99:
-		cateS = "99"
 	if cate < 10:
 		cateS = '0%s' % [cate]
 	if cate > 9 and cate < 100:
 		cateS = str(cate)
+	if cate >= 99:
+		cateS = "99"
 	if trun > 999.99:
 		cateS = "99"
-	print(trunS)
-	print(cateS)
-	return '%s.%skg' % [trunS, cateS]
+		
+	return '%s.%s' % [trunS, cateS]
 func dateCalc(ty):
 	var weekNum = '0'
 	var dateTime = Time.get_datetime_dict_from_system()
@@ -183,8 +181,8 @@ func userMacroLabel():
 func dateWeightLabel():
 	var dateLine = '%s/52' % [dateCalc(0)]
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
-	var heightLine = '%sB%sA %s' %[heightCalc(0),heightCalc(1),weightCalc()]
-	var bfLine = '%s%s-bf' % [bfatCalc(),'%']
+	var heightLine = '%sB%sA %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
+	var bfLine = '%s%s-bf  %slm' % [bfatCalc(),'%',weightCalc(weightArray[yearDay-1]*(1 - (float(bfatCalc()) * 0.01)))]
 	
 	date_weight_label.text = '%s\n%s\n%s\n%s' % [dateLine,dayLine,heightLine,bfLine]
 	
@@ -203,15 +201,23 @@ func terminal_updateUser(nN):
 	writeInfo()
 	userMacroLabel()
 func terminal_updateHeight(nH):
-	height = round(nH * pow(10.0, 4)) / pow(10.0, 4)
+	if nH > 0:
+		height = round(nH * pow(10.0, 4)) / pow(10.0, 4)
+	if nH > 3.05:
+		height = 3.05
 	writeInfo()
 	dateWeightLabel()
 func terminal_updateBF(nBF):
-	bfat = round(nBF)
+	if nBF > 0:
+		bfat = round(nBF)
+	if nBF > 99:
+		bfat = 99
 	writeInfo()
 	dateWeightLabel()
 func terminal_updateWeight(nW):
 	if nW > 0:
 		weightArray[yearDay-1] = round(nW * pow(10.0, 2)) / pow(10.0, 2)
+	if nW > 999.99:
+		weightArray[yearDay-1] = 999.99
 	writeTrack()
 	dateWeightLabel()
