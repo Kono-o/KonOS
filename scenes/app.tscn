@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
-[ext_resource type="Script" path="res://scenes/app.gd" id="1_sbdop"]
+[ext_resource type="Script" path="res://scripts/top-box.gd" id="1_sbdop"]
 [ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://sprites/ui/mock.png" id="2_xg4tp"]
 [ext_resource type="FontFile" uid="uid://cjb8kp3e8bh3n" path="res://fonts/custom/JetBrainsMonoNL-Medium-w-icons.ttf" id="3_gdh7o"]
 [ext_resource type="FontFile" uid="uid://dnhnlb87v31pk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Medium.ttf" id="3_in8po"]
@@ -69,7 +69,6 @@ font = ExtResource("3_gdh7o")
 font_size = 70
 
 [node name="App" type="Node2D"]
-script = ExtResource("1_sbdop")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_exbnb")
@@ -81,7 +80,7 @@ offset_right = 1080.0
 offset_bottom = 2220.0
 texture = ExtResource("1_7bioe")
 
-[node name="mockup" type="TextureRect" parent="BG"]
+[node name="mockup(dont exp)" type="TextureRect" parent="BG"]
 visible = false
 offset_right = 1080.0
 offset_bottom = 2220.0
@@ -92,15 +91,25 @@ texture = ExtResource("2_xg4tp")
 [node name="headers" type="Node2D" parent="UI"]
 
 [node name="unix-time-label" type="Label" parent="UI/headers"]
-offset_left = 874.0
+offset_left = 872.0
 offset_top = 63.0
-offset_right = 1027.0
+offset_right = 1042.0
 offset_bottom = 101.0
-text = "170603678"
+text = "1706036781"
+label_settings = SubResource("LabelSettings_1v07t")
+horizontal_alignment = 2
+
+[node name="github-label" type="Label" parent="UI/headers"]
+offset_left = 38.0
+offset_top = 2101.0
+offset_right = 429.0
+offset_bottom = 2139.0
+text = "github.com/Kono-o/KonOS"
 label_settings = SubResource("LabelSettings_1v07t")
 horizontal_alignment = 2
 
 [node name="top-box" type="Node2D" parent="UI"]
+script = ExtResource("1_sbdop")
 
 [node name="user-macro-label" type="Label" parent="UI/top-box"]
 offset_left = 58.0
@@ -165,7 +174,8 @@ offset_bottom = 1440.0
 text = "<00:00:00>"
 label_settings = SubResource("LabelSettings_t5u68")
 
-[connection signal="update_bf" from="UI/terminal-line" to="." method="terminal_updateBF"]
-[connection signal="update_height" from="UI/terminal-line" to="." method="terminal_updateHeight"]
-[connection signal="update_user" from="UI/terminal-line" to="." method="terminal_updateUser"]
-[connection signal="update_weight" from="UI/terminal-line" to="." method="terminal_updateWeight"]
+[connection signal="update_bf" from="UI/terminal-line" to="UI/top-box" method="terminal_updateBF"]
+[connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]
+[connection signal="update_macro" from="UI/terminal-line" to="UI/top-box" method="terminal_updateMacro"]
+[connection signal="update_user" from="UI/terminal-line" to="UI/top-box" method="terminal_updateUser"]
+[connection signal="update_weight" from="UI/terminal-line" to="UI/top-box" method="terminal_updateWeight"]

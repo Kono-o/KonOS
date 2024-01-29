@@ -18,7 +18,11 @@ const ARRAY_DELIMIT = ","
 const LINE_POINTER = "*"
 const USER_PREFIX = "OS-user@"
 const YEAR_SIZE = 366
-const TRACK_SIZE = YEAR_SIZE*5
+const CARB_OFFSET = YEAR_SIZE
+const PROT_OFFSET = YEAR_SIZE + YEAR_SIZE
+const FATS_OFFSET = YEAR_SIZE + YEAR_SIZE + YEAR_SIZE
+const KCAL_OFFSET = YEAR_SIZE + YEAR_SIZE + YEAR_SIZE + YEAR_SIZE
+const TRACK_SIZE =  YEAR_SIZE*5
 
 var yearLine = "----------------------------------------------------"
 var weekLine = "-------"
@@ -29,10 +33,25 @@ var bfat = 0
 var infoArray = [username,str(height),str(bfat)]
 
 var weightArray = []
+var carbArray = []
+var protArray = []
+var fatsArray = []
+var kcalArray = []
 var trackArray = []
 
 var yearDay = 0
 
+func macroCalc(g,ty):
+	if g <= 0:
+		return "000"
+	if g > 0 and g < 10:
+		return '00%s' % [g]
+	if g > 9 and g < 100:
+		return '0%s' % [g]
+	if g > 99 and g < 1000:
+		return str(g)
+	if ty == 1 and g > 999:
+		return str(g)
 func bfatCalc():
 	if bfat > 99:
 		return "99"
@@ -159,25 +178,47 @@ func readInfo():
 		writeInfo()
 
 func writeTrack():
-	trackArray[yearDay-1] = str(weightArray[yearDay -1])
+	trackArray[yearDay-1] =           str(weightArray[yearDay-1])
+	trackArray[yearDay-1+CARB_OFFSET] = str(carbArray[yearDay-1])
+	trackArray[yearDay-1+PROT_OFFSET] = str(protArray[yearDay-1])
+	trackArray[yearDay-1+FATS_OFFSET] = str(fatsArray[yearDay-1])
+	trackArray[yearDay-1+KCAL_OFFSET] = str(kcalArray[yearDay-1])
+	
 	FileAccess.open(trackPath,FileAccess.WRITE).store_csv_line(trackArray,ARRAY_DELIMIT)
 func readTrack():
 	trackArray.resize(TRACK_SIZE)
 	weightArray.resize(YEAR_SIZE)
+	carbArray.resize(YEAR_SIZE)
+	protArray.resize(YEAR_SIZE)
+	fatsArray.resize(YEAR_SIZE)
+	kcalArray.resize(YEAR_SIZE)
 	
 	if FileAccess.file_exists(trackPath):
 		trackArray = FileAccess.open(trackPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
 		for i in YEAR_SIZE:
 			weightArray[i] = float(trackArray[i])
+			carbArray[i] = float(trackArray[i+CARB_OFFSET])
+			protArray[i] = float(trackArray[i+PROT_OFFSET])
+			fatsArray[i] = float(trackArray[i+FATS_OFFSET])
+			kcalArray[i] = float(trackArray[i+KCAL_OFFSET])
 		
 	if !FileAccess.file_exists(trackPath):
 		trackArray.fill("0")
 		weightArray.fill(0.0)
+		carbArray.fill(0.0)
+		protArray.fill(0.0)
+		fatsArray.fill(0.0)
+		kcalArray.fill(0.0)
 		writeTrack()
 
 func userMacroLabel():
 	var nameLine = '%s%s'% [USER_PREFIX,username]
-	user_macro_label.text = '%s' % [nameLine]
+	var kcalLine = '%s: %s' % ['%% kcal',macroCalc(kcalArray[yearDay-1],1)]
+	var carbLine = '%s: %sg' % ['&& carb',macroCalc(carbArray[yearDay-1],0)]
+	var protLine = '%s: %sg' % ['?? prot',macroCalc(protArray[yearDay-1],0)]
+	var fatsLine = '%s: %sg' % ['## fats',macroCalc(fatsArray[yearDay-1],0)]
+	
+	user_macro_label.text = '%s\n%s\n%s\n%s\n%s' % [nameLine,kcalLine,carbLine,protLine,fatsLine]
 func dateWeightLabel():
 	var dateLine = '%s/52' % [dateCalc(0)]
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
@@ -187,12 +228,12 @@ func dateWeightLabel():
 	date_weight_label.text = '%s\n%s\n%s\n%s' % [dateLine,dayLine,heightLine,bfLine]
 	
 	year_line_label.text = yearLine
-	
+
 func _ready():
 	readInfo()
 	readTrack()
-	userMacroLabel()
 	dateWeightLabel()
+	userMacroLabel()
 func _process(_delta):
 	unix_time_label.text = str(int(Time.get_unix_time_from_system()))
 
@@ -221,3 +262,28 @@ func terminal_updateWeight(nW):
 		weightArray[yearDay-1] = 999.99
 	writeTrack()
 	dateWeightLabel()
+func terminal_updateMacro(ty, amt):
+	if ty == 'c':
+		carbArray[yearDay-1] += amt
+		if carbArray[yearDay-1] < 0:
+			carbArray[yearDay-1] = 0
+		if carbArray[yearDay-1] > 999:
+			carbArray[yearDay-1] = 999
+	if ty == 'p':
+		protArray[yearDay-1] += amt
+		if protArray[yearDay-1] < 0:
+			protArray[yearDay-1] = 0
+		if protArray[yearDay-1] > 999:
+			protArray[yearDay-1] = 999
+	if ty == 'f':
+		fatsArray[yearDay-1] += amt
+		if fatsArray[yearDay-1] < 0:
+			fatsArray[yearDay-1] = 0
+		if fatsArray[yearDay-1] > 999:
+			fatsArray[yearDay-1] = 999
+		
+	kcalArray[yearDay-1] = 4 * (carbArray[yearDay-1] + protArray[yearDay-1])
+	kcalArray[yearDay-1] += 9 * fatsArray[yearDay-1]
+	kcalArray[yearDay-1] = round(kcalArray[yearDay-1] * 1.3)
+	writeTrack()
+	userMacroLabel()
