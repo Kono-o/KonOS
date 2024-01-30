@@ -36,9 +36,6 @@ func keywordEngine(command):
 	if funcFinder(keywordArray[0],nameFunctions) and keywordArray[1] != "":
 		update_user.emit(keywordArray[1])
 	
-	#if funcFinder(keywordArray[0],heightFunctions) and (int(keywordArray[1]) != 0 or int(keywordArray[2]) != 0):
-		#update_height.emit(float(keywordArray[1]), float(keywordArray[2]))
-	
 	if funcFinder(keywordArray[0],heightFunctions):
 		update_height.emit(float(keywordArray[1]))
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=19 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Script" path="res://scripts/top-box.gd" id="1_sbdop"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://dnhnlb87v31pk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Medium.ttf" id="3_in8po"]
 [ext_resource type="Script" path="res://scripts/terminal.gd" id="6_am2oj"]
 [ext_resource type="FontFile" uid="uid://c6p7jroejeulk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMonoNL-Bold.ttf" id="6_v7caa"]
+[ext_resource type="Script" path="res://scripts/timer.gd" id="8_ahkof"]
 
 [sub_resource type="Environment" id="Environment_exbnb"]
 background_mode = 3
@@ -161,6 +162,7 @@ caret_blink_interval = 0.45
 script = ExtResource("6_am2oj")
 
 [node name="timer" type="Node2D" parent="UI"]
+script = ExtResource("8_ahkof")
 
 [node name="timer-node" type="Timer" parent="UI/timer"]
 wait_time = 4.0
@@ -174,8 +176,11 @@ offset_bottom = 1440.0
 text = "<00:00:00>"
 label_settings = SubResource("LabelSettings_t5u68")
 
+[connection signal="start_timer" from="UI/terminal-line" to="UI/timer" method="terminal_startTimer"]
 [connection signal="update_bf" from="UI/terminal-line" to="UI/top-box" method="terminal_updateBF"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]
 [connection signal="update_macro" from="UI/terminal-line" to="UI/top-box" method="terminal_updateMacro"]
+[connection signal="update_timer" from="UI/terminal-line" to="UI/timer" method="terminal_updateTimer"]
 [connection signal="update_user" from="UI/terminal-line" to="UI/top-box" method="terminal_updateUser"]
 [connection signal="update_weight" from="UI/terminal-line" to="UI/top-box" method="terminal_updateWeight"]
+[connection signal="timeout" from="UI/timer/timer-node" to="UI/timer" method="timer_Timeout"]

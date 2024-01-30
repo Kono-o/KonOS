@@ -30,28 +30,64 @@ var weekLine = "-------"
 var username = "default"
 var height = 0
 var bfat = 0
+var bmr = 0
 var infoArray = [username,str(height),str(bfat)]
 
 var weightArray = []
-var carbArray = []
-var protArray = []
-var fatsArray = []
-var kcalArray = []
-var trackArray = []
+var carbArray =   []
+var protArray =   []
+var fatsArray =   []
+var kcalArray =   []
+var trackArray =  []
 
 var yearDay = 0
 
+func bmrCalc():
+	var c1 = 0
+	var c2 = 0
+	var avgW = 0
+	var avgK = 0
+	var main = 0
+	if(yearDay > 14):
+		for i in 14:
+			if weightArray[yearDay-1 - i] != 0 and weightArray[yearDay-2 - i] != 0:
+				avgW += (weightArray[yearDay-2 - i]) - (weightArray[yearDay-1 - i])
+				c1 += 1
+			if kcalArray[yearDay-1 - i] != 0:
+				avgK += kcalArray[yearDay-1 - i]
+				c2 += 1
+		if c1 != 0:
+			avgW = (round((avgW/c1) * 100)/100.0) * 2.2
+		if c2 != 0:
+			avgK = round(avgK/c2)
+	main = avgK + (avgW * 500)
+	
+	return macroCalc(main,1)
 func macroCalc(g,ty):
-	if g <= 0:
-		return "000"
-	if g > 0 and g < 10:
-		return '00%s' % [g]
-	if g > 9 and g < 100:
-		return '0%s' % [g]
-	if g > 99 and g < 1000:
-		return str(g)
-	if ty == 1 and g > 999:
-		return str(g)
+	if ty == 1:
+		if g > 9999:
+			return "9999"
+		if g > 999:
+			return str(g)
+		if g == 0:
+			return "0000"
+		if g > 0 and g < 10:
+			return '000%s' % [g]
+		if g > 9 and g < 100:
+			return '00%s' % [g]
+		if g > 99 and g < 1000:
+			return '0%s' % [g]
+		if g > 999 and g < 10000:
+			return str(g)
+	if ty == 0:
+		if g <= 0:
+			return "000"
+		if g > 0 and g < 10:
+			return '00%s' % [g]
+		if g > 9 and g < 100:
+			return '0%s' % [g]
+		if g > 99 and g < 1000:
+			return str(g)
 func bfatCalc():
 	if bfat > 99:
 		return "99"
@@ -156,7 +192,7 @@ func dateCalc(ty):
 	else:
 		weekLine[int(yearDay%7)-1] = LINE_POINTER
 
-	var date = '%s-%s  %s%s' % [dateStr,month,'w', weekNum]
+	var date = '%s-%s  w%s' % [dateStr,month,weekNum]
 	var day = '%s-%s' % [WEEK_NAME_ARRAY[yearDay%7],WORK_OUT_ARRAY[yearDay%7]]
 	
 	if ty == 0:
@@ -213,10 +249,10 @@ func readTrack():
 
 func userMacroLabel():
 	var nameLine = '%s%s'% [USER_PREFIX,username]
-	var kcalLine = '%s: %s' % ['%% kcal',macroCalc(kcalArray[yearDay-1],1)]
-	var carbLine = '%s: %sg' % ['&& carb',macroCalc(carbArray[yearDay-1],0)]
-	var protLine = '%s: %sg' % ['?? prot',macroCalc(protArray[yearDay-1],0)]
-	var fatsLine = '%s: %sg' % ['## fats',macroCalc(fatsArray[yearDay-1],0)]
+	var kcalLine = '%s-%s' % ['%% kcal',macroCalc(kcalArray[yearDay-1],1)]
+	var carbLine = '%s-%sg' % ['&& carb',macroCalc(carbArray[yearDay-1],0)]
+	var protLine = '%s-%sg' % ['?? prot',macroCalc(protArray[yearDay-1],0)]
+	var fatsLine = '%s-%sg' % ['## fats',macroCalc(fatsArray[yearDay-1],0)]
 	
 	user_macro_label.text = '%s\n%s\n%s\n%s\n%s' % [nameLine,kcalLine,carbLine,protLine,fatsLine]
 func dateWeightLabel():
@@ -224,9 +260,9 @@ func dateWeightLabel():
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
 	var heightLine = '%sB%sA %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
 	var bfLine = '%s%s-bf  %slm' % [bfatCalc(),'%',weightCalc(weightArray[yearDay-1]*(1 - (float(bfatCalc()) * 0.01)))]
-	
-	date_weight_label.text = '%s\n%s\n%s\n%s' % [dateLine,dayLine,heightLine,bfLine]
-	
+	var bmrLine = '%smr' % [bmrCalc()]
+	date_weight_label.text = '%s\n%s\n%s\n%s\n%s' % [dateLine,dayLine,heightLine,bfLine,bmrLine]
+	bmrCalc()
 	year_line_label.text = yearLine
 
 func _ready():
@@ -285,5 +321,7 @@ func terminal_updateMacro(ty, amt):
 	kcalArray[yearDay-1] = 4 * (carbArray[yearDay-1] + protArray[yearDay-1])
 	kcalArray[yearDay-1] += 9 * fatsArray[yearDay-1]
 	kcalArray[yearDay-1] = round(kcalArray[yearDay-1] * 1.3)
+	if kcalArray[yearDay-1] > 9999:
+		kcalArray[yearDay-1] = 9999
 	writeTrack()
 	userMacroLabel()
