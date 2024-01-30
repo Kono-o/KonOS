@@ -176,6 +176,16 @@ offset_bottom = 1440.0
 text = "<00:00:00>"
 label_settings = SubResource("LabelSettings_t5u68")
 
+[node name="timer-line-label" type="Label" parent="UI/timer"]
+offset_left = 45.0
+offset_top = 1440.0
+offset_right = 1045.0
+offset_bottom = 1483.0
+text = "----------------------------------------------------"
+label_settings = SubResource("LabelSettings_ow3gi")
+
+[connection signal="pause_timer" from="UI/terminal-line" to="UI/timer" method="terminal_pauseTimer"]
+[connection signal="reset_everything" from="UI/terminal-line" to="UI/top-box" method="DEV_terminal_resetEverything"]
 [connection signal="start_timer" from="UI/terminal-line" to="UI/timer" method="terminal_startTimer"]
 [connection signal="update_bf" from="UI/terminal-line" to="UI/top-box" method="terminal_updateBF"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]

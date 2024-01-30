@@ -320,8 +320,23 @@ func terminal_updateMacro(ty, amt):
 		
 	kcalArray[yearDay-1] = 4 * (carbArray[yearDay-1] + protArray[yearDay-1])
 	kcalArray[yearDay-1] += 9 * fatsArray[yearDay-1]
-	kcalArray[yearDay-1] = round(kcalArray[yearDay-1] * 1.3)
+	kcalArray[yearDay-1] = round(kcalArray[yearDay-1]) # * 1.3
 	if kcalArray[yearDay-1] > 9999:
 		kcalArray[yearDay-1] = 9999
 	writeTrack()
+	userMacroLabel()
+
+
+func DEV_terminal_resetEverything():
+	username = "default"
+	height = 0
+	bfat = 0
+	writeInfo()
+	weightArray.fill(0)
+	carbArray.fill(0)
+	protArray.fill(0)
+	fatsArray.fill(0)
+	kcalArray.fill(0)
+	writeTrack()
+	dateWeightLabel()
 	userMacroLabel()
