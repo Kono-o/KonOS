@@ -172,11 +172,18 @@ script = ExtResource("8_l1ujx")
 [node name="chart-label-1" type="RichTextLabel" parent="UI/chart-box"]
 offset_left = 59.0
 offset_top = 677.0
-offset_right = 1685.0
+offset_right = 1040.0
 offset_bottom = 1251.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
+text = "..........................
+..........................
+..........................
+..........................
+..........................
+..........................
+.........................."
 fit_content = true
 autowrap_mode = 2
 
