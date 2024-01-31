@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b2r7uaof01r3n"
-path="res://.godot/imported/JetBrainsMono-ExtraBold.ttf-2a21f28c814f1df1719b31095136e0df.fontdata"
+uid="uid://67ca1gbyglav"
+path="res://.godot/imported/JBM-NL-icons.ttf-c3f5a60ee34026b62e0664dee15c6e88.fontdata"
 
 [deps]
 
-source_file="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-ExtraBold.ttf"
-dest_files=["res://.godot/imported/JetBrainsMono-ExtraBold.ttf-2a21f28c814f1df1719b31095136e0df.fontdata"]
+source_file="res://fonts/JBM-NL-icons.ttf"
+dest_files=["res://.godot/imported/JBM-NL-icons.ttf-c3f5a60ee34026b62e0664dee15c6e88.fontdata"]
 
 [params]
 

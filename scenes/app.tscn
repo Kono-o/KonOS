@@ -3,11 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Script" path="res://scripts/top-box.gd" id="1_sbdop"]
 [ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://sprites/ui/mock.png" id="2_xg4tp"]
-[ext_resource type="FontFile" uid="uid://cjb8kp3e8bh3n" path="res://fonts/custom/JetBrainsMonoNL-Medium-w-icons.ttf" id="3_gdh7o"]
-[ext_resource type="FontFile" uid="uid://dnhnlb87v31pk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMono-Medium.ttf" id="3_in8po"]
+[ext_resource type="FontFile" uid="uid://bt4nbeed64p2n" path="res://fonts/JBM-NL-medium.ttf" id="5_0tuqe"]
 [ext_resource type="Script" path="res://scripts/terminal.gd" id="6_am2oj"]
-[ext_resource type="FontFile" uid="uid://c6p7jroejeulk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMonoNL-Bold.ttf" id="6_v7caa"]
 [ext_resource type="Script" path="res://scripts/timer.gd" id="8_ahkof"]
+[ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://fonts/JBM-NL-squares.ttf" id="8_e4o87"]
 [ext_resource type="Script" path="res://scripts/chart-box.gd" id="8_l1ujx"]
 
 [sub_resource type="Environment" id="Environment_exbnb"]
@@ -27,18 +26,18 @@ glow_map_strength = 0.81
 adjustment_brightness = 1.34
 
 [sub_resource type="LabelSettings" id="LabelSettings_1v07t"]
-font = ExtResource("3_gdh7o")
+font = ExtResource("5_0tuqe")
 font_size = 28
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 line_spacing = 1.0
-font = ExtResource("3_gdh7o")
+font = ExtResource("5_0tuqe")
 font_size = 41
 font_color = Color(1.2, 1.2, 1.2, 1)
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_ow3gi"]
-font = ExtResource("6_v7caa")
+font = ExtResource("5_0tuqe")
 font_size = 32
 outline_size = 2
 
@@ -67,11 +66,15 @@ default_font_size = 67
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcs1y"]
 
 [sub_resource type="Theme" id="Theme_nilos"]
-default_font = ExtResource("3_gdh7o")
+default_font = ExtResource("8_e4o87")
 default_font_size = 62
 
+[sub_resource type="LabelSettings" id="LabelSettings_52ng0"]
+font = ExtResource("5_0tuqe")
+font_size = 35
+
 [sub_resource type="LabelSettings" id="LabelSettings_t5u68"]
-font = ExtResource("3_gdh7o")
+font = ExtResource("5_0tuqe")
 font_size = 70
 
 [node name="App" type="Node2D"]
@@ -154,7 +157,7 @@ theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
 theme_override_colors/font_placeholder_color = Color(0.133333, 0.133333, 0.133333, 1)
-theme_override_fonts/font = ExtResource("3_in8po")
+theme_override_fonts/font = ExtResource("5_0tuqe")
 theme_override_font_sizes/font_size = 46
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_k0dsg")
@@ -187,6 +190,56 @@ text = "..........................
 fit_content = true
 autowrap_mode = 2
 
+[node name="months headers" type="Node2D" parent="UI/chart-box"]
+
+[node name="jan" type="Label" parent="UI/chart-box/months headers"]
+offset_left = 61.0
+offset_top = 670.0
+offset_right = 145.0
+offset_bottom = 720.0
+text = "jan "
+label_settings = SubResource("LabelSettings_52ng0")
+
+[node name="feb" type="Label" parent="UI/chart-box/months headers"]
+offset_left = 214.0
+offset_top = 670.0
+offset_right = 298.0
+offset_bottom = 720.0
+text = "feb"
+label_settings = SubResource("LabelSettings_52ng0")
+
+[node name="mar" type="Label" parent="UI/chart-box/months headers"]
+offset_left = 362.0
+offset_top = 670.0
+offset_right = 446.0
+offset_bottom = 720.0
+text = "mar"
+label_settings = SubResource("LabelSettings_52ng0")
+
+[node name="apr" type="Label" parent="UI/chart-box/months headers"]
+offset_left = 546.0
+offset_top = 670.0
+offset_right = 630.0
+offset_bottom = 720.0
+text = "apr"
+label_settings = SubResource("LabelSettings_52ng0")
+
+[node name="may" type="Label" parent="UI/chart-box/months headers"]
+offset_left = 696.0
+offset_top = 670.0
+offset_right = 780.0
+offset_bottom = 720.0
+text = "may"
+label_settings = SubResource("LabelSettings_52ng0")
+
+[node name="jun" type="Label" parent="UI/chart-box/months headers"]
+offset_left = 844.0
+offset_top = 670.0
+offset_right = 928.0
+offset_bottom = 720.0
+text = "jun"
+label_settings = SubResource("LabelSettings_52ng0")
+
 [node name="timer" type="Node2D" parent="UI"]
 script = ExtResource("8_ahkof")
 
@@ -210,10 +263,12 @@ offset_bottom = 1483.0
 text = "----------------------------------------------------"
 label_settings = SubResource("LabelSettings_ow3gi")
 
+[connection signal="send_array" from="UI/top-box" to="UI/chart-box" method="getArray"]
 [connection signal="dev_reset_everything" from="UI/terminal-line" to="UI/top-box" method="DEV_terminal_resetEverything"]
 [connection signal="pause_timer" from="UI/terminal-line" to="UI/timer" method="terminal_pauseTimer"]
 [connection signal="start_timer" from="UI/terminal-line" to="UI/timer" method="terminal_startTimer"]
 [connection signal="update_bf" from="UI/terminal-line" to="UI/top-box" method="terminal_updateBF"]
+[connection signal="update_chart" from="UI/terminal-line" to="UI/top-box" method="terminal_updateChart"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]
 [connection signal="update_macro" from="UI/terminal-line" to="UI/top-box" method="terminal_updateMacro"]
 [connection signal="update_timer" from="UI/terminal-line" to="UI/timer" method="terminal_updateTimer"]

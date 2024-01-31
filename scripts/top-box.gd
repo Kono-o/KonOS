@@ -42,6 +42,8 @@ var trackArray =  []
 
 var yearDay = 0
 
+signal send_array(arr)
+
 func bmrCalc():
 	var c1 = 0
 	var c2 = 0
@@ -258,7 +260,7 @@ func userMacroLabel():
 func dateWeightLabel():
 	var dateLine = '%s/52' % [dateCalc(0)]
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
-	var heightLine = '%sB%sA %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
+	var heightLine = '%sʹ%sʺ %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
 	var bfLine = '%s%s-bf  %slm' % [bfatCalc(),'%',weightCalc(weightArray[yearDay-1]*(1 - (float(bfatCalc()) * 0.01)))]
 	var bmrLine = '%smr' % [bmrCalc()]
 	date_weight_label.text = '%s\n%s\n%s\n%s\n%s' % [dateLine,dayLine,heightLine,bfLine,bmrLine]
@@ -298,6 +300,7 @@ func terminal_updateWeight(nW):
 		weightArray[yearDay-1] = 999.99
 	writeTrack()
 	dateWeightLabel()
+	terminal_updateChart("w")
 func terminal_updateMacro(ty, amt):
 	if ty == 'c':
 		carbArray[yearDay-1] += amt
@@ -339,3 +342,7 @@ func DEV_terminal_resetEverything():
 	writeTrack()
 	dateWeightLabel()
 	userMacroLabel()
+
+func terminal_updateChart(slot):
+	if slot == "w":
+		send_array.emit(weightArray)

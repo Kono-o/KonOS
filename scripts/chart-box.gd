@@ -3,14 +3,10 @@ extends Node2D
 @onready var chart_label_1 = get_node("/root/App/UI/chart-box/chart-label-1")
 
 #const COLOR_ARRAY = ["#fcba03","#0373fc"]
-const COLOR_ARRAY = ["#ffffff","#000000"]
+const COLOR_ARRAY = ["#000000","#ffffff"]
 
 var color_array = []
 
-func strToCol():
-	color_array.resize(COLOR_ARRAY.size())
-	for i in COLOR_ARRAY.size():
-		color_array[i] = Color(COLOR_ARRAY[i]).to_html()
 func col(l):
 	var col1 = Color(COLOR_ARRAY[0])
 	var col2 = Color(COLOR_ARRAY[1])
@@ -45,11 +41,20 @@ func _ready():
 func _process(delta):
 	var rng = RandomNumberGenerator.new()
 	rng.seed = int(Time.get_unix_time_from_system())
-	strToCol()
 	
 	var arry = []
 	arry.resize(182)
 	for i in 182:
 		arry[i] = rng.randf_range(0, 181)
+		if arry[i] < (0.75 * 181):
+			arry[i] = arry[i] * 0.5
 	
 	chart_label_1.text = textSet(arry)
+
+
+func getArray(arr):
+	var array = []
+	array.resize(182)
+	for i in 182:
+		array[i] = arr[i]
+	return array

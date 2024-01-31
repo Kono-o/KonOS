@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://w3ocxgmk1bir"
-path="res://.godot/imported/JetBrainsMono-MediumItalic.woff2-24e8341721267b5ba832cc6a61e7c034.fontdata"
+uid="uid://dw5qkq20msipt"
+path="res://.godot/imported/JBM-NL-squares.ttf-efef5f6dc71b8d64e1461040f5a5ac93.fontdata"
 
 [deps]
 
-source_file="res://fonts/jetbrains mono/fonts/webfonts/JetBrainsMono-MediumItalic.woff2"
-dest_files=["res://.godot/imported/JetBrainsMono-MediumItalic.woff2-24e8341721267b5ba832cc6a61e7c034.fontdata"]
+source_file="res://fonts/JBM-NL-squares.ttf"
+dest_files=["res://.godot/imported/JBM-NL-squares.ttf-efef5f6dc71b8d64e1461040f5a5ac93.fontdata"]
 
 [params]
 

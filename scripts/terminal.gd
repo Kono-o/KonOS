@@ -16,6 +16,9 @@ var timerFunctions = ["timer","time","t"]
 var startFunctions = ["start","s","go","g"]
 var pauseFunctions = ["pause","p"]
 
+var chartFunctions = ["display","disp","d","show"]
+var chartSlots = ["weight", "w"]
+
 var devFunctions = ["dev","debug","deb"]
 var devResetFunctions = ["reset","res","wipe"]
 
@@ -28,6 +31,7 @@ signal dev_reset_everything()
 signal update_timer(t:int)
 signal start_timer()
 signal pause_timer()
+signal update_chart(slot:String)
 
 func funcFinder(word,arr):
 	for i in arr.size():
@@ -66,6 +70,9 @@ func keywordEngine(command):
 	
 	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],devResetFunctions):
 		dev_reset_everything.emit()
+	
+	if funcFinder(keywordArray[0],chartFunctions) and funcFinder(keywordArray[1],chartSlots):
+		update_chart.emit("w")
 	
 func _process(_delta):
 	if Input.is_action_just_released("enter"):
