@@ -27,7 +27,7 @@ const TRACK_SIZE =  YEAR_SIZE*5
 var yearLine = "----------------------------------------------------"
 var weekLine = "-------"
 
-var username = "default"
+var username = "name"
 var height = 0
 var bfat = 0
 var bmr = 0
@@ -43,7 +43,7 @@ var trackArray =  []
 
 var yearDay = 0
 
-signal send_array(arr,cP)
+signal send_array(arr,cP,yD)
 
 func bmrCalc():
 	var c1 = 0
@@ -334,21 +334,20 @@ func terminal_updateMacro(ty, amt):
 	terminal_updateChart(currentChart)
 func terminal_updateChart(cC):
 	if cC == "w":
-		send_array.emit(weightArray,0)
+		send_array.emit(weightArray,0,yearDay-1)
 	if cC == "k":
-		send_array.emit(kcalArray,1)
+		send_array.emit(kcalArray,1,yearDay-1)
 	if cC == "c":
-		send_array.emit(carbArray,2)
+		send_array.emit(carbArray,2,yearDay-1)
 	if cC == "p":
-		send_array.emit(protArray,3)
+		send_array.emit(protArray,3,yearDay-1)
 	if cC == "f":
-		send_array.emit(fatsArray,4)
-	
+		send_array.emit(fatsArray,4,yearDay-1)
 	currentChart = cC
 	writeInfo()
 
 func DEV_terminal_resetEverything():
-	username = "default"
+	username = "name"
 	height = 0
 	bfat = 0
 	currentChart = "w"
