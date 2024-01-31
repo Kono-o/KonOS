@@ -4,7 +4,8 @@ extends Node2D
 @onready var timer_label = get_node("/root/App/UI/timer/timer-label")
 @onready var timer_line_label = get_node("/root/App/UI/timer/timer-line-label")
 
-var timerLine = "----------------------------------------------------"
+const TIMER_LINE = "----------------------------------------------------"
+var timerLine = TIMER_LINE
 var globalTime = 0
 var started = false
 var pauseToggle = false
@@ -67,9 +68,15 @@ func terminal_startTimer():
 func terminal_pauseTimer():
 	pauseToggle = !pauseToggle
 	timer_node.set_paused(pauseToggle)
-
+func terminal_resetTimer():
+	timer_Timeout()
+	timer_node.set_wait_time(updateLabel(0))
+	globalTime = updateLabel(0)
+	
 func timer_Timeout():
 	started = false
 	globalTime = 0
-	timerLine = "----------------------------------------------------"
+	timerLine = TIMER_LINE
 	timer_line_label.text = timerLine
+
+

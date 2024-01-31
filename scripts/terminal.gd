@@ -15,23 +15,27 @@ var fatFunctions = ["fat","fats","f"]
 
 var timerFunctions = ["timer","time","t"]
 var startFunctions = ["start","s","go","g"]
+var resetFunctions = ["reset","res","wipe","r"]
 var pauseFunctions = ["pause","p"]
 
 var chartFunctions = ["display","disp","d","show"]
 
 var devFunctions = ["dev","debug","deb"]
-var devResetFunctions = ["reset","res","wipe"]
 
 signal update_user(nN:String)
 signal update_macro(ty:String,amt:int)
 signal update_weight(nW:float)
 signal update_height(nH:float)
 signal update_bf(nBF:float)
-signal dev_reset_everything()
+
+signal update_chart(slot:String)
+
 signal update_timer(t:int)
 signal start_timer()
 signal pause_timer()
-signal update_chart(slot:String)
+signal reset_timer()
+
+signal dev_reset_everything()
 
 func funcFinder(word,arr):
 	for i in arr.size():
@@ -67,9 +71,8 @@ func keywordEngine(command):
 		start_timer.emit()
 	if funcFinder(keywordArray[0],timerFunctions) and funcFinder(keywordArray[1],pauseFunctions):
 		pause_timer.emit()
-	
-	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],devResetFunctions):
-		dev_reset_everything.emit()
+	if funcFinder(keywordArray[0],timerFunctions) and funcFinder(keywordArray[1],resetFunctions):
+		reset_timer.emit()
 	
 	if funcFinder(keywordArray[0],chartFunctions):
 		if funcFinder(keywordArray[1],weightFunctions):
@@ -83,6 +86,13 @@ func keywordEngine(command):
 		if funcFinder(keywordArray[1],fatFunctions):
 			update_chart.emit("f")
 	
+	
+	
+	
+	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],resetFunctions):
+		dev_reset_everything.emit()
+		reset_timer.emit()
+		
 func _process(_delta):
 	if Input.is_action_just_released("enter"):
 		keywordEngine(terminal_line.text)
