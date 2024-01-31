@@ -326,7 +326,6 @@ func terminal_updateMacro(ty, amt):
 	writeTrack()
 	userMacroLabel()
 
-
 func DEV_terminal_resetEverything():
 	username = "default"
 	height = 0

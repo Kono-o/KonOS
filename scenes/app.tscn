@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=21 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Script" path="res://scripts/top-box.gd" id="1_sbdop"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/terminal.gd" id="6_am2oj"]
 [ext_resource type="FontFile" uid="uid://c6p7jroejeulk" path="res://fonts/jetbrains mono/fonts/ttf/JetBrainsMonoNL-Bold.ttf" id="6_v7caa"]
 [ext_resource type="Script" path="res://scripts/timer.gd" id="8_ahkof"]
+[ext_resource type="Script" path="res://scripts/chart-box.gd" id="8_l1ujx"]
 
 [sub_resource type="Environment" id="Environment_exbnb"]
 background_mode = 3
@@ -64,6 +65,10 @@ default_font_size = 67
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k0dsg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcs1y"]
+
+[sub_resource type="Theme" id="Theme_nilos"]
+default_font = ExtResource("3_gdh7o")
+default_font_size = 62
 
 [sub_resource type="LabelSettings" id="LabelSettings_t5u68"]
 font = ExtResource("3_gdh7o")
@@ -161,6 +166,20 @@ flat = true
 caret_blink_interval = 0.45
 script = ExtResource("6_am2oj")
 
+[node name="chart-box" type="Node2D" parent="UI"]
+script = ExtResource("8_l1ujx")
+
+[node name="chart-label-1" type="RichTextLabel" parent="UI/chart-box"]
+offset_left = 59.0
+offset_top = 677.0
+offset_right = 1685.0
+offset_bottom = 1251.0
+theme = SubResource("Theme_nilos")
+theme_override_constants/line_separation = -46
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 2
+
 [node name="timer" type="Node2D" parent="UI"]
 script = ExtResource("8_ahkof")
 
@@ -184,8 +203,8 @@ offset_bottom = 1483.0
 text = "----------------------------------------------------"
 label_settings = SubResource("LabelSettings_ow3gi")
 
+[connection signal="dev_reset_everything" from="UI/terminal-line" to="UI/top-box" method="DEV_terminal_resetEverything"]
 [connection signal="pause_timer" from="UI/terminal-line" to="UI/timer" method="terminal_pauseTimer"]
-[connection signal="reset_everything" from="UI/terminal-line" to="UI/top-box" method="DEV_terminal_resetEverything"]
 [connection signal="start_timer" from="UI/terminal-line" to="UI/timer" method="terminal_startTimer"]
 [connection signal="update_bf" from="UI/terminal-line" to="UI/top-box" method="terminal_updateBF"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]

@@ -17,25 +17,25 @@ var startFunctions = ["start","s","go","g"]
 var pauseFunctions = ["pause","p"]
 
 var devFunctions = ["dev","debug","deb"]
-var devResetFunctions = ["reset","res"]
+var devResetFunctions = ["reset","res","wipe"]
 
 signal update_user(nN:String)
 signal update_macro(ty:String,amt:int)
 signal update_weight(nW:float)
 signal update_height(nH:float)
 signal update_bf(nBF:float)
-signal reset_everything()
+signal dev_reset_everything()
 signal update_timer(t:int)
 signal start_timer()
 signal pause_timer()
 
 func funcFinder(word,arr):
 	for i in arr.size():
-		if word == arr[i]:
+		if word.to_lower() == arr[i]:
 			return true
 	
 func keywordEngine(command):
-	var keywordArray = command.split(' ',false, 16)
+	var keywordArray = command.split(' ',false, 32)
 	keywordArray.resize(32)
 
 	if funcFinder(keywordArray[0],nameFunctions) and keywordArray[1] != "":
@@ -65,7 +65,7 @@ func keywordEngine(command):
 		pause_timer.emit()
 	
 	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],devResetFunctions):
-		reset_everything.emit()
+		dev_reset_everything.emit()
 	
 func _process(_delta):
 	if Input.is_action_just_released("enter"):
