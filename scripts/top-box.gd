@@ -31,7 +31,8 @@ var username = "default"
 var height = 0
 var bfat = 0
 var bmr = 0
-var infoArray = [username,str(height),str(bfat)]
+var currentChart = "w"
+var infoArray = [username,str(height),str(bfat),currentChart]
 
 var weightArray = []
 var carbArray =   []
@@ -42,7 +43,7 @@ var trackArray =  []
 
 var yearDay = 0
 
-signal send_array(arr)
+signal send_array(arr,cP)
 
 func bmrCalc():
 	var c1 = 0
@@ -203,7 +204,7 @@ func dateCalc(ty):
 		return day
 
 func writeInfo():
-	infoArray = [username,str(height),str(bfat)]
+	infoArray = [username,str(height),str(bfat),currentChart]
 	FileAccess.open(infoPath,FileAccess.WRITE).store_csv_line(infoArray,ARRAY_DELIMIT)
 func readInfo():
 	if FileAccess.file_exists(infoPath):
@@ -211,6 +212,7 @@ func readInfo():
 		username = infoArray[0]
 		height = float(infoArray[1])
 		bfat = float(infoArray[2])
+		currentChart = infoArray[3]
 		
 	if !FileAccess.file_exists(infoPath):
 		writeInfo()
@@ -272,6 +274,7 @@ func _ready():
 	readTrack()
 	dateWeightLabel()
 	userMacroLabel()
+	terminal_updateChart(currentChart)
 func _process(_delta):
 	unix_time_label.text = str(int(Time.get_unix_time_from_system()))
 
@@ -328,11 +331,27 @@ func terminal_updateMacro(ty, amt):
 		kcalArray[yearDay-1] = 9999
 	writeTrack()
 	userMacroLabel()
+	terminal_updateChart(currentChart)
+func terminal_updateChart(cC):
+	if cC == "w":
+		send_array.emit(weightArray,0)
+	if cC == "k":
+		send_array.emit(kcalArray,1)
+	if cC == "c":
+		send_array.emit(carbArray,2)
+	if cC == "p":
+		send_array.emit(protArray,3)
+	if cC == "f":
+		send_array.emit(fatsArray,4)
+	
+	currentChart = cC
+	writeInfo()
 
 func DEV_terminal_resetEverything():
 	username = "default"
 	height = 0
 	bfat = 0
+	currentChart = "w"
 	writeInfo()
 	weightArray.fill(0)
 	carbArray.fill(0)
@@ -342,7 +361,4 @@ func DEV_terminal_resetEverything():
 	writeTrack()
 	dateWeightLabel()
 	userMacroLabel()
-
-func terminal_updateChart(slot):
-	if slot == "w":
-		send_array.emit(weightArray)
+	terminal_updateChart(currentChart)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=22 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Script" path="res://scripts/top-box.gd" id="1_sbdop"]
@@ -28,6 +28,18 @@ adjustment_brightness = 1.34
 [sub_resource type="LabelSettings" id="LabelSettings_1v07t"]
 font = ExtResource("5_0tuqe")
 font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_do4b6"]
+font = ExtResource("5_0tuqe")
+font_size = 57
+
+[sub_resource type="Theme" id="Theme_nilos"]
+default_font = ExtResource("8_e4o87")
+default_font_size = 62
+
+[sub_resource type="LabelSettings" id="LabelSettings_52ng0"]
+font = ExtResource("5_0tuqe")
+font_size = 35
 
 [sub_resource type="LabelSettings" id="LabelSettings_2sgqu"]
 line_spacing = 1.0
@@ -64,14 +76,6 @@ default_font_size = 67
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k0dsg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcs1y"]
-
-[sub_resource type="Theme" id="Theme_nilos"]
-default_font = ExtResource("8_e4o87")
-default_font_size = 62
-
-[sub_resource type="LabelSettings" id="LabelSettings_52ng0"]
-font = ExtResource("5_0tuqe")
-font_size = 35
 
 [sub_resource type="LabelSettings" id="LabelSettings_t5u68"]
 font = ExtResource("5_0tuqe")
@@ -117,66 +121,40 @@ text = "github.com/Kono-o/KonOS"
 label_settings = SubResource("LabelSettings_1v07t")
 horizontal_alignment = 2
 
-[node name="top-box" type="Node2D" parent="UI"]
-script = ExtResource("1_sbdop")
-
-[node name="user-macro-label" type="Label" parent="UI/top-box"]
-offset_left = 58.0
-offset_top = 114.0
-offset_right = 615.0
-offset_bottom = 337.0
-text = "OS-user@kono
-"
-label_settings = SubResource("LabelSettings_2sgqu")
-
-[node name="date-weight-label" type="Label" parent="UI/top-box"]
-offset_left = 623.0
-offset_top = 114.0
-offset_right = 1027.0
-offset_bottom = 449.0
-text = "23rd-jan  w03/52
-
-
-"
-label_settings = SubResource("LabelSettings_2sgqu")
-
-[node name="year-line-label" type="Label" parent="UI/top-box"]
-offset_left = 45.0
-offset_top = 414.0
-offset_right = 1045.0
-offset_bottom = 457.0
-text = "----------------------------------------------------"
-label_settings = SubResource("LabelSettings_ow3gi")
-
-[node name="terminal-line" type="LineEdit" parent="UI"]
-offset_left = 64.0
-offset_top = 473.0
-offset_right = 1048.0
-offset_bottom = 553.0
-theme = SubResource("Theme_14i6j")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
-theme_override_colors/font_placeholder_color = Color(0.133333, 0.133333, 0.133333, 1)
-theme_override_fonts/font = ExtResource("5_0tuqe")
-theme_override_font_sizes/font_size = 46
-theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_k0dsg")
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_lcs1y")
-placeholder_text = ">type shit here"
-max_length = 34
-context_menu_enabled = false
-flat = true
-caret_blink_interval = 0.45
-script = ExtResource("6_am2oj")
-
 [node name="chart-box" type="Node2D" parent="UI"]
 script = ExtResource("8_l1ujx")
+
+[node name="chart-param-label" type="Label" parent="UI/chart-box"]
+offset_left = 39.0
+offset_top = 574.0
+offset_right = 557.0
+offset_bottom = 849.0
+text = "weight"
+label_settings = SubResource("LabelSettings_do4b6")
 
 [node name="chart-label-1" type="RichTextLabel" parent="UI/chart-box"]
 offset_left = 59.0
 offset_top = 677.0
 offset_right = 1040.0
 offset_bottom = 1251.0
+theme = SubResource("Theme_nilos")
+theme_override_constants/line_separation = -46
+bbcode_enabled = true
+text = "..........................
+..........................
+..........................
+..........................
+..........................
+..........................
+.........................."
+fit_content = true
+autowrap_mode = 2
+
+[node name="chart-label-2" type="RichTextLabel" parent="UI/chart-box"]
+offset_left = 59.0
+offset_top = 1014.0
+offset_right = 1040.0
+offset_bottom = 1319.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
@@ -239,6 +217,58 @@ offset_right = 928.0
 offset_bottom = 720.0
 text = "jun"
 label_settings = SubResource("LabelSettings_52ng0")
+
+[node name="top-box" type="Node2D" parent="UI"]
+script = ExtResource("1_sbdop")
+
+[node name="user-macro-label" type="Label" parent="UI/top-box"]
+offset_left = 58.0
+offset_top = 114.0
+offset_right = 615.0
+offset_bottom = 337.0
+text = "OS-user@kono
+"
+label_settings = SubResource("LabelSettings_2sgqu")
+
+[node name="date-weight-label" type="Label" parent="UI/top-box"]
+offset_left = 623.0
+offset_top = 114.0
+offset_right = 1027.0
+offset_bottom = 449.0
+text = "23rd-jan  w03/52
+
+
+"
+label_settings = SubResource("LabelSettings_2sgqu")
+
+[node name="year-line-label" type="Label" parent="UI/top-box"]
+offset_left = 45.0
+offset_top = 414.0
+offset_right = 1045.0
+offset_bottom = 457.0
+text = "----------------------------------------------------"
+label_settings = SubResource("LabelSettings_ow3gi")
+
+[node name="terminal-line" type="LineEdit" parent="UI"]
+offset_left = 64.0
+offset_top = 473.0
+offset_right = 1048.0
+offset_bottom = 553.0
+theme = SubResource("Theme_14i6j")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_placeholder_color = Color(0.133333, 0.133333, 0.133333, 1)
+theme_override_fonts/font = ExtResource("5_0tuqe")
+theme_override_font_sizes/font_size = 46
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k0dsg")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_lcs1y")
+placeholder_text = ">type shit here"
+max_length = 34
+context_menu_enabled = false
+flat = true
+caret_blink_interval = 0.45
+script = ExtResource("6_am2oj")
 
 [node name="timer" type="Node2D" parent="UI"]
 script = ExtResource("8_ahkof")
