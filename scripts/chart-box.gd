@@ -7,7 +7,7 @@ extends Node2D
 
 const PARAM_NAMES = ["weight","calories","carbs","protien","fats"]
 
-const COLOR_ARRAY = ["#101010","#080808","#ffffff"]
+const COLOR_ARRAY = ["#090909","#808080","#ffffff"]
 #const COLOR_ARRAY = ["#101010","#3a32a8","#cfccff"]
 
 var chartArray1 = []
