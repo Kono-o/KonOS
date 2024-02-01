@@ -98,3 +98,10 @@ func _process(_delta):
 	if Input.is_action_just_released("enter"):
 		keywordEngine(terminal_line.text)
 		terminal_line.text = ""
+
+func timerButtonStart():
+	start_timer.emit()
+func timerButtonPause():
+	pause_timer.emit()
+func timerButtonReset():
+	reset_timer.emit()

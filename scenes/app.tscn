@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=30 format=3 uid="uid://dvhagijf6wqio"]
 
 [ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Script" path="res://scripts/top-box.gd" id="1_sbdop"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/timer.gd" id="8_ahkof"]
 [ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://fonts/JBM-NL-squares.ttf" id="8_e4o87"]
 [ext_resource type="Script" path="res://scripts/chart-box.gd" id="8_l1ujx"]
+[ext_resource type="Script" path="res://scripts/timer-buttons.gd" id="9_gtjnv"]
 
 [sub_resource type="Environment" id="Environment_exbnb"]
 background_mode = 3
@@ -83,6 +84,24 @@ default_font_size = 67
 [sub_resource type="LabelSettings" id="LabelSettings_t5u68"]
 font = ExtResource("5_0tuqe")
 font_size = 70
+
+[sub_resource type="LabelSettings" id="LabelSettings_7ynch"]
+font = ExtResource("5_0tuqe")
+font_size = 37
+
+[sub_resource type="LabelSettings" id="LabelSettings_btlv0"]
+font = ExtResource("5_0tuqe")
+font_size = 98
+
+[sub_resource type="LabelSettings" id="LabelSettings_l2uho"]
+font = ExtResource("5_0tuqe")
+font_size = 78
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rtojg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wlmga"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dsyfu"]
 
 [node name="App" type="Node2D"]
 
@@ -276,7 +295,7 @@ offset_bottom = 553.0
 theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
-theme_override_colors/font_placeholder_color = Color(0.133333, 0.133333, 0.133333, 1)
+theme_override_colors/font_placeholder_color = Color(0.0862745, 0.101961, 0.156863, 1)
 theme_override_fonts/font = ExtResource("5_0tuqe")
 theme_override_font_sizes/font_size = 46
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
@@ -304,6 +323,58 @@ offset_bottom = 1440.0
 text = "<00:00:00>"
 label_settings = SubResource("LabelSettings_t5u68")
 
+[node name="buttons" type="Node2D" parent="UI/timer"]
+script = ExtResource("9_gtjnv")
+
+[node name="pause-label" type="Label" parent="UI/timer/buttons"]
+offset_left = 810.0
+offset_top = 1371.0
+offset_right = 854.0
+offset_bottom = 1421.0
+text = "▍▍"
+label_settings = SubResource("LabelSettings_7ynch")
+
+[node name="reset-label" type="Label" parent="UI/timer/buttons"]
+offset_left = 841.0
+offset_top = 1368.0
+offset_right = 900.0
+offset_bottom = 1498.0
+rotation = -0.785398
+text = "+"
+label_settings = SubResource("LabelSettings_btlv0")
+
+[node name="start-label" type="Label" parent="UI/timer/buttons"]
+offset_left = 719.0
+offset_top = 1341.0
+offset_right = 769.0
+offset_bottom = 1451.0
+text = ">"
+label_settings = SubResource("LabelSettings_l2uho")
+
+[node name="start-button" type="Button" parent="UI/timer/buttons"]
+offset_left = 706.0
+offset_top = 1358.0
+offset_right = 776.0
+offset_bottom = 1432.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rtojg")
+flat = true
+
+[node name="pause-button" type="Button" parent="UI/timer/buttons"]
+offset_left = 788.0
+offset_top = 1358.0
+offset_right = 858.0
+offset_bottom = 1432.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wlmga")
+flat = true
+
+[node name="reset-button" type="Button" parent="UI/timer/buttons"]
+offset_left = 874.0
+offset_top = 1358.0
+offset_right = 944.0
+offset_bottom = 1432.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dsyfu")
+flat = true
+
 [node name="timer-line-label" type="Label" parent="UI/timer"]
 offset_left = 45.0
 offset_top = 1440.0
@@ -326,3 +397,12 @@ label_settings = SubResource("LabelSettings_ow3gi")
 [connection signal="update_user" from="UI/terminal-line" to="UI/top-box" method="terminal_updateUser"]
 [connection signal="update_weight" from="UI/terminal-line" to="UI/top-box" method="terminal_updateWeight"]
 [connection signal="timeout" from="UI/timer/timer-node" to="UI/timer" method="timer_Timeout"]
+[connection signal="button_down" from="UI/timer/buttons/start-button" to="UI/timer/buttons" method="startDown"]
+[connection signal="button_up" from="UI/timer/buttons/start-button" to="UI/terminal-line" method="timerButtonStart"]
+[connection signal="button_up" from="UI/timer/buttons/start-button" to="UI/timer/buttons" method="startUp"]
+[connection signal="button_down" from="UI/timer/buttons/pause-button" to="UI/timer/buttons" method="pauseDown"]
+[connection signal="button_up" from="UI/timer/buttons/pause-button" to="UI/terminal-line" method="timerButtonPause"]
+[connection signal="button_up" from="UI/timer/buttons/pause-button" to="UI/timer/buttons" method="pauseUp"]
+[connection signal="button_down" from="UI/timer/buttons/reset-button" to="UI/timer/buttons" method="resetDown"]
+[connection signal="button_up" from="UI/timer/buttons/reset-button" to="UI/terminal-line" method="timerButtonReset"]
+[connection signal="button_up" from="UI/timer/buttons/reset-button" to="UI/timer/buttons" method="resetUp"]

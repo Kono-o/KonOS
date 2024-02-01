@@ -58,7 +58,7 @@ func terminal_updateTimer(time):
 	timer_node.set_wait_time(updateLabel(time))
 	globalTime = updateLabel(time)
 func terminal_startTimer():
-	if !started:
+	if !started and globalTime!=0:
 		started = true
 		timer_node.start()
 	if pauseToggle:
@@ -70,8 +70,10 @@ func terminal_pauseTimer():
 	timer_node.set_paused(pauseToggle)
 func terminal_resetTimer():
 	timer_Timeout()
-	timer_node.set_wait_time(updateLabel(0))
-	globalTime = updateLabel(0)
+	timer_node.stop()
+	updateLabel(0)
+	timer_node.set_wait_time(0)
+	globalTime = 0
 	
 func timer_Timeout():
 	started = false
