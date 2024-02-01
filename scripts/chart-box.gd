@@ -7,14 +7,14 @@ extends Node2D
 
 const PARAM_NAMES = ["weight","calories","carbs","protien","fats"]
 
-const COL_DEF = "0D101B"
+const COL_DEF = "0B0E18"
 const COL_WHITE = ["1D212D","3D455F","8492C1","DBE2FF"]
 const COL_RED = ["2D0B0D","5F0F16","C33D47","FFC1C3"]
 const COL_YELLOW = ["372B00","725C00","E6BB00","FFFFC6"]
 const COL_ORANGE = ["300E00","682800","D25700","FECEBE"]
 const COL_PINK = ["2D0714","60002B","C22464","FEBBCC"]
 const COL_GREEN = ["232D00","4D5F00","9FC100","E9FFB4"]
-const COL_BLUE = ["10112D","1F205F","5153C2","C6C7FF"]
+const COL_BLUE = ["12143B","1F205F","5153C2","C6C7FF"]
 const COL_VIOLET = ["1D102D","3E1F5F","8751C2","DCC6FF"]
 
 var colorArray = COL_RED

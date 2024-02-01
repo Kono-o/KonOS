@@ -14,7 +14,6 @@
 background_mode = 3
 background_energy_multiplier = 4.38
 ambient_light_energy = 0.0
-tonemap_mode = 2
 glow_normalized = true
 glow_intensity = 1.48
 glow_strength = 0.38
@@ -115,7 +114,7 @@ offset_left = -569.0
 offset_top = -728.0
 offset_right = 1622.0
 offset_bottom = 3036.0
-color = Color(0.0195315, 0.0312505, 0.0507973, 1)
+color = Color(0.0312505, 0.046891, 0.0859693, 1)
 
 [node name="borders-rect" type="TextureRect" parent="BG"]
 offset_right = 1080.0
@@ -172,9 +171,9 @@ horizontal_alignment = 2
 
 [node name="chart-label-1" type="RichTextLabel" parent="UI/chart-box"]
 offset_left = 59.0
-offset_top = 677.0
+offset_top = 680.0
 offset_right = 1040.0
-offset_bottom = 1251.0
+offset_bottom = 1254.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
@@ -190,9 +189,9 @@ autowrap_mode = 2
 
 [node name="chart-label-2" type="RichTextLabel" parent="UI/chart-box"]
 offset_left = 59.0
-offset_top = 1014.0
+offset_top = 1017.0
 offset_right = 1040.0
-offset_bottom = 1319.0
+offset_bottom = 1322.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true

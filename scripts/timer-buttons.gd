@@ -35,8 +35,6 @@ func _process(delta):
 	if !reset:
 		resetLS.font_color = defaultCol
 
-
-
 func startDown():
 	started = true
 func pauseDown():

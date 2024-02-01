@@ -237,7 +237,7 @@ func readTrack():
 	
 	if FileAccess.file_exists(trackPath):
 		trackArray = FileAccess.open(trackPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
-		if trackArray.size() == YEAR_SIZE*5:
+		if trackArray.size() >= YEAR_SIZE*5:
 			for i in YEAR_SIZE:
 				weightArray[i] = float(trackArray[i])
 				carbArray[i] = float(trackArray[i+CARB_OFFSET])
@@ -277,8 +277,11 @@ func _ready():
 	var arrs = []
 	arrs.resize(366)
 	for i in arrs.size():
-		arrs[i] = round(i + rng.randf_range(-50,50))
-	#print(arrs)
+		arrs[i] = int(rng.randf_range(0,90))
+		if arrs[i] < 25:
+			arrs[i] = 0
+
+	print(arrs)
 	readInfo()
 	readTrack()
 	dateWeightLabel()
