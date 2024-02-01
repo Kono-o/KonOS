@@ -14,9 +14,10 @@ background_mode = 3
 background_energy_multiplier = 4.38
 ambient_light_energy = 0.0
 tonemap_mode = 2
-glow_intensity = 2.4
-glow_strength = 0.73
-glow_bloom = 0.09
+glow_normalized = true
+glow_intensity = 1.48
+glow_strength = 0.38
+glow_bloom = 1.0
 glow_blend_mode = 1
 glow_hdr_threshold = 0.88
 glow_hdr_scale = 2.25
@@ -90,6 +91,13 @@ environment = SubResource("Environment_exbnb")
 
 [node name="BG" type="Node2D" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="BG"]
+offset_left = -569.0
+offset_top = -728.0
+offset_right = 1622.0
+offset_bottom = 3036.0
+color = Color(0.0195315, 0.0312505, 0.0507973, 1)
+
 [node name="borders-rect" type="TextureRect" parent="BG"]
 offset_right = 1080.0
 offset_bottom = 2220.0
@@ -151,7 +159,7 @@ offset_bottom = 1251.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
-text = "..........................
+text = "[color=0D101B]..........................
 ..........................
 ..........................
 ..........................
@@ -169,7 +177,7 @@ offset_bottom = 1319.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
-text = "..........................
+text = "[color=0D101B]..........................
 ..........................
 ..........................
 ..........................
@@ -311,6 +319,7 @@ label_settings = SubResource("LabelSettings_ow3gi")
 [connection signal="start_timer" from="UI/terminal-line" to="UI/timer" method="terminal_startTimer"]
 [connection signal="update_bf" from="UI/terminal-line" to="UI/top-box" method="terminal_updateBF"]
 [connection signal="update_chart" from="UI/terminal-line" to="UI/top-box" method="terminal_updateChart"]
+[connection signal="update_chartCol" from="UI/terminal-line" to="UI/top-box" method="terminal_updateColor"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]
 [connection signal="update_macro" from="UI/terminal-line" to="UI/top-box" method="terminal_updateMacro"]
 [connection signal="update_timer" from="UI/terminal-line" to="UI/timer" method="terminal_updateTimer"]

@@ -19,6 +19,7 @@ var resetFunctions = ["reset","res","wipe","r"]
 var pauseFunctions = ["pause","p"]
 
 var chartFunctions = ["display","disp","d","show"]
+var colorFunctions = ["color","col","colour"]
 
 var devFunctions = ["dev","debug","deb"]
 
@@ -29,6 +30,7 @@ signal update_height(nH:float)
 signal update_bf(nBF:float)
 
 signal update_chart(slot:String)
+signal update_chartCol(col:String)
 
 signal update_timer(t:int)
 signal start_timer()
@@ -85,10 +87,9 @@ func keywordEngine(command):
 			update_chart.emit("p")
 		if funcFinder(keywordArray[1],fatFunctions):
 			update_chart.emit("f")
-	
-	
-	
-	
+	if funcFinder(keywordArray[0],colorFunctions):
+		update_chartCol.emit(keywordArray[1])
+
 	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],resetFunctions):
 		dev_reset_everything.emit()
 		reset_timer.emit()

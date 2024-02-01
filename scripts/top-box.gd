@@ -32,7 +32,8 @@ var height = 0
 var bfat = 0
 var bmr = 0
 var currentChart = "w"
-var infoArray = [username,str(height),str(bfat),currentChart]
+var currentCol = "bw"
+var infoArray = [username,str(height),str(bfat),currentChart,currentCol]
 
 var weightArray = []
 var carbArray =   []
@@ -204,17 +205,18 @@ func dateCalc(ty):
 		return day
 
 func writeInfo():
-	infoArray = [username,str(height),str(bfat),currentChart]
+	infoArray = [username,str(height),str(bfat),currentChart,currentCol]
 	FileAccess.open(infoPath,FileAccess.WRITE).store_csv_line(infoArray,ARRAY_DELIMIT)
 func readInfo():
 	if FileAccess.file_exists(infoPath):
 		infoArray = FileAccess.open(infoPath,FileAccess.READ).get_csv_line()
-		username = infoArray[0]
-		height = float(infoArray[1])
-		bfat = float(infoArray[2])
-		currentChart = infoArray[3]
-		
-	if !FileAccess.file_exists(infoPath):
+		if infoArray.size() == 5:
+			username = infoArray[0]
+			height = float(infoArray[1])
+			bfat = float(infoArray[2])
+			currentChart = infoArray[3]
+			currentCol = infoArray[4]
+	if !FileAccess.file_exists(infoPath) or infoArray.size() < 5:
 		writeInfo()
 
 func writeTrack():
@@ -235,13 +237,14 @@ func readTrack():
 	
 	if FileAccess.file_exists(trackPath):
 		trackArray = FileAccess.open(trackPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
-		for i in YEAR_SIZE:
-			weightArray[i] = float(trackArray[i])
-			carbArray[i] = float(trackArray[i+CARB_OFFSET])
-			protArray[i] = float(trackArray[i+PROT_OFFSET])
-			fatsArray[i] = float(trackArray[i+FATS_OFFSET])
-			kcalArray[i] = float(trackArray[i+KCAL_OFFSET])
-		
+		if trackArray.size() == YEAR_SIZE*5:
+			for i in YEAR_SIZE:
+				weightArray[i] = float(trackArray[i])
+				carbArray[i] = float(trackArray[i+CARB_OFFSET])
+				protArray[i] = float(trackArray[i+PROT_OFFSET])
+				fatsArray[i] = float(trackArray[i+FATS_OFFSET])
+				kcalArray[i] = float(trackArray[i+KCAL_OFFSET])
+
 	if !FileAccess.file_exists(trackPath):
 		trackArray.fill("0")
 		weightArray.fill(0.0)
@@ -270,6 +273,12 @@ func dateWeightLabel():
 	year_line_label.text = yearLine
 
 func _ready():
+	var rng = RandomNumberGenerator.new()
+	var arrs = []
+	arrs.resize(366)
+	for i in arrs.size():
+		arrs[i] = round(i + rng.randf_range(-50,50))
+	#print(arrs)
 	readInfo()
 	readTrack()
 	dateWeightLabel()
@@ -334,17 +343,21 @@ func terminal_updateMacro(ty, amt):
 	terminal_updateChart(currentChart)
 func terminal_updateChart(cC):
 	if cC == "w":
-		send_array.emit(weightArray,0,yearDay-1)
+		send_array.emit(weightArray,0,yearDay-1,currentCol)
 	if cC == "k":
-		send_array.emit(kcalArray,1,yearDay-1)
+		send_array.emit(kcalArray,1,yearDay-1,currentCol)
 	if cC == "c":
-		send_array.emit(carbArray,2,yearDay-1)
+		send_array.emit(carbArray,2,yearDay-1,currentCol)
 	if cC == "p":
-		send_array.emit(protArray,3,yearDay-1)
+		send_array.emit(protArray,3,yearDay-1,currentCol)
 	if cC == "f":
-		send_array.emit(fatsArray,4,yearDay-1)
+		send_array.emit(fatsArray,4,yearDay-1,currentCol)
 	currentChart = cC
 	writeInfo()
+func terminal_updateColor(col):
+	currentCol = col
+	writeInfo()
+	terminal_updateChart(currentChart)
 
 func DEV_terminal_resetEverything():
 	username = "name"
@@ -361,3 +374,4 @@ func DEV_terminal_resetEverything():
 	dateWeightLabel()
 	userMacroLabel()
 	terminal_updateChart(currentChart)
+
