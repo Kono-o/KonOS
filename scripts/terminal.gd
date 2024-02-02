@@ -3,7 +3,7 @@ extends LineEdit
 @onready var terminal_line = get_node("/root/App/UI/terminal-line")
 
 var nameFunctions = ["name","n","user","u"]
-var heightFunctions = ["height","h"]
+var heightFunctions = ["height","ht"]
 var weightFunctions = ["kg","weight","w"]
 var bfFunctions = ["bf","bfat","bodyfat"]
 
@@ -18,8 +18,9 @@ var startFunctions = ["start","s","go","g"]
 var resetFunctions = ["reset","res","wipe","r"]
 var pauseFunctions = ["pause","p"]
 
-var chartFunctions = ["display","disp","d","show"]
+var chartFunctions = ["display","disp","d","show","slot","s"]
 var colorFunctions = ["color","col","colour"]
+var habitFunctions = ["habit","hab","h"]
 
 var devFunctions = ["dev","debug","deb"]
 
@@ -29,8 +30,9 @@ signal update_weight(nW:float)
 signal update_height(nH:float)
 signal update_bf(nBF:float)
 
-signal update_chart(slot:String)
+signal update_chart(cC:int)
 signal update_chartCol(col:String)
+signal update_habit(habit:float)
 
 signal update_timer(t:int)
 signal start_timer()
@@ -77,19 +79,24 @@ func keywordEngine(command):
 		reset_timer.emit()
 	
 	if funcFinder(keywordArray[0],chartFunctions):
-		if funcFinder(keywordArray[1],weightFunctions):
-			update_chart.emit("w")
-		if funcFinder(keywordArray[1],kcalFunctions):
-			update_chart.emit("k")
-		if funcFinder(keywordArray[1],carbFunctions):
-			update_chart.emit("c")
-		if funcFinder(keywordArray[1],protFunctions):
-			update_chart.emit("p")
-		if funcFinder(keywordArray[1],fatFunctions):
-			update_chart.emit("f")
+		if funcFinder(keywordArray[1],weightFunctions) or int(keywordArray[1]) == 0:
+			update_chart.emit(0)
+		if funcFinder(keywordArray[1],kcalFunctions) or int(keywordArray[1]) == 1:
+			update_chart.emit(1)
+		if funcFinder(keywordArray[1],carbFunctions) or int(keywordArray[1]) == 2:
+			update_chart.emit(2)
+		if funcFinder(keywordArray[1],protFunctions) or int(keywordArray[1]) == 3:
+			update_chart.emit(3)
+		if funcFinder(keywordArray[1],fatFunctions) or int(keywordArray[1]) == 4:
+			update_chart.emit(4)
+		if int(keywordArray[1]) > 4 and int(keywordArray[1]) < 37:
+			update_chart.emit(int(keywordArray[1]))
 	if funcFinder(keywordArray[0],colorFunctions):
 		update_chartCol.emit(keywordArray[1])
-
+	
+	if funcFinder(keywordArray[0],habitFunctions) and keywordArray[1] != '':
+		update_habit.emit(float(keywordArray[1]))
+		
 	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],resetFunctions):
 		dev_reset_everything.emit()
 		reset_timer.emit()

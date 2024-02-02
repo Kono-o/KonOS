@@ -390,6 +390,7 @@ label_settings = SubResource("LabelSettings_ow3gi")
 [connection signal="update_bf" from="UI/terminal-line" to="UI/top-box" method="terminal_updateBF"]
 [connection signal="update_chart" from="UI/terminal-line" to="UI/top-box" method="terminal_updateChart"]
 [connection signal="update_chartCol" from="UI/terminal-line" to="UI/top-box" method="terminal_updateColor"]
+[connection signal="update_habit" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHabit"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]
 [connection signal="update_macro" from="UI/terminal-line" to="UI/top-box" method="terminal_updateMacro"]
 [connection signal="update_timer" from="UI/terminal-line" to="UI/timer" method="terminal_updateTimer"]

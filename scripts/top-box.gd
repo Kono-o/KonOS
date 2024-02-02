@@ -2,6 +2,7 @@ extends Node2D
 
 var infoPath = "user://info.txt"
 var trackPath = "user://track.txt"
+var habitPath = "user://habit.txt" 
 
 @onready var unix_time_label = get_node("/root/App/UI/headers/unix-time-label")
 @onready var user_macro_label = get_node("/root/App/UI/top-box/user-macro-label")
@@ -24,6 +25,8 @@ const FATS_OFFSET = YEAR_SIZE + YEAR_SIZE + YEAR_SIZE
 const KCAL_OFFSET = YEAR_SIZE + YEAR_SIZE + YEAR_SIZE + YEAR_SIZE
 const TRACK_SIZE =  YEAR_SIZE*5
 
+const HABIT_SIZE =  YEAR_SIZE*32
+
 var yearLine = "----------------------------------------------------"
 var weekLine = "-------"
 
@@ -31,9 +34,9 @@ var username = "name"
 var height = 0
 var bfat = 0
 var bmr = 0
-var currentChart = "w"
+var currentChart = 0
 var currentCol = "bw"
-var infoArray = [username,str(height),str(bfat),currentChart,currentCol]
+var infoArray = [username,str(height),str(bfat),str(currentChart),currentCol]
 
 var weightArray = []
 var carbArray =   []
@@ -41,6 +44,8 @@ var protArray =   []
 var fatsArray =   []
 var kcalArray =   []
 var trackArray =  []
+
+var habitArray =  []
 
 var yearDay = 0
 
@@ -205,7 +210,7 @@ func dateCalc(ty):
 		return day
 
 func writeInfo():
-	infoArray = [username,str(height),str(bfat),currentChart,currentCol]
+	infoArray = [username,str(height),str(bfat),str(currentChart),currentCol]
 	FileAccess.open(infoPath,FileAccess.WRITE).store_csv_line(infoArray,ARRAY_DELIMIT)
 func readInfo():
 	if FileAccess.file_exists(infoPath):
@@ -214,7 +219,7 @@ func readInfo():
 			username = infoArray[0]
 			height = float(infoArray[1])
 			bfat = float(infoArray[2])
-			currentChart = infoArray[3]
+			currentChart = int(infoArray[3])
 			currentCol = infoArray[4]
 	if !FileAccess.file_exists(infoPath) or infoArray.size() < 5:
 		writeInfo()
@@ -237,7 +242,7 @@ func readTrack():
 	
 	if FileAccess.file_exists(trackPath):
 		trackArray = FileAccess.open(trackPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
-		if trackArray.size() >= YEAR_SIZE*5:
+		if trackArray.size() >= TRACK_SIZE:
 			for i in YEAR_SIZE:
 				weightArray[i] = float(trackArray[i])
 				carbArray[i] = float(trackArray[i+CARB_OFFSET])
@@ -253,6 +258,19 @@ func readTrack():
 		fatsArray.fill(0.0)
 		kcalArray.fill(0.0)
 		writeTrack()
+
+func writeHabit():
+	FileAccess.open(habitPath,FileAccess.WRITE).store_csv_line(habitArray,ARRAY_DELIMIT)
+func readHabit():
+	habitArray.resize(HABIT_SIZE)
+	
+	if FileAccess.file_exists(habitPath):
+		var habitFile = FileAccess.open(habitPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
+		for i in HABIT_SIZE:
+			habitArray[i] = float(habitFile[i])
+	if !FileAccess.file_exists(habitPath):
+		habitArray.fill(0)
+		writeHabit()
 
 func userMacroLabel():
 	var nameLine = '%s%s'% [USER_PREFIX,username]
@@ -284,6 +302,7 @@ func _ready():
 	print(arrs)
 	readInfo()
 	readTrack()
+	readHabit()
 	dateWeightLabel()
 	userMacroLabel()
 	terminal_updateChart(currentChart)
@@ -315,7 +334,7 @@ func terminal_updateWeight(nW):
 		weightArray[yearDay-1] = 999.99
 	writeTrack()
 	dateWeightLabel()
-	terminal_updateChart("w")
+	terminal_updateChart(0)
 func terminal_updateMacro(ty, amt):
 	if ty == 'c':
 		carbArray[yearDay-1] += amt
@@ -343,18 +362,20 @@ func terminal_updateMacro(ty, amt):
 		kcalArray[yearDay-1] = 9999
 	writeTrack()
 	userMacroLabel()
-	terminal_updateChart(currentChart)
+	terminal_updateChart(1)
 func terminal_updateChart(cC):
-	if cC == "w":
+	if cC == 0:
 		send_array.emit(weightArray,0,yearDay-1,currentCol)
-	if cC == "k":
+	if cC == 1:
 		send_array.emit(kcalArray,1,yearDay-1,currentCol)
-	if cC == "c":
+	if cC == 2:
 		send_array.emit(carbArray,2,yearDay-1,currentCol)
-	if cC == "p":
+	if cC == 3:
 		send_array.emit(protArray,3,yearDay-1,currentCol)
-	if cC == "f":
+	if cC == 4:
 		send_array.emit(fatsArray,4,yearDay-1,currentCol)
+	if cC > 4 and cC < 37:
+		send_array.emit(habitArray,cC,yearDay-1,currentCol)
 	currentChart = cC
 	writeInfo()
 func terminal_updateColor(col):
@@ -362,6 +383,14 @@ func terminal_updateColor(col):
 	writeInfo()
 	terminal_updateChart(currentChart)
 
+func terminal_updateHabit(habit):
+	habit = round(habit * 100) / 100
+	if currentChart > 4:
+		var curC = currentChart - 5
+		habitArray[(yearDay-1) + (YEAR_SIZE * curC)] = habit
+		writeHabit()
+		terminal_updateChart(currentChart)
+	
 func DEV_terminal_resetEverything():
 	username = "name"
 	height = 0
@@ -373,6 +402,7 @@ func DEV_terminal_resetEverything():
 	protArray.fill(0)
 	fatsArray.fill(0)
 	kcalArray.fill(0)
+	habitArray.fill(0)
 	writeTrack()
 	dateWeightLabel()
 	userMacroLabel()

@@ -17,7 +17,7 @@ const COL_GREEN = ["232D00","4D5F00","9FC100","E9FFB4"]
 const COL_BLUE = ["12143B","1F205F","5153C2","C6C7FF"]
 const COL_VIOLET = ["1D102D","3E1F5F","8751C2","DCC6FF"]
 
-var colorArray = COL_RED
+var colorArray = COL_BLUE
 
 var chartArray = []
 
@@ -72,7 +72,10 @@ func textSet(n):
 func updateLabels():
 	chart_label_1.text = textSet(0)
 	chart_label_2.text = textSet(1)
-	chart_param_label.text = PARAM_NAMES[currentParam]
+	if currentParam < 5:
+		chart_param_label.text = PARAM_NAMES[currentParam]
+	else:
+		chart_param_label.text = 'slot %s' % [currentParam]
 	chart_data_label.text = "(%s)" % [str(currentValue)]
 
 func _ready():
@@ -81,7 +84,6 @@ func _ready():
 func getArray(arr,cP,yD,col):
 	chartInit()
 	currentParam = cP
-	currentValue = arr[yD]
 	
 	if col == "w" or col == "white":
 		colorArray = COL_WHITE
@@ -99,8 +101,13 @@ func getArray(arr,cP,yD,col):
 		colorArray = COL_BLUE
 	if col == "v" or col == "violet":
 		colorArray = COL_VIOLET
+	
+	for i in chartArray.size():
+		if currentParam < 5:
+			chartArray[i] = arr[i]
+		else:
+			chartArray[i] = arr[i + (366 * (currentParam-5))]
 		
-	for i in arr.size():
-		chartArray[i] = arr[i]
+	currentValue = chartArray[yD]
 	updateLabels()
 
