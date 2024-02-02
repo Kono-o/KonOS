@@ -5,8 +5,6 @@ extends Node2D
 @onready var chart_param_label = get_node("/root/App/UI/chart-box/chart-param-label")
 @onready var chart_data_label = get_node("/root/App/UI/chart-box/chart-data-label")
 
-const PARAM_NAMES = ["weight","calories","carbs","protien","fats"]
-
 const COL_DEF = "0B0E18"
 const COL_WHITE = ["1D212D","3D455F","8492C1","DBE2FF"]
 const COL_RED = ["2D0B0D","5F0F16","C33D47","FFC1C3"]
@@ -22,6 +20,7 @@ var colorArray = COL_BLUE
 var chartArray = []
 
 var currentParam = 0
+var paramName = ""
 var currentValue = 0
 
 func chartInit():
@@ -72,19 +71,16 @@ func textSet(n):
 func updateLabels():
 	chart_label_1.text = textSet(0)
 	chart_label_2.text = textSet(1)
-	if currentParam < 5:
-		chart_param_label.text = PARAM_NAMES[currentParam]
-	else:
-		chart_param_label.text = 'slot %s' % [currentParam]
+	chart_param_label.text = paramName
 	chart_data_label.text = "(%s)" % [str(currentValue)]
 
 func _ready():
 	chartInit()
 
-func getArray(arr,cP,yD,col):
+func getArray(arr,cP,pN,yD,col):
 	chartInit()
 	currentParam = cP
-	
+	paramName = pN
 	if col == "w" or col == "white":
 		colorArray = COL_WHITE
 	if col == "r" or col == "red":

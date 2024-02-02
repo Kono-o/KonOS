@@ -18,7 +18,9 @@ var startFunctions = ["start","s","go","g"]
 var resetFunctions = ["reset","res","wipe","r"]
 var pauseFunctions = ["pause","p"]
 
-var chartFunctions = ["display","disp","d","show","slot","s"]
+var chartFunctions = ["display","disp","d"]
+var slotFunctions = ["slot","s"]
+var renameFunctions = ["rename","r"]
 var colorFunctions = ["color","col","colour"]
 var habitFunctions = ["habit","hab","h"]
 
@@ -33,6 +35,7 @@ signal update_bf(nBF:float)
 signal update_chart(cC:int)
 signal update_chartCol(col:String)
 signal update_habit(habit:float)
+signal update_slot_name(sn:String)
 
 signal update_timer(t:int)
 signal start_timer()
@@ -45,7 +48,6 @@ func funcFinder(word,arr):
 	for i in arr.size():
 		if word.to_lower() == arr[i]:
 			return true
-	
 func keywordEngine(command):
 	var keywordArray = command.split(' ',false, 32)
 	keywordArray.resize(32)
@@ -78,7 +80,7 @@ func keywordEngine(command):
 	if funcFinder(keywordArray[0],timerFunctions) and funcFinder(keywordArray[1],resetFunctions):
 		reset_timer.emit()
 	
-	if funcFinder(keywordArray[0],chartFunctions):
+	if (funcFinder(keywordArray[0],chartFunctions) or funcFinder(keywordArray[0],slotFunctions)) and !funcFinder(keywordArray[1],renameFunctions):
 		if funcFinder(keywordArray[1],weightFunctions) or int(keywordArray[1]) == 0:
 			update_chart.emit(0)
 		if funcFinder(keywordArray[1],kcalFunctions) or int(keywordArray[1]) == 1:
@@ -96,11 +98,14 @@ func keywordEngine(command):
 	
 	if funcFinder(keywordArray[0],habitFunctions) and keywordArray[1] != '':
 		update_habit.emit(float(keywordArray[1]))
-		
-	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],resetFunctions):
+	if funcFinder(keywordArray[0],slotFunctions) and funcFinder(keywordArray[1],renameFunctions) and keywordArray[2] != '':
+		print("up")
+		update_slot_name.emit(keywordArray[2])
+	
+	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],resetFunctions) and keywordArray[2] == "all":
 		dev_reset_everything.emit()
 		reset_timer.emit()
-		
+
 func _process(_delta):
 	if Input.is_action_just_released("enter"):
 		keywordEngine(terminal_line.text)

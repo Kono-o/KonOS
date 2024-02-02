@@ -300,7 +300,7 @@ theme_override_font_sizes/font_size = 46
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_k0dsg")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_lcs1y")
-placeholder_text = ">type shit here"
+placeholder_text = ">type here"
 max_length = 34
 context_menu_enabled = false
 flat = true
@@ -393,6 +393,7 @@ label_settings = SubResource("LabelSettings_ow3gi")
 [connection signal="update_habit" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHabit"]
 [connection signal="update_height" from="UI/terminal-line" to="UI/top-box" method="terminal_updateHeight"]
 [connection signal="update_macro" from="UI/terminal-line" to="UI/top-box" method="terminal_updateMacro"]
+[connection signal="update_slot_name" from="UI/terminal-line" to="UI/top-box" method="terminal_updateSlotName"]
 [connection signal="update_timer" from="UI/terminal-line" to="UI/timer" method="terminal_updateTimer"]
 [connection signal="update_user" from="UI/terminal-line" to="UI/top-box" method="terminal_updateUser"]
 [connection signal="update_weight" from="UI/terminal-line" to="UI/top-box" method="terminal_updateWeight"]

@@ -1,8 +1,9 @@
 extends Node2D
 
-var infoPath = "user://info.txt"
-var trackPath = "user://track.txt"
-var habitPath = "user://habit.txt" 
+const infoPath = "user://info.txt"
+const slotPath = "user://slot.txt"
+const trackPath = "user://track.txt"
+const habitPath = "user://habit.txt" 
 
 @onready var unix_time_label = get_node("/root/App/UI/headers/unix-time-label")
 @onready var user_macro_label = get_node("/root/App/UI/top-box/user-macro-label")
@@ -14,6 +15,8 @@ const MONTH_DUR_ARRAY = [0,31,29,31,30,31,30,31,31,30,31,30,31]
 
 const WEEK_NAME_ARRAY = ["sun","mon","tue","wed","thu","fri","sat"]
 const WORK_OUT_ARRAY = ["rest","push","pull","rest","push","pull","legs"]
+
+const PARAM_NAMES = ["weight","calories","carbs","protien","fats"]
 
 const ARRAY_DELIMIT = ","
 const LINE_POINTER = "*"
@@ -42,7 +45,7 @@ var bfat = 0
 var bmr = 0
 var currentChart = 0
 var currentCol = "bw"
-var infoArray = [username,str(height),str(bfat),str(currentChart),currentCol]
+var infoArray = []
 var slotNameArray = []
 
 var weightArray = []
@@ -56,7 +59,7 @@ var habitArray =  []
 
 var yearDay = 0
 
-signal send_array(arr,cP,yD)
+signal send_array(arr,cP,pN,yD,col)
 
 func bmrCalc():
 	var c1 = 0
@@ -217,18 +220,32 @@ func dateCalc(ty):
 		return day
 
 func writeInfo():
-	infoArray = [username,str(height),str(bfat),str(currentChart),currentCol]
+	infoArray[0] = username
+	infoArray[1] = str(height)
+	infoArray[2] = str(bfat)
+	infoArray[3] = str(currentChart)
+	infoArray[4] = currentCol
+
 	FileAccess.open(infoPath,FileAccess.WRITE).store_csv_line(infoArray,ARRAY_DELIMIT)
+	FileAccess.open(slotPath,FileAccess.WRITE).store_csv_line(slotNameArray,ARRAY_DELIMIT)
 func readInfo():
+	infoArray.resize(5)
+	slotNameArray.resize(HABIT_LIMIT)
+	
 	if FileAccess.file_exists(infoPath):
 		infoArray = FileAccess.open(infoPath,FileAccess.READ).get_csv_line()
-		if infoArray.size() == 5:
-			username = infoArray[0]
-			height = float(infoArray[1])
-			bfat = float(infoArray[2])
-			currentChart = int(infoArray[3])
-			currentCol = infoArray[4]
-	if !FileAccess.file_exists(infoPath) or infoArray.size() < 5:
+		username = infoArray[0]
+		height = float(infoArray[1])
+		bfat = float(infoArray[2])
+		currentChart = int(infoArray[3])
+		currentCol = infoArray[4]
+
+	if FileAccess.file_exists(slotPath):
+		slotNameArray = FileAccess.open(slotPath,FileAccess.READ).get_csv_line()
+	
+	if !FileAccess.file_exists(slotPath) or !FileAccess.file_exists(infoPath):
+		for i in HABIT_LIMIT:
+			slotNameArray[i] = 'slot %s' % [i+5]
 		writeInfo()
 
 func writeTrack():
@@ -259,11 +276,11 @@ func readTrack():
 
 	if !FileAccess.file_exists(trackPath):
 		trackArray.fill("0")
-		weightArray.fill(0.0)
-		carbArray.fill(0.0)
-		protArray.fill(0.0)
-		fatsArray.fill(0.0)
-		kcalArray.fill(0.0)
+		weightArray.fill(0)
+		carbArray.fill(0)
+		protArray.fill(0)
+		fatsArray.fill(0)
+		kcalArray.fill(0)
 		writeTrack()
 
 func writeHabit():
@@ -302,15 +319,18 @@ func dateWeightLabel():
 	year_line_label.text = yearLine
 
 func _ready():
+	
 	var rng = RandomNumberGenerator.new()
 	var arrs = []
 	arrs.resize(366)
 	for i in arrs.size():
-		arrs[i] = int(rng.randf_range(0,90))
+		arrs[i] = int(rng.randf_range(0,120))
 		if arrs[i] < 25:
 			arrs[i] = 0
+		if arrs[i] < 80:
+			arrs[i] /= 2
 
-	#print(arrs)
+	print(arrs)
 	readInfo()
 	readTrack()
 	readHabit()
@@ -393,17 +413,17 @@ func terminal_updateMacro(ty, amt):
 	terminal_updateChart(1)
 func terminal_updateChart(cC):
 	if cC == 0:
-		send_array.emit(weightArray,0,yearDay-1,currentCol)
+		send_array.emit(weightArray,0,PARAM_NAMES[0],yearDay-1,currentCol)
 	if cC == 1:
-		send_array.emit(kcalArray,1,yearDay-1,currentCol)
+		send_array.emit(kcalArray,1,PARAM_NAMES[1],yearDay-1,currentCol)
 	if cC == 2:
-		send_array.emit(carbArray,2,yearDay-1,currentCol)
+		send_array.emit(carbArray,2,PARAM_NAMES[2],yearDay-1,currentCol)
 	if cC == 3:
-		send_array.emit(protArray,3,yearDay-1,currentCol)
+		send_array.emit(protArray,3,PARAM_NAMES[3],yearDay-1,currentCol)
 	if cC == 4:
-		send_array.emit(fatsArray,4,yearDay-1,currentCol)
+		send_array.emit(fatsArray,4,PARAM_NAMES[4],yearDay-1,currentCol)
 	if cC > 4 and cC <= HABIT_LIMIT+4:
-		send_array.emit(habitArray,cC,yearDay-1,currentCol)
+		send_array.emit(habitArray,cC,slotNameArray[cC-5],yearDay-1,currentCol)
 	currentChart = cC
 	writeInfo()
 func terminal_updateColor(col):
@@ -431,22 +451,21 @@ func change_habitSlot(lr):
 			currentChart = HABIT_LIMIT+4
 	writeInfo()
 	terminal_updateChart(currentChart)
-
+func terminal_updateSlotName(sn):
+	if currentChart > 4:
+		slotNameArray[currentChart-5] = sn
+		writeInfo()
+		terminal_updateChart(currentChart)
+	
 func DEV_terminal_resetEverything():
-	username = "name"
-	height = 0
-	bfat = 0
 	currentChart = 0
-	writeInfo()
-	weightArray.fill(0)
-	carbArray.fill(0)
-	protArray.fill(0)
-	fatsArray.fill(0)
-	kcalArray.fill(0)
-	trackArray.fill(0)
-	habitArray.fill(0)
-	writeTrack()
-	writeHabit()
+	DirAccess.remove_absolute(infoPath)
+	DirAccess.remove_absolute(slotPath)
+	DirAccess.remove_absolute(trackPath)
+	DirAccess.remove_absolute(habitPath)
+	readInfo()
+	readTrack()
+	readHabit()
 	dateWeightLabel()
 	userMacroLabel()
 	terminal_updateChart(currentChart)
