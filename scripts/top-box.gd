@@ -27,6 +27,12 @@ const TRACK_SIZE =  YEAR_SIZE*5
 
 const HABIT_SIZE =  YEAR_SIZE*32
 
+var swipeLength = 50
+var startPos: Vector2
+var curPos: Vector2
+var threshold = 10
+var swiping = false
+
 var yearLine = "----------------------------------------------------"
 var weekLine = "-------"
 
@@ -299,7 +305,7 @@ func _ready():
 		if arrs[i] < 25:
 			arrs[i] = 0
 
-	print(arrs)
+	#print(arrs)
 	readInfo()
 	readTrack()
 	readHabit()
@@ -307,7 +313,24 @@ func _ready():
 	userMacroLabel()
 	terminal_updateChart(currentChart)
 func _process(_delta):
+	
 	unix_time_label.text = str(int(Time.get_unix_time_from_system()))
+	
+	if Input.is_action_just_pressed("touch"):
+		if !swiping:
+			swiping = true
+			startPos = get_global_mouse_position()
+	
+	if Input.is_action_pressed("touch"):
+		if swiping:
+			curPos = get_global_mouse_position()
+			if startPos.distance_to(curPos) >= swipeLength:
+				if abs(startPos.y-curPos.y) <= threshold:
+					if startPos.x < curPos.x:
+						change_habitSlot(0)
+					if startPos.x > curPos.x:
+						change_habitSlot(1)
+					swiping = false
 
 func terminal_updateUser(nN):
 	username = nN.substr(0,14)
@@ -390,20 +413,35 @@ func terminal_updateHabit(habit):
 		habitArray[(yearDay-1) + (YEAR_SIZE * curC)] = habit
 		writeHabit()
 		terminal_updateChart(currentChart)
-	
+func change_habitSlot(lr):
+	if lr == 0:
+		if currentChart < 36:
+			currentChart += 1
+		elif currentChart == 36:
+			currentChart = 0
+	if lr == 1:
+		if currentChart > 0:
+			currentChart -= 1
+		elif currentChart == 0:
+			currentChart = 36
+	writeInfo()
+	terminal_updateChart(currentChart)
+
 func DEV_terminal_resetEverything():
 	username = "name"
 	height = 0
 	bfat = 0
-	currentChart = "w"
+	currentChart = 0
 	writeInfo()
 	weightArray.fill(0)
 	carbArray.fill(0)
 	protArray.fill(0)
 	fatsArray.fill(0)
 	kcalArray.fill(0)
+	trackArray.fill(0)
 	habitArray.fill(0)
 	writeTrack()
+	writeHabit()
 	dateWeightLabel()
 	userMacroLabel()
 	terminal_updateChart(currentChart)
