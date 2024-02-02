@@ -19,13 +19,14 @@ const ARRAY_DELIMIT = ","
 const LINE_POINTER = "*"
 const USER_PREFIX = "OS-user@"
 const YEAR_SIZE = 366
+const HABIT_LIMIT = 28
 const CARB_OFFSET = YEAR_SIZE
-const PROT_OFFSET = YEAR_SIZE + YEAR_SIZE
-const FATS_OFFSET = YEAR_SIZE + YEAR_SIZE + YEAR_SIZE
-const KCAL_OFFSET = YEAR_SIZE + YEAR_SIZE + YEAR_SIZE + YEAR_SIZE
+const PROT_OFFSET = YEAR_SIZE*2
+const FATS_OFFSET = YEAR_SIZE*3
+const KCAL_OFFSET = YEAR_SIZE*4
 const TRACK_SIZE =  YEAR_SIZE*5
 
-const HABIT_SIZE =  YEAR_SIZE*32
+const HABIT_SIZE =  YEAR_SIZE*HABIT_LIMIT
 
 var swipeLength = 60
 var startPos: Vector2
@@ -42,6 +43,7 @@ var bmr = 0
 var currentChart = 0
 var currentCol = "bw"
 var infoArray = [username,str(height),str(bfat),str(currentChart),currentCol]
+var slotNameArray = []
 
 var weightArray = []
 var carbArray =   []
@@ -268,11 +270,15 @@ func writeHabit():
 	FileAccess.open(habitPath,FileAccess.WRITE).store_csv_line(habitArray,ARRAY_DELIMIT)
 func readHabit():
 	habitArray.resize(HABIT_SIZE)
-	
+	habitArray.fill(0)
 	if FileAccess.file_exists(habitPath):
 		var habitFile = FileAccess.open(habitPath,FileAccess.READ).get_csv_line(ARRAY_DELIMIT)
+			
 		for i in HABIT_SIZE:
-			habitArray[i] = float(habitFile[i])
+			if habitFile.size() < HABIT_SIZE:
+				habitArray[i] = 0
+			else:
+				habitArray[i] = float(habitFile[i])
 	if !FileAccess.file_exists(habitPath):
 		habitArray.fill(0)
 		writeHabit()
@@ -396,7 +402,7 @@ func terminal_updateChart(cC):
 		send_array.emit(protArray,3,yearDay-1,currentCol)
 	if cC == 4:
 		send_array.emit(fatsArray,4,yearDay-1,currentCol)
-	if cC > 4 and cC < 37:
+	if cC > 4 and cC <= HABIT_LIMIT+4:
 		send_array.emit(habitArray,cC,yearDay-1,currentCol)
 	currentChart = cC
 	writeInfo()
@@ -414,15 +420,15 @@ func terminal_updateHabit(habit):
 		terminal_updateChart(currentChart)
 func change_habitSlot(lr):
 	if lr == 0:
-		if currentChart < 36:
+		if currentChart < HABIT_LIMIT+4:
 			currentChart += 1
-		elif currentChart == 36:
+		elif currentChart == HABIT_LIMIT+4:
 			currentChart = 0
 	if lr == 1:
 		if currentChart > 0:
 			currentChart -= 1
 		elif currentChart == 0:
-			currentChart = 36
+			currentChart = HABIT_LIMIT+4
 	writeInfo()
 	terminal_updateChart(currentChart)
 

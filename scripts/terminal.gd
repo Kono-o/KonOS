@@ -89,7 +89,7 @@ func keywordEngine(command):
 			update_chart.emit(3)
 		if funcFinder(keywordArray[1],fatFunctions) or int(keywordArray[1]) == 4:
 			update_chart.emit(4)
-		if int(keywordArray[1]) > 4 and int(keywordArray[1]) < 37:
+		if int(keywordArray[1]) > 4:
 			update_chart.emit(int(keywordArray[1]))
 	if funcFinder(keywordArray[0],colorFunctions):
 		update_chartCol.emit(keywordArray[1])
