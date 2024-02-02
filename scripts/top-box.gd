@@ -27,10 +27,9 @@ const TRACK_SIZE =  YEAR_SIZE*5
 
 const HABIT_SIZE =  YEAR_SIZE*32
 
-var swipeLength = 50
+var swipeLength = 60
 var startPos: Vector2
-var curPos: Vector2
-var threshold = 10
+var swipeThreshold = 40
 var swiping = false
 
 var yearLine = "----------------------------------------------------"
@@ -323,14 +322,14 @@ func _process(_delta):
 	
 	if Input.is_action_pressed("touch"):
 		if swiping:
-			curPos = get_global_mouse_position()
-			if startPos.distance_to(curPos) >= swipeLength:
-				if abs(startPos.y-curPos.y) <= threshold:
-					if startPos.x < curPos.x:
+			var currentPos = get_global_mouse_position()
+			if startPos.distance_to(currentPos) >= swipeLength:
+				if abs(startPos.y-currentPos.y) <= swipeThreshold:
+					if startPos.x < currentPos.x:
 						change_habitSlot(0)
-					if startPos.x > curPos.x:
+					if startPos.x > currentPos.x:
 						change_habitSlot(1)
-					swiping = false
+				swiping = false
 
 func terminal_updateUser(nN):
 	username = nN.substr(0,14)
