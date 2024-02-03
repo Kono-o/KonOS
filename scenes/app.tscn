@@ -205,6 +205,17 @@ text = "[color=0D101B]..........................
 fit_content = true
 autowrap_mode = 2
 
+[node name="chart-line-label1" type="Line2D" parent="UI/chart-box"]
+position = Vector2(77, 1298)
+points = PackedVector2Array(0, 1, 109, -111, 185, 2, 221, -108, 297, -151, 372, 4, 482, -37, 556, -149, 665, -113, 740, -225, 777, -35, 926, 1)
+width = 6.0
+default_color = Color(0.32549, 0.356863, 0.486275, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
+sharp_limit = 0.0
+round_precision = 18
+antialiased = true
+
 [node name="months headers" type="Node2D" parent="UI/chart-box"]
 
 [node name="jan" type="Label" parent="UI/chart-box/months headers"]

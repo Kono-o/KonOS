@@ -2,8 +2,13 @@ extends Node2D
 
 @onready var chart_label_1 = get_node("/root/App/UI/chart-box/chart-label-1")
 @onready var chart_label_2 = get_node("/root/App/UI/chart-box/chart-label-2")
+
 @onready var chart_param_label = get_node("/root/App/UI/chart-box/chart-param-label")
 @onready var chart_data_label = get_node("/root/App/UI/chart-box/chart-data-label")
+
+@onready var chart_line_label_1 = get_node("/root/App/UI/chart-box/chart-line-label1")
+
+var square = preload("res://scenes/square.tscn")
 
 const COL_DEF = "0B0E18"
 const COL_WHITE = ["1D212D","3D455F","8492C1","DBE2FF"]
@@ -17,6 +22,8 @@ const COL_VIOLET = ["1D102D","3E1F5F","8751C2","DCC6FF"]
 
 var colorArray = COL_BLUE
 
+var pointArray = PackedVector2Array([Vector2(12, 34), Vector2(56, 78)])
+
 var chartArray = []
 
 var currentParam = 0
@@ -26,6 +33,13 @@ var currentValue = 0
 func chartInit():
 	chartArray.resize(366)
 	chartArray.fill(0)
+func pointInit():
+	pointArray.resize(26)
+	for i in pointArray.size():
+		var squareInstance = square.instantiate()
+		pointArray[i] = Vector2(i*37,(i/25.0)*-229)
+		squareInstance.position = pointArray[i]
+		chart_line_label_1.add_child(squareInstance)
 
 func colorLerp(l):
 	var col1 = Color(colorArray[0])
@@ -76,7 +90,8 @@ func updateLabels():
 
 func _ready():
 	chartInit()
-
+	pointInit()
+	chart_line_label_1.set_points(pointArray)
 func getArray(arr,cP,pN,yD,col):
 	chartInit()
 	currentParam = cP

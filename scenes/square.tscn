@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy14psomp1ffo"]
+
+[ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://fonts/JBM-NL-squares.ttf" id="1_re1ob"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qrrge"]
+line_spacing = 179.16
+font = ExtResource("1_re1ob")
+font_size = 63
+
+[node name="square" type="Node2D"]
+
+[node name="square-node" type="Node2D" parent="."]
+
+[node name="Square-label" type="Label" parent="square-node"]
+offset_left = -19.0
+offset_top = -43.0
+offset_right = 72.0
+offset_bottom = 159.0
+text = "•"
+label_settings = SubResource("LabelSettings_qrrge")

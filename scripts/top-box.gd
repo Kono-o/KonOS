@@ -330,7 +330,7 @@ func _ready():
 		if arrs[i] < 80:
 			arrs[i] /= 2
 
-	print(arrs)
+	#print(arrs)
 	readInfo()
 	readTrack()
 	readHabit()
