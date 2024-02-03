@@ -114,7 +114,7 @@ offset_left = -569.0
 offset_top = -728.0
 offset_right = 1622.0
 offset_bottom = 3036.0
-color = Color(0.0312505, 0.046891, 0.0859693, 1)
+color = Color(0.0117189, 0.0195315, 0.0390784, 1)
 
 [node name="borders-rect" type="TextureRect" parent="BG"]
 offset_right = 1080.0

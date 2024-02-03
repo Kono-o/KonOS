@@ -36,9 +36,9 @@ const TRACK_SIZE =  YEAR_SIZE*5
 
 const HABIT_SIZE =  YEAR_SIZE*HABIT_LIMIT
 
-var swipeLength = 300
+var swipeLength = 250
 var startPos: Vector2
-var swipeThreshold = 40
+var swipeThreshold = 80
 var swiping = false
 
 var yearLine = "----------------------------------------------------"

@@ -141,6 +141,7 @@ func updateLabels():
 func _ready():
 	chartInit()
 	pointInit()
+
 func getArray(arr,cP,pN,yD,col):
 	chartInit()
 	pointInit()
