@@ -3,18 +3,16 @@
 [ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://fonts/JBM-NL-squares.ttf" id="1_re1ob"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qrrge"]
-line_spacing = 179.16
+line_spacing = 179.22
 font = ExtResource("1_re1ob")
-font_size = 63
+font_size = 71
 
 [node name="square" type="Node2D"]
 
-[node name="square-node" type="Node2D" parent="."]
-
-[node name="Square-label" type="Label" parent="square-node"]
-offset_left = -19.0
-offset_top = -43.0
-offset_right = 72.0
-offset_bottom = 159.0
+[node name="square-label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -47.0
+offset_right = 70.0
+offset_bottom = 155.0
 text = "•"
 label_settings = SubResource("LabelSettings_qrrge")

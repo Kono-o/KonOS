@@ -6,7 +6,8 @@ extends Node2D
 @onready var chart_param_label = get_node("/root/App/UI/chart-box/chart-param-label")
 @onready var chart_data_label = get_node("/root/App/UI/chart-box/chart-data-label")
 
-@onready var chart_line_label_1 = get_node("/root/App/UI/chart-box/chart-line-label1")
+@onready var chart_line_label_1 = get_node("/root/App/UI/chart-box/chart-line-label-1")
+@onready var chart_line_label_2 = get_node("/root/App/UI/chart-box/chart-line-label-2")
 
 var square = preload("res://scenes/square.tscn")
 
@@ -22,9 +23,10 @@ const COL_VIOLET = ["1D102D","3E1F5F","8751C2","DCC6FF"]
 
 var colorArray = COL_BLUE
 
-var pointArray = PackedVector2Array([Vector2(12, 34), Vector2(56, 78)])
-
+var pointArray1 = PackedVector2Array([Vector2(0, 0)])
+var pointArray2 = PackedVector2Array([Vector2(0, 0)])
 var chartArray = []
+var avgArray = []
 
 var currentParam = 0
 var paramName = ""
@@ -33,14 +35,59 @@ var currentValue = 0
 func chartInit():
 	chartArray.resize(366)
 	chartArray.fill(0)
+	avgArray.resize(52)
+	avgArray.fill(0)
 func pointInit():
-	pointArray.resize(26)
-	for i in pointArray.size():
-		var squareInstance = square.instantiate()
-		pointArray[i] = Vector2(i*37,(i/25.0)*-229)
-		squareInstance.position = pointArray[i]
-		chart_line_label_1.add_child(squareInstance)
+	pointArray1.resize(26)
+	pointArray2.resize(26)
 
+func lineLerp(pointArray,n):
+	var max = 0
+	var min = 0
+	var array = []
+	var squareInstance
+	
+	array.resize(avgArray.size())
+	if n:
+		var squareChilds = chart_line_label_1.get_children()
+		for i in squareChilds:
+			chart_line_label_1.remove_child(i)
+	if !n:
+		var squareChilds = chart_line_label_2.get_children()
+		for i in squareChilds:
+			chart_line_label_2.remove_child(i)
+	
+	for i in avgArray.size():
+		if avgArray[i] >= max:
+			max = avgArray[i]
+		if avgArray[i] <= min:
+			min = avgArray[i]
+		
+	for i in avgArray.size():
+		if max == 0:
+			array[i] = 0
+		if max != 0:
+			array[i] = (avgArray[i]-min)/(max-min)
+			array[i] = round(array[i]*1000)/1000
+	
+	for i in pointArray.size():
+		squareInstance = square.instantiate()
+		if n:
+			pointArray[i] = Vector2(i*37,array[i] * -220)
+		if !n:
+			pointArray[i] = Vector2(i*37,array[i+26] * -220)
+		
+		squareInstance.position = pointArray[i]
+		if n:
+			chart_line_label_1.set_default_color(Color(colorArray[1]))
+			chart_line_label_1.add_child(squareInstance)
+		if !n:
+			chart_line_label_2.set_default_color(Color(colorArray[1]))
+			chart_line_label_2.add_child(squareInstance)
+		
+		squareInstance.get_node("square-label").label_settings.font_color = Color(colorArray[2])
+	0
+	return pointArray
 func colorLerp(l):
 	var col1 = Color(colorArray[0])
 	var col2 = Color(colorArray[1])
@@ -88,12 +135,15 @@ func updateLabels():
 	chart_param_label.text = paramName
 	chart_data_label.text = "(%s)" % [str(currentValue)]
 
+	chart_line_label_1.set_points(lineLerp(pointArray1,true))
+	chart_line_label_2.set_points(lineLerp(pointArray2,false))
+
 func _ready():
 	chartInit()
 	pointInit()
-	chart_line_label_1.set_points(pointArray)
 func getArray(arr,cP,pN,yD,col):
 	chartInit()
+	pointInit()
 	currentParam = cP
 	paramName = pN
 	if col == "w" or col == "white":
@@ -120,5 +170,14 @@ func getArray(arr,cP,pN,yD,col):
 			chartArray[i] = arr[i + (366 * (currentParam-5))]
 		
 	currentValue = chartArray[yD]
+	
+	for i in 52:
+		var avg = 0
+		for j in 7:
+			avg = avg + chartArray[(7*i)+j]
+		avgArray[i] = avg/7.0
+		avgArray[i] = round(avgArray[i]*100)/100
+		avg = 0
+	
 	updateLabels()
 

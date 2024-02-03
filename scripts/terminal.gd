@@ -99,7 +99,6 @@ func keywordEngine(command):
 	if funcFinder(keywordArray[0],habitFunctions) and keywordArray[1] != '':
 		update_habit.emit(float(keywordArray[1]))
 	if funcFinder(keywordArray[0],slotFunctions) and funcFinder(keywordArray[1],renameFunctions) and keywordArray[2] != '':
-		print("up")
 		update_slot_name.emit(keywordArray[2])
 	
 	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],resetFunctions) and keywordArray[2] == "all":

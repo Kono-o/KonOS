@@ -10,6 +10,11 @@ const habitPath = "user://habit.txt"
 @onready var date_weight_label = get_node("/root/App/UI/top-box/date-weight-label")
 @onready var year_line_label = get_node("/root/App/UI/top-box/year-line-label")
 
+@onready var chart_label_1 = get_node("/root/App/UI/chart-box/chart-label-1")
+@onready var chart_label_2 = get_node("/root/App/UI/chart-box/chart-label-2")
+@onready var chart_line_label_1 = get_node("/root/App/UI/chart-box/chart-line-label-1")
+@onready var chart_line_label_2 = get_node("/root/App/UI/chart-box/chart-line-label-2")
+
 const MONTH_NAME_ARRAY = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"]
 const MONTH_DUR_ARRAY = [0,31,29,31,30,31,30,31,31,30,31,30,31]
 
@@ -45,6 +50,7 @@ var bfat = 0
 var bmr = 0
 var currentChart = 0
 var currentCol = "bw"
+var chartToggle = false
 var infoArray = []
 var slotNameArray = []
 
@@ -245,7 +251,7 @@ func readInfo():
 	
 	if !FileAccess.file_exists(slotPath) or !FileAccess.file_exists(infoPath):
 		for i in HABIT_LIMIT:
-			slotNameArray[i] = 'slot %s' % [i+5]
+			slotNameArray[i] = 'slot-%s' % [i+5]
 		writeInfo()
 
 func writeTrack():
@@ -324,13 +330,13 @@ func _ready():
 	var arrs = []
 	arrs.resize(366)
 	for i in arrs.size():
-		arrs[i] = int(rng.randf_range(0,120))
+		arrs[i] = int(rng.randf_range(0,1000))
 		if arrs[i] < 25:
 			arrs[i] = 0
 		if arrs[i] < 80:
 			arrs[i] /= 2
 
-	#print(arrs)
+	print(arrs)
 	readInfo()
 	readTrack()
 	readHabit()
@@ -355,6 +361,8 @@ func _process(_delta):
 						change_habitSlot(0)
 					if startPos.x > currentPos.x:
 						change_habitSlot(1)
+				if abs(startPos.x-currentPos.x) <= swipeThreshold:
+						change_habitSlot(2)
 				swiping = false
 
 func terminal_updateUser(nN):
@@ -449,6 +457,12 @@ func change_habitSlot(lr):
 			currentChart -= 1
 		elif currentChart == 0:
 			currentChart = HABIT_LIMIT+4
+	if lr == 2:
+		chartToggle = !chartToggle
+		chart_label_1.visible = chartToggle
+		chart_label_2.visible = chartToggle
+		chart_line_label_1.visible = !chartToggle
+		chart_line_label_2.visible = !chartToggle
 	writeInfo()
 	terminal_updateChart(currentChart)
 func terminal_updateSlotName(sn):
