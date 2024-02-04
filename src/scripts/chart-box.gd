@@ -12,8 +12,9 @@ extends Node2D
 var square = preload("res://src/scenes/circle.tscn")
 var flip = false
 var wD = 0
+var yeD = 0
 
-const COL_DEF = "0B0E18"
+const COL_DEF = "0F1116" #"0B0E18"
 const COL_WHITE = ["1D212D","3D455F","8492C1","DBE2FF"]
 const COL_RED = ["2D0B0D","5F0F16","C33D47","FFC1C3"]
 const COL_YELLOW = ["372B00","725C00","E6BB00","FFFFC6"]
@@ -39,17 +40,49 @@ func chartInit():
 	chartArray.fill(0)
 	avgArray.resize(52)
 	avgArray.fill(0)
-func pointInit():
 	pointArray1.resize(26)
 	pointArray2.resize(26)
 
+func arrayNormalize(cArray):
+	var array = []
+	array.resize(cArray.size())
+	array.fill(0)
+
+	var max = 0
+	var min = 9999999
+	for i in cArray.size():
+		if cArray[i] >= max:
+			max = cArray[i]
+		if cArray[i] <= min and cArray[i] > 0:
+			min = cArray[i]
+	if min == 9999999:
+		min = 0
+	for i in cArray.size():
+		if !min == 0 or !max == 0:
+			if cArray[i] != 0:
+				array[i] = (cArray[i]-min)/(max-min)
+			else:
+				array[i] = 0
+		if min == max and cArray[i] != 0:
+			array[i] = 1
+
+	return array
+func normalize(min,max,n):
+	return (n - min)/(max - min)
 func lineLerp(pointArray,n):
 	var max = 0
-	var min = 0
 	var array = []
 	var squareInstance
 	
+	for i in 52:
+		var avg = 0
+		for j in 7:
+			avg = avg + chartArray[(7*i)+j]
+		avgArray[i] = round(avg*100)/700
+		avg = 0
+		
 	array.resize(avgArray.size())
+	array.fill(0)
 	if n:
 		var squareChilds = chart_line_label_1.get_children()
 		for i in squareChilds:
@@ -59,24 +92,26 @@ func lineLerp(pointArray,n):
 		for i in squareChilds:
 			chart_line_label_2.remove_child(i)
 	
-	for i in avgArray.size():
-		if avgArray[i] >= max:
-			max = avgArray[i]
-		if avgArray[i] <= min:
-			min = avgArray[i]
-		
-	for i in avgArray.size():
-		if max == 0:
-			array[i] = 0
-		if max != 0:
-			array[i] = (avgArray[i]-min)/(max-min)
-			array[i] = round(array[i]*1000)/1000
+	if currentParam == 0:
+		array = arrayNormalize(avgArray)
+	else:
+		for  i in avgArray.size():
+			if avgArray[i] > max:
+				max = avgArray[i]
 	
+		for i in avgArray.size():
+			if max == 0:
+				array[i] = avgArray[i]
+			else:
+				array[i] = avgArray[i]/max
+	
+	for i in array.size():
+		array[i] = round(array[i]*1000)/1000
 	for i in array.size():
 		if flip and i < wD:
 			array[i] = 1 - array[i]
 	
-	for i in pointArray.size():
+	for i in 26:
 		squareInstance = square.instantiate()
 		if n:
 			pointArray[i] = Vector2(i*37,array[i] * -220)
@@ -92,55 +127,37 @@ func lineLerp(pointArray,n):
 			chart_line_label_2.add_child(squareInstance)
 		
 		squareInstance.get_node("square-label").label_settings.font_color = Color(colorArray[2])
-	if !n:
-		print(array)
+
 	return pointArray
 func colorLerp(l):
 	var col1 = Color(colorArray[0])
 	var col2 = Color(colorArray[1])
 	var col3 = Color(colorArray[2])
 	var col4 = Color(colorArray[3])
+	var finalCol = Color(COL_DEF).to_html()
 	if !flip:
-		if l == 0:
-			return "[color=%s]" % [Color(COL_DEF).to_html()]
-		if l > 0 and l < 0.5:
-			return "[color=%s]" % [col1.to_html()]
-		if l >= 0.5 and l < 0.75:
-			return "[color=%s]" % [col2.to_html()]
+		if l > 0 and l < 0.45:
+			finalCol = col1.to_html()
+		if l >= 0.45 and l < 0.75:
+			finalCol = col1.lerp(col2,normalize(0.5,0.75,l)).to_html()
 		if l >= 0.75 and l < 0.95:
-			return "[color=%s]" % [col3.to_html()]
+			finalCol = col2.lerp(col3,normalize(0.75,0.95,l)).to_html()
 		if l >= 0.95:
-			return "[color=%s]" % [col4.to_html()]
+			finalCol = col3.lerp(col4,normalize(0.95,0.98,l)).to_html()
+		return "[color=%s]" % [finalCol]
 	if flip:
-		if l == 0:
-			return "[color=%s]" % [Color(COL_DEF).to_html()]
-		if l > 0 and l < 0.5:
-			return "[color=%s]" % [col4.to_html()]
-		if l >= 0.5 and l < 0.75:
-			return "[color=%s]" % [col3.to_html()]
+		if l > 0 and l < 0.45:
+			finalCol = col4.to_html()
+		if l >= 0.45 and l < 0.75:
+			finalCol = col4.lerp(col3,normalize(0.45,0.75,l)).to_html()
 		if l >= 0.75 and l < 0.95:
-			return "[color=%s]" % [col2.to_html()]
+			finalCol = col3.lerp(col2,normalize(0.75,0.95,l)).to_html()
 		if l >= 0.95:
-			return "[color=%s]" % [col1.to_html()]
+			finalCol = col1.to_html()
+		return "[color=%s]" % [finalCol]
 
-func textSet(n):
+func textSet(array,n):
 	var text = ""
-	var array = []
-	array.resize(chartArray.size())
-	array.fill(0)
-
-	var max = 0
-	var min = 0
-	for i in chartArray.size():
-		if chartArray[i] >= max:
-			max = chartArray[i]
-		if chartArray[i] <= min:
-			min = chartArray[i]
-	if max == 0:
-		max = 1
-
-	for i in array.size():
-		array[i] = (chartArray[i]-min)/(max-min)
 	for i in 7:
 		for j in 26:
 				text = '%s%s.' % [text,colorLerp(array[(j*7)+ i + (n * 182)])]
@@ -149,8 +166,9 @@ func textSet(n):
 	return text
 
 func updateLabels():
-	chart_label_1.text = textSet(0)
-	chart_label_2.text = textSet(1)
+	var textArray = arrayNormalize(chartArray)
+	chart_label_1.text = textSet(textArray,0)
+	chart_label_2.text = textSet(textArray,1)
 	chart_param_label.text = paramName
 	chart_data_label.text = "(%s)" % [str(currentValue)]
 
@@ -159,12 +177,11 @@ func updateLabels():
 
 func _ready():
 	chartInit()
-	pointInit()
 
 func getArray(arr,cP,pN,yD,col):
 	chartInit()
-	pointInit()
 	wD = (yD+1)/7
+	yeD = yD
 	currentParam = cP
 	paramName = pN
 	if col == "w" or col == "white":
@@ -191,14 +208,6 @@ func getArray(arr,cP,pN,yD,col):
 			chartArray[i] = arr[i + (366 * (currentParam-5))]
 	
 	currentValue = chartArray[yD]
-	
-	for i in 52:
-		var avg = 0
-		for j in 7:
-			avg = avg + chartArray[(7*i)+j]
-			avgArray[i] = avg/7.0
-			avgArray[i] = round(avgArray[i]*100)/100
-			avg = 0
 	
 	updateLabels()
 

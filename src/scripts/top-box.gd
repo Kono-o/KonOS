@@ -319,13 +319,13 @@ func dateWeightLabel():
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
 	
 	var max = 0
-	for i in yearDay:
+	for i in 366:
 		if weightArray[i] != 0:
 			max = weightArray[i]
 			break
 	if weightArray[0] == 0:
 		weightArray[0] = max
-	for i in yearDay:
+	for i in 366:
 		if weightArray[i] == 0 and weightArray[0] != 0:
 			weightArray[i] = weightArray[i-1]
 	
@@ -349,9 +349,9 @@ func _ready():
 	terminal_updateChart(currentChart)
 	
 	arrs.resize(366)
-	for i in yearDay:
-		arrs[i] = int(rng.randf_range(0,1000))
-		if arrs[i] < 400:
+	for i in 366:
+		arrs[i] = 80 - (i * 0.1) + (round(rng.randf_range(0,1.5)*100)/100)
+		if int(rng.randf_range(0,4)) == 3:
 			arrs[i] = 0
 	#print(arrs)
 	

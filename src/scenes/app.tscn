@@ -1,12 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://dvhagijf6wqio"]
+[gd_scene load_steps=31 format=3 uid="uid://dvhagijf6wqio"]
 
-[ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://src/sprites/ui/borders.png" id="1_7bioe"]
+[ext_resource type="Texture2D" uid="uid://bxj1ytnq7rmwr" path="res://src/sprites/ui/borders.png" id="1_7bioe"]
 [ext_resource type="Script" path="res://src/scripts/top-box.gd" id="1_sbdop"]
-[ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://src/sprites/ui/mock.png" id="2_xg4tp"]
-[ext_resource type="FontFile" uid="uid://bt4nbeed64p2n" path="res://src/fonts/JBM-NL-medium.ttf" id="5_0tuqe"]
+[ext_resource type="Texture2D" uid="uid://d31bhxkxpdn1e" path="res://src/sprites/ui/mock.png" id="2_xg4tp"]
+[ext_resource type="FontFile" uid="uid://cdd3kol2jfqtk" path="res://src/fonts/JBM-NL-medium.ttf" id="5_0tuqe"]
 [ext_resource type="Script" path="res://src/scripts/terminal.gd" id="6_am2oj"]
 [ext_resource type="Script" path="res://src/scripts/timer.gd" id="8_ahkof"]
-[ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://src/fonts/JBM-NL-squares.ttf" id="8_e4o87"]
+[ext_resource type="FontFile" uid="uid://hs2ypmycl23x" path="res://src/fonts/JBM-NL-squares.ttf" id="8_e4o87"]
 [ext_resource type="Script" path="res://src/scripts/chart-box.gd" id="8_l1ujx"]
 [ext_resource type="Script" path="res://src/scripts/timer-buttons.gd" id="9_gtjnv"]
 
@@ -23,6 +23,8 @@ glow_hdr_threshold = 0.88
 glow_hdr_scale = 2.25
 glow_map_strength = 0.81
 adjustment_saturation = 1.27
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xebge"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1v07t"]
 font = ExtResource("5_0tuqe")
@@ -109,17 +111,19 @@ environment = SubResource("Environment_exbnb")
 
 [node name="BG" type="Node2D" parent="."]
 
+[node name="borders-rect" type="TextureRect" parent="BG"]
+visible = false
+material = SubResource("CanvasItemMaterial_xebge")
+offset_right = 1080.0
+offset_bottom = 2220.0
+texture = ExtResource("1_7bioe")
+
 [node name="ColorRect" type="ColorRect" parent="BG"]
 offset_left = -569.0
 offset_top = -728.0
 offset_right = 1622.0
 offset_bottom = 3036.0
-color = Color(0.0117189, 0.0195315, 0.0390784, 1)
-
-[node name="borders-rect" type="TextureRect" parent="BG"]
-offset_right = 1080.0
-offset_bottom = 2220.0
-texture = ExtResource("1_7bioe")
+color = Color(0.0235294, 0.027451, 0.0588235, 1)
 
 [node name="mockup(dont exp)" type="TextureRect" parent="BG"]
 visible = false
@@ -161,9 +165,9 @@ text = "weight"
 label_settings = SubResource("LabelSettings_do4b6")
 
 [node name="chart-data-label" type="Label" parent="UI/chart-box"]
-offset_left = 753.0
+offset_left = 482.0
 offset_top = 579.0
-offset_right = 1046.0
+offset_right = 1017.0
 offset_bottom = 646.0
 text = "(45)"
 label_settings = SubResource("LabelSettings_0vkpe")
@@ -177,7 +181,7 @@ offset_bottom = 1289.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
-text = "[color=0D101B]°°°°°°°°°°°°°°°°°°°°°°°°°°
+text = "[color=0F1116]°°°°°°°°°°°°°°°°°°°°°°°°°°
 °°°°°°°°°°°°°°°°°°°°°°°°°°
 °°°°°°°°°°°°°°°°°°°°°°°°°°
 °°°°°°°°°°°°°°°°°°°°°°°°°°
@@ -196,7 +200,7 @@ offset_bottom = 1355.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
-text = "[color=0D101B]°°°°°°°°°°°°°°°°°°°°°°°°°°
+text = "[color=0F1116]°°°°°°°°°°°°°°°°°°°°°°°°°°
 °°°°°°°°°°°°°°°°°°°°°°°°°°
 °°°°°°°°°°°°°°°°°°°°°°°°°°
 °°°°°°°°°°°°°°°°°°°°°°°°°°
@@ -215,7 +219,7 @@ offset_bottom = 1254.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
-text = "[color=0D101B]..........................
+text = "[color=0F1116]..........................
 ..........................
 ..........................
 ..........................
@@ -233,7 +237,7 @@ offset_bottom = 1322.0
 theme = SubResource("Theme_nilos")
 theme_override_constants/line_separation = -46
 bbcode_enabled = true
-text = "[color=0D101B]..........................
+text = "[color=0F1116]..........................
 ..........................
 ..........................
 ..........................
