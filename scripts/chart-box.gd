@@ -10,6 +10,8 @@ extends Node2D
 @onready var chart_line_label_2 = get_node("/root/App/UI/chart-box/chart-line-label-2")
 
 var square = preload("res://scenes/square.tscn")
+var flip = false
+var wD = 0
 
 const COL_DEF = "0B0E18"
 const COL_WHITE = ["1D212D","3D455F","8492C1","DBE2FF"]
@@ -70,6 +72,10 @@ func lineLerp(pointArray,n):
 			array[i] = (avgArray[i]-min)/(max-min)
 			array[i] = round(array[i]*1000)/1000
 	
+	for i in array.size():
+		if flip and i < wD:
+			array[i] = 1 - array[i]
+	
 	for i in pointArray.size():
 		squareInstance = square.instantiate()
 		if n:
@@ -86,23 +92,36 @@ func lineLerp(pointArray,n):
 			chart_line_label_2.add_child(squareInstance)
 		
 		squareInstance.get_node("square-label").label_settings.font_color = Color(colorArray[2])
-	0
+	if !n:
+		print(array)
 	return pointArray
 func colorLerp(l):
 	var col1 = Color(colorArray[0])
 	var col2 = Color(colorArray[1])
 	var col3 = Color(colorArray[2])
 	var col4 = Color(colorArray[3])
-	if l == 0:
-		return "[color=%s]" % [Color(COL_DEF).to_html()]
-	if l > 0 and l < 0.5:
-		return "[color=%s]" % [col1.to_html()]
-	if l >= 0.5 and l < 0.75:
-		return "[color=%s]" % [col2.to_html()]
-	if l >= 0.75 and l < 0.96:
-		return "[color=%s]" % [col3.to_html()]
-	if l >= 0.96:
-		return "[color=%s]" % [col4.to_html()]
+	if !flip:
+		if l == 0:
+			return "[color=%s]" % [Color(COL_DEF).to_html()]
+		if l > 0 and l < 0.5:
+			return "[color=%s]" % [col1.to_html()]
+		if l >= 0.5 and l < 0.75:
+			return "[color=%s]" % [col2.to_html()]
+		if l >= 0.75 and l < 0.95:
+			return "[color=%s]" % [col3.to_html()]
+		if l >= 0.95:
+			return "[color=%s]" % [col4.to_html()]
+	if flip:
+		if l == 0:
+			return "[color=%s]" % [Color(COL_DEF).to_html()]
+		if l > 0 and l < 0.5:
+			return "[color=%s]" % [col4.to_html()]
+		if l >= 0.5 and l < 0.75:
+			return "[color=%s]" % [col3.to_html()]
+		if l >= 0.75 and l < 0.95:
+			return "[color=%s]" % [col2.to_html()]
+		if l >= 0.95:
+			return "[color=%s]" % [col1.to_html()]
 
 func textSet(n):
 	var text = ""
@@ -145,6 +164,7 @@ func _ready():
 func getArray(arr,cP,pN,yD,col):
 	chartInit()
 	pointInit()
+	wD = (yD+1)/7
 	currentParam = cP
 	paramName = pN
 	if col == "w" or col == "white":
@@ -176,9 +196,12 @@ func getArray(arr,cP,pN,yD,col):
 		var avg = 0
 		for j in 7:
 			avg = avg + chartArray[(7*i)+j]
-		avgArray[i] = avg/7.0
-		avgArray[i] = round(avgArray[i]*100)/100
-		avg = 0
+			avgArray[i] = avg/7.0
+			avgArray[i] = round(avgArray[i]*100)/100
+			avg = 0
 	
 	updateLabels()
 
+func terminal_flipChart():
+	flip = !flip
+	updateLabels()

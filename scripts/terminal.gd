@@ -23,6 +23,7 @@ var slotFunctions = ["slot","s"]
 var renameFunctions = ["rename","r"]
 var colorFunctions = ["color","col","colour"]
 var habitFunctions = ["habit","hab","h"]
+var flipFunctions = ["flip","fl","inv","invert"]
 
 var devFunctions = ["dev","debug","deb"]
 
@@ -36,6 +37,7 @@ signal update_chart(cC:int)
 signal update_chartCol(col:String)
 signal update_habit(habit:float)
 signal update_slot_name(sn:String)
+signal flip_chart()
 
 signal update_timer(t:int)
 signal start_timer()
@@ -100,6 +102,8 @@ func keywordEngine(command):
 		update_habit.emit(float(keywordArray[1]))
 	if funcFinder(keywordArray[0],slotFunctions) and funcFinder(keywordArray[1],renameFunctions) and keywordArray[2] != '':
 		update_slot_name.emit(keywordArray[2])
+	if funcFinder(keywordArray[0],flipFunctions) and keywordArray[1] == "":
+		flip_chart.emit()
 	
 	if funcFinder(keywordArray[0],devFunctions) and funcFinder(keywordArray[1],resetFunctions) and keywordArray[2] == "all":
 		dev_reset_everything.emit()

@@ -319,15 +319,15 @@ func dateWeightLabel():
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
 	
 	var max = 0
+	for i in yearDay:
+		if weightArray[i] != 0:
+			max = weightArray[i]
+			break
 	if weightArray[0] == 0:
-		for i in yearDay:
-			if weightArray[i] != 0:
-				max = weightArray[i]
-				break
 		weightArray[0] = max
-		for i in yearDay:
-			if weightArray[i] == 0 and max != 0:
-				weightArray[i] = weightArray[i-1]
+	for i in yearDay:
+		if weightArray[i] == 0 and weightArray[0] != 0:
+			weightArray[i] = weightArray[i-1]
 	
 	var heightLine = '%sʹ%sʺ %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
 	var bfLine = '%s%s-bf  %slm' % [bfatCalc(),'%',weightCalc(weightArray[yearDay-1]*(1 - (float(bfatCalc()) * 0.01)))]
@@ -350,10 +350,10 @@ func _ready():
 	
 	arrs.resize(366)
 	for i in yearDay:
-		arrs[i] = i
-		if int(rng.randf_range(0,1000)) < 600:
+		arrs[i] = int(rng.randf_range(0,1000))
+		if arrs[i] < 400:
 			arrs[i] = 0
-	print(arrs)
+	#print(arrs)
 	
 func _process(_delta):
 	

@@ -494,6 +494,7 @@ label_settings = SubResource("LabelSettings_ow3gi")
 
 [connection signal="send_array" from="UI/top-box" to="UI/chart-box" method="getArray"]
 [connection signal="dev_reset_everything" from="UI/terminal-line" to="UI/top-box" method="DEV_terminal_resetEverything"]
+[connection signal="flip_chart" from="UI/terminal-line" to="UI/chart-box" method="terminal_flipChart"]
 [connection signal="pause_timer" from="UI/terminal-line" to="UI/timer" method="terminal_pauseTimer"]
 [connection signal="reset_timer" from="UI/terminal-line" to="UI/timer" method="terminal_resetTimer"]
 [connection signal="start_timer" from="UI/terminal-line" to="UI/timer" method="terminal_startTimer"]
