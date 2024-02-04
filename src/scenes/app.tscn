@@ -105,6 +105,7 @@ font_size = 78
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dsyfu"]
 
 [node name="App" type="Node2D"]
+metadata/_edit_vertical_guides_ = [-753.0]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_exbnb")
@@ -123,7 +124,7 @@ offset_left = -569.0
 offset_top = -728.0
 offset_right = 1622.0
 offset_bottom = 3036.0
-color = Color(0.0235294, 0.027451, 0.0588235, 1)
+color = Color(0.0196078, 0.0235294, 0.0352941, 1)
 
 [node name="mockup(dont exp)" type="TextureRect" parent="BG"]
 visible = false

@@ -23,6 +23,8 @@ var slotFunctions = ["slot","s"]
 var renameFunctions = ["rename","r"]
 var colorFunctions = ["color","col","colour"]
 var habitFunctions = ["habit","hab","h"]
+var yesFunctions = ["yes","y","true","1"]
+var noFunctions = ["no","n","false","0"]
 var flipFunctions = ["flip","fl","inv","invert"]
 
 var devFunctions = ["dev","debug","deb"]
@@ -99,7 +101,16 @@ func keywordEngine(command):
 		update_chartCol.emit(keywordArray[1])
 	
 	if funcFinder(keywordArray[0],habitFunctions) and keywordArray[1] != '':
-		update_habit.emit(float(keywordArray[1]))
+		if float(keywordArray[1]) <= 0 or funcFinder(keywordArray[1],noFunctions):
+			update_habit.emit(0)
+		if funcFinder(keywordArray[1],yesFunctions):
+			update_habit.emit(1)
+		if float(keywordArray[1]) > 9999.99:
+			update_habit.emit(9999.99)
+		if float(keywordArray[1]) > 0 and float(keywordArray[1]) <= 9999.99:
+			var habitRounded = round(float(keywordArray[1])*100)/100
+			update_habit.emit(habitRounded)
+	
 	if funcFinder(keywordArray[0],slotFunctions) and funcFinder(keywordArray[1],renameFunctions) and keywordArray[2] != '':
 		update_slot_name.emit(keywordArray[2])
 	if funcFinder(keywordArray[0],flipFunctions) and keywordArray[1] == "":

@@ -325,9 +325,10 @@ func dateWeightLabel():
 			break
 	if weightArray[0] == 0:
 		weightArray[0] = max
-	for i in 366:
+	for i in range(1,yearDay):
 		if weightArray[i] == 0 and weightArray[0] != 0:
 			weightArray[i] = weightArray[i-1]
+		print(weightArray[i])
 	
 	var heightLine = '%sʹ%sʺ %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
 	var bfLine = '%s%s-bf  %slm' % [bfatCalc(),'%',weightCalc(weightArray[yearDay-1]*(1 - (float(bfatCalc()) * 0.01)))]
@@ -369,9 +370,9 @@ func _process(_delta):
 			var currentPos = get_global_mouse_position()
 			if startPos.distance_to(currentPos) >= swipeLength:
 				if abs(startPos.y-currentPos.y) <= swipeThreshold:
-					if startPos.x < currentPos.x:
-						change_habitSlot(0)
 					if startPos.x > currentPos.x:
+						change_habitSlot(0)
+					if startPos.x < currentPos.x:
 						change_habitSlot(1)
 				if abs(startPos.x-currentPos.x) <= swipeThreshold:
 						change_habitSlot(2)

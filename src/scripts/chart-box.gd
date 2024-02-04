@@ -58,9 +58,9 @@ func arrayNormalize(cArray):
 	if min == 9999999:
 		min = 0
 	for i in cArray.size():
-		if !min == 0 or !max == 0:
+		if (!min == 0 or !max == 0) and max != min:
 			if cArray[i] != 0:
-				array[i] = (cArray[i]-min)/(max-min)
+				array[i] = (cArray[i]-min)/(max-min) + 0.0001
 			else:
 				array[i] = 0
 		if min == max and cArray[i] != 0:
@@ -130,20 +130,24 @@ func lineLerp(pointArray,n):
 
 	return pointArray
 func colorLerp(l):
+	var col0 = Color(COL_DEF)
 	var col1 = Color(colorArray[0])
 	var col2 = Color(colorArray[1])
 	var col3 = Color(colorArray[2])
 	var col4 = Color(colorArray[3])
-	var finalCol = Color(COL_DEF).to_html()
+	var finalCol = col0.to_html()
 	if !flip:
 		if l > 0 and l < 0.45:
-			finalCol = col1.to_html()
+			l = l + 0.25
+			if l > 0.45:
+				l = 0.45
+			finalCol = col0.lerp(col1,normalize(0,0.45,l)).to_html()
 		if l >= 0.45 and l < 0.75:
 			finalCol = col1.lerp(col2,normalize(0.5,0.75,l)).to_html()
 		if l >= 0.75 and l < 0.95:
 			finalCol = col2.lerp(col3,normalize(0.75,0.95,l)).to_html()
 		if l >= 0.95:
-			finalCol = col3.lerp(col4,normalize(0.95,0.98,l)).to_html()
+			finalCol = col3.lerp(col4,normalize(0.95,1,l)).to_html()
 		return "[color=%s]" % [finalCol]
 	if flip:
 		if l > 0 and l < 0.45:
@@ -153,7 +157,7 @@ func colorLerp(l):
 		if l >= 0.75 and l < 0.95:
 			finalCol = col3.lerp(col2,normalize(0.75,0.95,l)).to_html()
 		if l >= 0.95:
-			finalCol = col1.to_html()
+			finalCol = col0.lerp(col1,normalize(0.5,0.75,l)).to_html()
 		return "[color=%s]" % [finalCol]
 
 func textSet(array,n):
