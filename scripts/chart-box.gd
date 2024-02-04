@@ -169,7 +169,7 @@ func getArray(arr,cP,pN,yD,col):
 			chartArray[i] = arr[i]
 		else:
 			chartArray[i] = arr[i + (366 * (currentParam-5))]
-		
+	
 	currentValue = chartArray[yD]
 	
 	for i in 52:

@@ -317,6 +317,18 @@ func userMacroLabel():
 func dateWeightLabel():
 	var dateLine = '%s/52' % [dateCalc(0)]
 	var dayLine = '%s %s' %[dateCalc(1),weekLine]
+	
+	var max = 0
+	if weightArray[0] == 0:
+		for i in yearDay:
+			if weightArray[i] != 0:
+				max = weightArray[i]
+				break
+		weightArray[0] = max
+		for i in yearDay:
+			if weightArray[i] == 0 and max != 0:
+				weightArray[i] = weightArray[i-1]
+	
 	var heightLine = '%sʹ%sʺ %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
 	var bfLine = '%s%s-bf  %slm' % [bfatCalc(),'%',weightCalc(weightArray[yearDay-1]*(1 - (float(bfatCalc()) * 0.01)))]
 	var bmrLine = '%smr' % [bmrCalc()]
@@ -328,21 +340,21 @@ func _ready():
 	
 	var rng = RandomNumberGenerator.new()
 	var arrs = []
-	arrs.resize(366)
-	for i in arrs.size():
-		arrs[i] = int(rng.randf_range(0,1000))
-		if arrs[i] < 25:
-			arrs[i] = 0
-		if arrs[i] < 80:
-			arrs[i] /= 2
-
-	print(arrs)
+	
 	readInfo()
 	readTrack()
 	readHabit()
 	dateWeightLabel()
 	userMacroLabel()
 	terminal_updateChart(currentChart)
+	
+	arrs.resize(366)
+	for i in yearDay:
+		arrs[i] = i
+		if int(rng.randf_range(0,1000)) < 600:
+			arrs[i] = 0
+	print(arrs)
+	
 func _process(_delta):
 	
 	unix_time_label.text = str(int(Time.get_unix_time_from_system()))
