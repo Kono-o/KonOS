@@ -137,9 +137,9 @@ texture = ExtResource("2_xg4tp")
 [node name="headers" type="Node2D" parent="UI"]
 
 [node name="unix-time-label" type="Label" parent="UI/headers"]
-offset_left = 872.0
+offset_left = 854.0
 offset_top = 63.0
-offset_right = 1042.0
+offset_right = 1024.0
 offset_bottom = 101.0
 text = "1706036781"
 label_settings = SubResource("LabelSettings_1v07t")
@@ -158,7 +158,7 @@ horizontal_alignment = 2
 script = ExtResource("8_l1ujx")
 
 [node name="chart-param-label" type="Label" parent="UI/chart-box"]
-offset_left = 48.0
+offset_left = 64.0
 offset_top = 572.0
 offset_right = 557.0
 offset_bottom = 651.0
@@ -275,97 +275,97 @@ antialiased = true
 [node name="months headers" type="Node2D" parent="UI/chart-box"]
 
 [node name="jan" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 61.0
+offset_left = 72.0
 offset_top = 670.0
-offset_right = 145.0
+offset_right = 156.0
 offset_bottom = 720.0
 text = "jan "
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="feb" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 214.0
+offset_left = 225.0
 offset_top = 670.0
-offset_right = 298.0
+offset_right = 309.0
 offset_bottom = 720.0
 text = "feb"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="mar" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 362.0
+offset_left = 373.0
 offset_top = 670.0
-offset_right = 446.0
+offset_right = 457.0
 offset_bottom = 720.0
 text = "mar"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="apr" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 546.0
+offset_left = 557.0
 offset_top = 670.0
-offset_right = 630.0
+offset_right = 641.0
 offset_bottom = 720.0
 text = "apr"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="may" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 696.0
+offset_left = 707.0
 offset_top = 670.0
-offset_right = 780.0
+offset_right = 791.0
 offset_bottom = 720.0
 text = "may"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="jun" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 844.0
+offset_left = 855.0
 offset_top = 670.0
-offset_right = 928.0
+offset_right = 939.0
 offset_bottom = 720.0
 text = "jun"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="jul" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 61.0
+offset_left = 72.0
 offset_top = 1000.0
-offset_right = 145.0
+offset_right = 156.0
 offset_bottom = 1050.0
 text = "jul"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="aug" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 214.0
+offset_left = 225.0
 offset_top = 1000.0
-offset_right = 298.0
+offset_right = 309.0
 offset_bottom = 1050.0
 text = "aug"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="sep" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 362.0
+offset_left = 373.0
 offset_top = 1000.0
-offset_right = 446.0
+offset_right = 457.0
 offset_bottom = 1050.0
 text = "sep"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="oct" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 546.0
+offset_left = 557.0
 offset_top = 1000.0
-offset_right = 630.0
+offset_right = 641.0
 offset_bottom = 1050.0
 text = "oct"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="nov" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 696.0
+offset_left = 707.0
 offset_top = 1000.0
-offset_right = 780.0
+offset_right = 791.0
 offset_bottom = 1050.0
 text = "nov"
 label_settings = SubResource("LabelSettings_52ng0")
 
 [node name="dec" type="Label" parent="UI/chart-box/months headers"]
-offset_left = 844.0
+offset_left = 855.0
 offset_top = 1000.0
-offset_right = 928.0
+offset_right = 939.0
 offset_bottom = 1050.0
 text = "dec"
 label_settings = SubResource("LabelSettings_52ng0")
@@ -409,7 +409,7 @@ offset_bottom = 553.0
 theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
-theme_override_colors/font_placeholder_color = Color(0.0862745, 0.101961, 0.156863, 1)
+theme_override_colors/font_placeholder_color = Color(0.137255, 0.152941, 0.184314, 1)
 theme_override_fonts/font = ExtResource("5_0tuqe")
 theme_override_font_sizes/font_size = 46
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pnns6")
@@ -430,9 +430,9 @@ wait_time = 4.0
 one_shot = true
 
 [node name="timer-label" type="Label" parent="UI/timer"]
-offset_left = 38.0
+offset_left = 63.0
 offset_top = 1347.0
-offset_right = 458.0
+offset_right = 483.0
 offset_bottom = 1440.0
 text = "<00:00:00>"
 label_settings = SubResource("LabelSettings_t5u68")
