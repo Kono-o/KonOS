@@ -11,11 +11,11 @@ config_version=5
 [application]
 
 config/name="KonOS"
-run/main_scene="res://scenes/app.tscn"
+run/main_scene="res://src/scenes/app.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="res://sprites/ui/borders.png"
-config/icon="res://sprites/icon.png"
+boot_splash/image="res://src/sprites/ui/borders.png"
+config/icon="res://src/sprites/icon.png"
 
 [display]
 

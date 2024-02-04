@@ -9,7 +9,7 @@ extends Node2D
 @onready var chart_line_label_1 = get_node("/root/App/UI/chart-box/chart-line-label-1")
 @onready var chart_line_label_2 = get_node("/root/App/UI/chart-box/chart-line-label-2")
 
-var square = preload("res://scenes/square.tscn")
+var square = preload("res://src/scenes/circle.tscn")
 var flip = false
 var wD = 0
 

@@ -1,14 +1,14 @@
 [gd_scene load_steps=30 format=3 uid="uid://dvhagijf6wqio"]
 
-[ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://sprites/ui/borders.png" id="1_7bioe"]
-[ext_resource type="Script" path="res://scripts/top-box.gd" id="1_sbdop"]
-[ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://sprites/ui/mock.png" id="2_xg4tp"]
-[ext_resource type="FontFile" uid="uid://bt4nbeed64p2n" path="res://fonts/JBM-NL-medium.ttf" id="5_0tuqe"]
-[ext_resource type="Script" path="res://scripts/terminal.gd" id="6_am2oj"]
-[ext_resource type="Script" path="res://scripts/timer.gd" id="8_ahkof"]
-[ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://fonts/JBM-NL-squares.ttf" id="8_e4o87"]
-[ext_resource type="Script" path="res://scripts/chart-box.gd" id="8_l1ujx"]
-[ext_resource type="Script" path="res://scripts/timer-buttons.gd" id="9_gtjnv"]
+[ext_resource type="Texture2D" uid="uid://c63i5lq6fpubw" path="res://src/sprites/ui/borders.png" id="1_7bioe"]
+[ext_resource type="Script" path="res://src/scripts/top-box.gd" id="1_sbdop"]
+[ext_resource type="Texture2D" uid="uid://bgg10f36g7y2p" path="res://src/sprites/ui/mock.png" id="2_xg4tp"]
+[ext_resource type="FontFile" uid="uid://bt4nbeed64p2n" path="res://src/fonts/JBM-NL-medium.ttf" id="5_0tuqe"]
+[ext_resource type="Script" path="res://src/scripts/terminal.gd" id="6_am2oj"]
+[ext_resource type="Script" path="res://src/scripts/timer.gd" id="8_ahkof"]
+[ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://src/fonts/JBM-NL-squares.ttf" id="8_e4o87"]
+[ext_resource type="Script" path="res://src/scripts/chart-box.gd" id="8_l1ujx"]
+[ext_resource type="Script" path="res://src/scripts/timer-buttons.gd" id="9_gtjnv"]
 
 [sub_resource type="Environment" id="Environment_exbnb"]
 background_mode = 3

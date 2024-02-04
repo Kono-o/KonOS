@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://cy14psomp1ffo"]
 
-[ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://fonts/JBM-NL-squares.ttf" id="1_re1ob"]
+[ext_resource type="FontFile" uid="uid://dw5qkq20msipt" path="res://src/fonts/JBM-NL-squares.ttf" id="1_yfjyo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qrrge"]
 line_spacing = 179.22
-font = ExtResource("1_re1ob")
+font = ExtResource("1_yfjyo")
 font_size = 71
 
 [node name="square" type="Node2D"]
