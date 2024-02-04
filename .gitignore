@@ -2,7 +2,4 @@
 .godot/
 *.import
 
-*.idsig
-*.pck
-*sh
-build/KonOS.x86_64
+build/
