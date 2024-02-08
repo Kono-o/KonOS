@@ -92,9 +92,9 @@ metadata/_edit_vertical_guides_ = [-753.0]
 [node name="BG" type="Node2D" parent="."]
 
 [node name="BG-rect" type="ColorRect" parent="BG"]
-offset_left = -818.0
+offset_left = -755.0
 offset_top = -773.0
-offset_right = 1894.0
+offset_right = 1784.0
 offset_bottom = 3036.0
 color = Color(0.0196078, 0.0235294, 0.0352941, 1)
 
@@ -369,9 +369,9 @@ label_settings = SubResource("LabelSettings_ow3gi")
 
 [node name="terminal-line" type="LineEdit" parent="UI"]
 offset_left = 64.0
-offset_top = 473.0
+offset_top = 455.0
 offset_right = 1048.0
-offset_bottom = 553.0
+offset_bottom = 545.0
 theme = SubResource("Theme_14i6j")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)

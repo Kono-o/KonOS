@@ -4,6 +4,7 @@ const infoPath = "user://info.txt"
 const slotPath = "user://slot.txt"
 const trackPath = "user://track.txt"
 const habitPath = "user://habit.txt" 
+"user"
 
 @onready var unix_time_label = get_node("/root/App/UI/headers/unix-time-label")
 @onready var user_macro_label = get_node("/root/App/UI/top-box/user-macro-label")
@@ -353,7 +354,6 @@ func _ready():
 		arrs[i] = 80 - (i * 0.1) + (round(rng.randf_range(0,1.5)*100)/100)
 		if int(rng.randf_range(0,4)) == 3:
 			arrs[i] = 0
-	print(arrs)
 	
 func _process(_delta):
 	
