@@ -328,7 +328,6 @@ func dateWeightLabel():
 	for i in range(1,yearDay):
 		if weightArray[i] == 0 and weightArray[0] != 0:
 			weightArray[i] = weightArray[i-1]
-		print(weightArray[i])
 	
 	var heightLine = '%sʹ%sʺ %skg' %[heightCalc(0),heightCalc(1),weightCalc(weightArray[yearDay-1])]
 	var bfLine = '%s%s-bf  %slm' % [bfatCalc(),'%',weightCalc(weightArray[yearDay-1]*(1 - (float(bfatCalc()) * 0.01)))]
@@ -354,7 +353,7 @@ func _ready():
 		arrs[i] = 80 - (i * 0.1) + (round(rng.randf_range(0,1.5)*100)/100)
 		if int(rng.randf_range(0,4)) == 3:
 			arrs[i] = 0
-	#print(arrs)
+	print(arrs)
 	
 func _process(_delta):
 	

@@ -60,6 +60,7 @@ func keywordEngine(command):
 		update_user.emit(keywordArray[1])
 	
 	if funcFinder(keywordArray[0],heightFunctions):
+		print(keywordArray[1])
 		update_height.emit(float(keywordArray[1]))
 		
 	if funcFinder(keywordArray[0],bfFunctions):
