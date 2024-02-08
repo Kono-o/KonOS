@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://dt0cahnurbkam"]
+[gd_scene load_steps=4 format=3 uid="uid://dt0cahnurbkam"]
 
-[ext_resource type="Texture2D" uid="uid://chr4bp3unjgyw" path="res://src/sprites/icon.png" id="1_5rb5v"]
 [ext_resource type="Script" path="res://src/scripts/boot.gd" id="1_vc5o7"]
 [ext_resource type="FontFile" uid="uid://b6h4ehv1ic52r" path="res://src/fonts/JBM-NL-bold.ttf" id="3_wtip2"]
 
@@ -12,38 +11,22 @@ font_size = 106
 script = ExtResource("1_vc5o7")
 
 [node name="BG-rect" type="ColorRect" parent="."]
-visible = false
-offset_left = -818.0
-offset_top = -773.0
-offset_right = 1894.0
-offset_bottom = 3036.0
-color = Color(0.0196078, 0.0235294, 0.0352941, 1)
-
-[node name="BG-rect2" type="ColorRect" parent="."]
 offset_left = -818.0
 offset_top = -773.0
 offset_right = 1894.0
 offset_bottom = 3036.0
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-offset_left = 171.0
-offset_top = 600.0
-offset_right = 886.0
-offset_bottom = 1315.0
-texture = ExtResource("1_5rb5v")
+[node name="KonOS" type="Label" parent="."]
+offset_left = 387.0
+offset_top = 892.0
+offset_right = 707.0
+offset_bottom = 1033.0
+text = "KonOS	"
+label_settings = SubResource("LabelSettings_2p0xp")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 autostart = true
-
-[node name="Label" type="Label" parent="."]
-offset_left = 370.0
-offset_top = 811.0
-offset_right = 690.0
-offset_bottom = 952.0
-text = "KonOS	"
-label_settings = SubResource("LabelSettings_2p0xp")
 
 [connection signal="timeout" from="Timer" to="." method="bootTimeout"]
