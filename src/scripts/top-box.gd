@@ -4,7 +4,6 @@ const infoPath = "user://info.txt"
 const slotPath = "user://slot.txt"
 const trackPath = "user://track.txt"
 const habitPath = "user://habit.txt" 
-"user"
 
 @onready var unix_time_label = get_node("/root/App/UI/headers/unix-time-label")
 @onready var user_macro_label = get_node("/root/App/UI/top-box/user-macro-label")
